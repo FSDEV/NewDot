@@ -40,16 +40,9 @@
         self->client = [[AFHTTPClient alloc] initWithBaseURL:newServerUrl];
         self.apiKey = newApiKey;
         self.userAgent = newUserAgent;
-        
-        [self.client setDefaultHeader:@"User-Agent" value:self.userAgent];
     }
     
     return self;
-}
-
-- (id)initWithBaseURL:(NSURL *)newServerUrl
-{
-    return [self initWithBaseURL:newServerUrl apiKey:nil userAgent:@"NewDot/0.1"];
 }
 
 #pragma mark NSObject
@@ -68,7 +61,6 @@
 {
     self.apiKey = nil;
     self.sessionId = nil;
-    self.userAgent = nil;
     self.client = nil;
     
     [super dealloc];

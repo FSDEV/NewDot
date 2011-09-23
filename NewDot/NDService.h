@@ -24,6 +24,5 @@
 - (id)initWithBaseURL:(NSURL *)newServerUrl
                apiKey:(NSString *)newApiKey
             userAgent:(NSString *)newUserAgent;
-- (id)initWithBaseURL:(NSURL *)newServerUrl;
 
 @end

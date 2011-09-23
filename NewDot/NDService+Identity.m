@@ -22,7 +22,7 @@
               parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"application/json", @"dataFormat", self.apiKey, @"key", nil]
                  success:^(id response) {
                      // set the session ID
-                     
+                     self.sessionId = [response valueForKeyPath:@"session.id"];
                      if (success)
                          success(response);
                  } failure:^(NSError * error) {

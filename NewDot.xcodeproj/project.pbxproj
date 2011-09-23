@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA5079ED142D2E2100E6AF2E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
+		DA5079EF142D2E2400E6AF2E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E65142D0C4F00878D16 /* AFHTTPRequestOperation.m */; };
+		DA5079F0142D2E2600E6AF2E /* AFImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E67142D0C4F00878D16 /* AFImageCache.m */; };
+		DA5079F1142D2E2800E6AF2E /* AFImageRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E69142D0C4F00878D16 /* AFImageRequestOperation.m */; };
+		DA5079F2142D2E2B00E6AF2E /* AFJSONRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E6B142D0C4F00878D16 /* AFJSONRequestOperation.m */; };
+		DA5079F3142D2E2E00E6AF2E /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E6D142D0C4F00878D16 /* AFNetworkActivityIndicatorManager.m */; };
+		DA5079F4142D2E3000E6AF2E /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E6F142D0C4F00878D16 /* UIImageView+AFNetworking.m */; };
+		DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
 		DAAF5E39142D0C1A00878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
-		DAAF5E47142D0C1A00878D16 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */; };
-		DAAF5E49142D0C1A00878D16 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E48142D0C1A00878D16 /* UIKit.framework */; };
-		DAAF5E4A142D0C1A00878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
-		DAAF5E4C142D0C1A00878D16 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */; };
-		DAAF5E4F142D0C1A00878D16 /* libNewDot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E35142D0C1A00878D16 /* libNewDot.a */; };
-		DAAF5E55142D0C1A00878D16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E53142D0C1A00878D16 /* InfoPlist.strings */; };
-		DAAF5E57142D0C1A00878D16 /* NewDotTests.h in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E56142D0C1A00878D16 /* NewDotTests.h */; };
-		DAAF5E59142D0C1A00878D16 /* NewDotTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E58142D0C1A00878D16 /* NewDotTests.m */; };
 		DAAF5E70142D0C4F00878D16 /* AFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */; };
 		DAAF5E71142D0C4F00878D16 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
 		DAAF5E72142D0C4F00878D16 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E64142D0C4F00878D16 /* AFHTTPRequestOperation.h */; };
@@ -34,30 +34,33 @@
 		DAAF5E82142D109300878D16 /* NDService.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E80142D109300878D16 /* NDService.m */; };
 		DAAF5E85142D136C00878D16 /* NDService+Identity.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E83142D136C00878D16 /* NDService+Identity.h */; };
 		DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
+		DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E8E142D24B800878D16 /* JSONKit.h */; };
+		DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
+		DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E48142D0C1A00878D16 /* UIKit.framework */; };
+		DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
+		DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */; };
+		DAAF5EA1142D2CB200878D16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */; };
+		DAAF5EA3142D2CB200878D16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA2142D2CB200878D16 /* main.m */; };
+		DAAF5EA7142D2CB200878D16 /* NewDotDebuggingAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */; };
+		DAAF5EAB142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EAA142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.m */; };
+		DAAF5EAE142D2CB200878D16 /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5EAC142D2CB200878D16 /* MainWindow_iPhone.xib */; };
+		DAAF5EB2142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EB1142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m */; };
+		DAAF5EB5142D2CB200878D16 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5EB3142D2CB200878D16 /* MainWindow_iPad.xib */; };
+		DAAF5EB9142D2CBD00878D16 /* DeveloperKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E8A142D1DCE00878D16 /* DeveloperKeys.plist */; };
+		DAAF5EBA142D2CC100878D16 /* TestCredentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E8C142D205A00878D16 /* TestCredentials.plist */; };
+		DAAF5EBB142D2D5D00878D16 /* NDService.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E80142D109300878D16 /* NDService.m */; };
+		DAAF5EBC142D2D5F00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		DAAF5E4D142D0C1A00878D16 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DAAF5E2C142D0C1A00878D16 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DAAF5E34142D0C1A00878D16;
-			remoteInfo = NewDot;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		DAAF5E35142D0C1A00878D16 /* libNewDot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNewDot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
-		DAAF5E45142D0C1A00878D16 /* NewDotTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NewDotTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAAF5E48142D0C1A00878D16 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		DAAF5E52142D0C1A00878D16 /* NewDotTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NewDotTests-Info.plist"; sourceTree = "<group>"; };
 		DAAF5E54142D0C1A00878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		DAAF5E56142D0C1A00878D16 /* NewDotTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewDotTests.h; sourceTree = "<group>"; };
-		DAAF5E58142D0C1A00878D16 /* NewDotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewDotTests.m; sourceTree = "<group>"; };
 		DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = vendor/AFNetworking/AFNetworking/AFHTTPClient.h; sourceTree = "<group>"; };
 		DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPClient.m; path = vendor/AFNetworking/AFNetworking/AFHTTPClient.m; sourceTree = "<group>"; };
 		DAAF5E64142D0C4F00878D16 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = vendor/AFNetworking/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -76,6 +79,23 @@
 		DAAF5E80142D109300878D16 /* NDService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDService.m; sourceTree = "<group>"; };
 		DAAF5E83142D136C00878D16 /* NDService+Identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Identity.h"; sourceTree = "<group>"; };
 		DAAF5E84142D136C00878D16 /* NDService+Identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Identity.m"; sourceTree = "<group>"; };
+		DAAF5E8A142D1DCE00878D16 /* DeveloperKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeveloperKeys.plist; sourceTree = SOURCE_ROOT; };
+		DAAF5E8C142D205A00878D16 /* TestCredentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = TestCredentials.plist; path = ../NewDotTests/TestCredentials.plist; sourceTree = "<group>"; };
+		DAAF5E8E142D24B800878D16 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = vendor/JSONKit/JSONKit.h; sourceTree = "<group>"; };
+		DAAF5E8F142D24B800878D16 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = vendor/JSONKit/JSONKit.m; sourceTree = "<group>"; };
+		DAAF5E97142D2CB200878D16 /* NewDotDebugging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewDotDebugging.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAAF5E9E142D2CB200878D16 /* NewDotDebugging-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NewDotDebugging-Info.plist"; sourceTree = "<group>"; };
+		DAAF5EA0142D2CB200878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DAAF5EA2142D2CB200878D16 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DAAF5EA4142D2CB200878D16 /* NewDotDebugging-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDotDebugging-Prefix.pch"; sourceTree = "<group>"; };
+		DAAF5EA5142D2CB200878D16 /* NewDotDebuggingAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewDotDebuggingAppDelegate.h; sourceTree = "<group>"; };
+		DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewDotDebuggingAppDelegate.m; sourceTree = "<group>"; };
+		DAAF5EA9142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NewDotDebuggingAppDelegate_iPhone.h; path = iPhone/NewDotDebuggingAppDelegate_iPhone.h; sourceTree = "<group>"; };
+		DAAF5EAA142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NewDotDebuggingAppDelegate_iPhone.m; path = iPhone/NewDotDebuggingAppDelegate_iPhone.m; sourceTree = "<group>"; };
+		DAAF5EAD142D2CB200878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPhone/en.lproj/MainWindow_iPhone.xib; sourceTree = "<group>"; };
+		DAAF5EB0142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NewDotDebuggingAppDelegate_iPad.h; path = iPad/NewDotDebuggingAppDelegate_iPad.h; sourceTree = "<group>"; };
+		DAAF5EB1142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NewDotDebuggingAppDelegate_iPad.m; path = iPad/NewDotDebuggingAppDelegate_iPad.m; sourceTree = "<group>"; };
+		DAAF5EB4142D2CB200878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,15 +107,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAAF5E41142D0C1A00878D16 /* Frameworks */ = {
+		DAAF5E94142D2CB200878D16 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAAF5E47142D0C1A00878D16 /* SenTestingKit.framework in Frameworks */,
-				DAAF5E49142D0C1A00878D16 /* UIKit.framework in Frameworks */,
-				DAAF5E4A142D0C1A00878D16 /* Foundation.framework in Frameworks */,
-				DAAF5E4C142D0C1A00878D16 /* CoreGraphics.framework in Frameworks */,
-				DAAF5E4F142D0C1A00878D16 /* libNewDot.a in Frameworks */,
+				DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */,
+				DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */,
+				DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +126,8 @@
 				DAAF5E3A142D0C1A00878D16 /* NewDot */,
 				DAAF5E50142D0C1A00878D16 /* NewDotTests */,
 				DAAF5E7E142D0C5300878D16 /* AFNetworking */,
+				DAAF5E92142D24BD00878D16 /* JSONKit */,
+				DAAF5E9C142D2CB200878D16 /* NewDotDebugging */,
 				DAAF5E37142D0C1A00878D16 /* Frameworks */,
 				DAAF5E36142D0C1A00878D16 /* Products */,
 			);
@@ -117,7 +137,7 @@
 			isa = PBXGroup;
 			children = (
 				DAAF5E35142D0C1A00878D16 /* libNewDot.a */,
-				DAAF5E45142D0C1A00878D16 /* NewDotTests.octest */,
+				DAAF5E97142D2CB200878D16 /* NewDotDebugging.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,8 +176,6 @@
 		DAAF5E50142D0C1A00878D16 /* NewDotTests */ = {
 			isa = PBXGroup;
 			children = (
-				DAAF5E56142D0C1A00878D16 /* NewDotTests.h */,
-				DAAF5E58142D0C1A00878D16 /* NewDotTests.m */,
 				DAAF5E51142D0C1A00878D16 /* Supporting Files */,
 			);
 			path = NewDotTests;
@@ -193,6 +211,60 @@
 			name = AFNetworking;
 			sourceTree = "<group>";
 		};
+		DAAF5E92142D24BD00878D16 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				DAAF5E8E142D24B800878D16 /* JSONKit.h */,
+				DAAF5E8F142D24B800878D16 /* JSONKit.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
+		DAAF5E9C142D2CB200878D16 /* NewDotDebugging */ = {
+			isa = PBXGroup;
+			children = (
+				DAAF5EA5142D2CB200878D16 /* NewDotDebuggingAppDelegate.h */,
+				DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */,
+				DAAF5EA8142D2CB200878D16 /* iPhone */,
+				DAAF5EAF142D2CB200878D16 /* iPad */,
+				DAAF5E9D142D2CB200878D16 /* Supporting Files */,
+			);
+			path = NewDotDebugging;
+			sourceTree = "<group>";
+		};
+		DAAF5E9D142D2CB200878D16 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DAAF5E8A142D1DCE00878D16 /* DeveloperKeys.plist */,
+				DAAF5E8C142D205A00878D16 /* TestCredentials.plist */,
+				DAAF5E9E142D2CB200878D16 /* NewDotDebugging-Info.plist */,
+				DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */,
+				DAAF5EA2142D2CB200878D16 /* main.m */,
+				DAAF5EA4142D2CB200878D16 /* NewDotDebugging-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DAAF5EA8142D2CB200878D16 /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				DAAF5EA9142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.h */,
+				DAAF5EAA142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.m */,
+				DAAF5EAC142D2CB200878D16 /* MainWindow_iPhone.xib */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		DAAF5EAF142D2CB200878D16 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				DAAF5EB0142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.h */,
+				DAAF5EB1142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m */,
+				DAAF5EB3142D2CB200878D16 /* MainWindow_iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -209,6 +281,7 @@
 				DAAF5E7C142D0C4F00878D16 /* UIImageView+AFNetworking.h in Headers */,
 				DAAF5E81142D109300878D16 /* NDService.h in Headers */,
 				DAAF5E85142D136C00878D16 /* NDService+Identity.h in Headers */,
+				DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,24 +305,22 @@
 			productReference = DAAF5E35142D0C1A00878D16 /* libNewDot.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		DAAF5E44142D0C1A00878D16 /* NewDotTests */ = {
+		DAAF5E96142D2CB200878D16 /* NewDotDebugging */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAAF5E5F142D0C1A00878D16 /* Build configuration list for PBXNativeTarget "NewDotTests" */;
+			buildConfigurationList = DAAF5EB6142D2CB200878D16 /* Build configuration list for PBXNativeTarget "NewDotDebugging" */;
 			buildPhases = (
-				DAAF5E40142D0C1A00878D16 /* Sources */,
-				DAAF5E41142D0C1A00878D16 /* Frameworks */,
-				DAAF5E42142D0C1A00878D16 /* Resources */,
-				DAAF5E43142D0C1A00878D16 /* ShellScript */,
+				DAAF5E93142D2CB200878D16 /* Sources */,
+				DAAF5E94142D2CB200878D16 /* Frameworks */,
+				DAAF5E95142D2CB200878D16 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				DAAF5E4E142D0C1A00878D16 /* PBXTargetDependency */,
 			);
-			name = NewDotTests;
-			productName = NewDotTests;
-			productReference = DAAF5E45142D0C1A00878D16 /* NewDotTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			name = NewDotDebugging;
+			productName = NewDotDebugging;
+			productReference = DAAF5E97142D2CB200878D16 /* NewDotDebugging.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -272,38 +343,25 @@
 			projectRoot = "";
 			targets = (
 				DAAF5E34142D0C1A00878D16 /* NewDot */,
-				DAAF5E44142D0C1A00878D16 /* NewDotTests */,
+				DAAF5E96142D2CB200878D16 /* NewDotDebugging */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		DAAF5E42142D0C1A00878D16 /* Resources */ = {
+		DAAF5E95142D2CB200878D16 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAAF5E55142D0C1A00878D16 /* InfoPlist.strings in Resources */,
-				DAAF5E57142D0C1A00878D16 /* NewDotTests.h in Resources */,
+				DAAF5EA1142D2CB200878D16 /* InfoPlist.strings in Resources */,
+				DAAF5EAE142D2CB200878D16 /* MainWindow_iPhone.xib in Resources */,
+				DAAF5EB5142D2CB200878D16 /* MainWindow_iPad.xib in Resources */,
+				DAAF5EB9142D2CBD00878D16 /* DeveloperKeys.plist in Resources */,
+				DAAF5EBA142D2CC100878D16 /* TestCredentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		DAAF5E43142D0C1A00878D16 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DAAF5E31142D0C1A00878D16 /* Sources */ = {
@@ -319,26 +377,32 @@
 				DAAF5E7D142D0C4F00878D16 /* UIImageView+AFNetworking.m in Sources */,
 				DAAF5E82142D109300878D16 /* NDService.m in Sources */,
 				DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */,
+				DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		DAAF5E40142D0C1A00878D16 /* Sources */ = {
+		DAAF5E93142D2CB200878D16 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAAF5E59142D0C1A00878D16 /* NewDotTests.m in Sources */,
+				DAAF5EA3142D2CB200878D16 /* main.m in Sources */,
+				DAAF5EA7142D2CB200878D16 /* NewDotDebuggingAppDelegate.m in Sources */,
+				DAAF5EAB142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPhone.m in Sources */,
+				DAAF5EB2142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m in Sources */,
+				DAAF5EBB142D2D5D00878D16 /* NDService.m in Sources */,
+				DAAF5EBC142D2D5F00878D16 /* NDService+Identity.m in Sources */,
+				DA5079ED142D2E2100E6AF2E /* AFHTTPClient.m in Sources */,
+				DA5079EF142D2E2400E6AF2E /* AFHTTPRequestOperation.m in Sources */,
+				DA5079F0142D2E2600E6AF2E /* AFImageCache.m in Sources */,
+				DA5079F1142D2E2800E6AF2E /* AFImageRequestOperation.m in Sources */,
+				DA5079F2142D2E2B00E6AF2E /* AFJSONRequestOperation.m in Sources */,
+				DA5079F3142D2E2E00E6AF2E /* AFNetworkActivityIndicatorManager.m in Sources */,
+				DA5079F4142D2E3000E6AF2E /* UIImageView+AFNetworking.m in Sources */,
+				DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		DAAF5E4E142D0C1A00878D16 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DAAF5E34142D0C1A00878D16 /* NewDot */;
-			targetProxy = DAAF5E4D142D0C1A00878D16 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		DAAF5E53142D0C1A00878D16 /* InfoPlist.strings */ = {
@@ -347,6 +411,30 @@
 				DAAF5E54142D0C1A00878D16 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAAF5EA0142D2CB200878D16 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DAAF5EAC142D2CB200878D16 /* MainWindow_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAAF5EAD142D2CB200878D16 /* en */,
+			);
+			name = MainWindow_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		DAAF5EB3142D2CB200878D16 /* MainWindow_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAAF5EB4142D2CB200878D16 /* en */,
+			);
+			name = MainWindow_iPad.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -391,6 +479,10 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -427,6 +519,10 @@
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -456,33 +552,40 @@
 			};
 			name = Release;
 		};
-		DAAF5E60142D0C1A00878D16 /* Debug */ = {
+		DAAF5EB7142D2CB200878D16 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NewDot/NewDot-Prefix.pch";
-				INFOPLIST_FILE = "NewDotTests/NewDotTests-Info.plist";
+				GCC_PREFIX_HEADER = "NewDotDebugging/NewDotDebugging-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "NewDotDebugging/NewDotDebugging-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
-		DAAF5E61142D0C1A00878D16 /* Release */ = {
+		DAAF5EB8142D2CB200878D16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"$(inherited)",
+					"\"$(DEVELOPER_FRAMEWORKS_DIR)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NewDot/NewDot-Prefix.pch";
-				INFOPLIST_FILE = "NewDotTests/NewDotTests-Info.plist";
+				GCC_PREFIX_HEADER = "NewDotDebugging/NewDotDebugging-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				INFOPLIST_FILE = "NewDotDebugging/NewDotDebugging-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = octest;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
 		};
@@ -505,14 +608,16 @@
 				DAAF5E5E142D0C1A00878D16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
-		DAAF5E5F142D0C1A00878D16 /* Build configuration list for PBXNativeTarget "NewDotTests" */ = {
+		DAAF5EB6142D2CB200878D16 /* Build configuration list for PBXNativeTarget "NewDotDebugging" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAAF5E60142D0C1A00878D16 /* Debug */,
-				DAAF5E61142D0C1A00878D16 /* Release */,
+				DAAF5EB7142D2CB200878D16 /* Debug */,
+				DAAF5EB8142D2CB200878D16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
