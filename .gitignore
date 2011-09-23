@@ -1,3 +1,4 @@
-DeveloperKey.plist
+DeveloperKeys.plist
 *.xcodeproj/xcuserdata
 *.xcodeproj/*.xcworkspace
+NewDotTests/TestCredentials.plist
