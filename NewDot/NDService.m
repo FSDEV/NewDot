@@ -27,9 +27,20 @@
     [self.client setDefaultHeader:@"User-Agent" value:userAgent];
 }
 
+//- (NSString *)sessionId
+//{
+//    return [self.client defaultValueForHeader:@"sessionId"];
+//}
+//
+//- (void)setSessionId:(NSString *)sessionId
+//{
+//    [self.client setDefaultHeader:@"sessionId" value:sessionId];
+//}
+
 @synthesize apiKey;
-@synthesize sessionId;
 @synthesize client;
+@synthesize sessionId;
+@synthesize defaultURLParameters;
 
 - (id)initWithBaseURL:(NSURL *)newServerUrl
                apiKey:(NSString *)newApiKey
@@ -45,13 +56,20 @@
     return self;
 }
 
+- (NSMutableDictionary *)copyOfDefaultURLParametersWithSessionId
+{
+    NSMutableDictionary * toReturn = [self.defaultURLParameters mutableCopy];
+    [toReturn setObject:self.sessionId forKey:@"sessionId"];
+    return toReturn;
+}
+
 #pragma mark NSObject
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        // Initialization code here.
+        self.defaultURLParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"dataFormat", nil];
     }
     
     return self;
@@ -62,6 +80,7 @@
     self.apiKey = nil;
     self.sessionId = nil;
     self.client = nil;
+    self.defaultURLParameters = nil;
     
     [super dealloc];
 }

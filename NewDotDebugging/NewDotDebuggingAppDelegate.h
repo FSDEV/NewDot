@@ -13,11 +13,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class NDService;
+@class LoginTests;
 
 @interface NewDotDebuggingAppDelegate : NSObject <UIApplicationDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (readwrite, retain) NDService * service;
+@property (readwrite, retain) LoginTests * loginTests;
 
 @end

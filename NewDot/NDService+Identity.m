@@ -14,21 +14,54 @@
 
 - (void)createSessionForUser:(NSString *)username
                 withPassword:(NSString *)password
-                     success:(void (^)(id response))success
-                     failure:(void (^)(enum NDIdentitySessionCreateResult result, NSError * error))failure
+                     success:(NDGenericSuccessBlock)success
+                     failure:(NDIdentitySessionCreateFailureBlock)failure
 {
+    NSMutableDictionary * urlParameters = [self.defaultURLParameters mutableCopy];
+    [urlParameters setObject:self.apiKey forKey:@"key"];
     [self.client setAuthorizationHeaderWithUsername:username password:password];
     [self.client getPath:@"/identity/v2/login"
-              parameters:[NSDictionary dictionaryWithObjectsAndKeys:@"application/json", @"dataFormat", self.apiKey, @"key", nil]
+              parameters:urlParameters
                  success:^(id response) {
                      // set the session ID
                      self.sessionId = [response valueForKeyPath:@"session.id"];
                      if (success)
                          success(response);
                  } failure:^(NSError * error) {
-        
+                     enum NDIdentitySessionCreateResult response = [[[[[error userInfo] objectForKey:NSLocalizedDescriptionKey] componentsSeparatedByString:@" "] lastObject] integerValue];
                      if (failure)
-                         failure(OK, error);
+                         failure(response, error);
+                 }];
+    [self.client clearAuthorizationHeader];
+}
+
+- (void)readSessionWithSuccess:(NDGenericSuccessBlock)success
+                       failure:(NDGenericFailureBlock)failure
+{
+    [self.client getPath:@"/identity/v2/session/"
+              parameters:[self copyOfDefaultURLParametersWithSessionId]
+                 success:^(id response) {
+                     if (success)
+                         success(response);
+                 }
+                 failure:^(NSError * error) {
+                     if (failure)
+                         failure(error);
+                 }];
+}
+
+- (void)destroySessionWithSuccess:(NDGenericSuccessBlock)success
+                          failure:(NDGenericFailureBlock)failure
+{
+    [self.client getPath:@"/identity/v2/logout"
+              parameters:[self copyOfDefaultURLParametersWithSessionId]
+                 success:^(id response) {
+                     if (success)
+                         success(response);
+                 }
+                 failure:^(NSError * error) {
+                     if (failure)
+                         failure(error);
                  }];
 }
 

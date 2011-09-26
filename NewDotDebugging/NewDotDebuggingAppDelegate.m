@@ -8,44 +8,22 @@
 
 #import "NewDotDebuggingAppDelegate.h"
 
-#import "NDService.h"
-#import "NDService+Identity.h"
+#import "LoginTests.h"
 
 @implementation NewDotDebuggingAppDelegate
 
 @synthesize window = _window;
 
-@synthesize service;
+@synthesize loginTests;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
     
-    NSString * error;
-    id props = [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DeveloperKeys"
-                                                                                                                                ofType:@"PLIST"]]
-                                                mutabilityOption:NSPropertyListImmutable
-                                                          format:NULL
-                                                errorDescription:&error];
-    NSURL * baseURL = [NSURL URLWithString:[props valueForKeyPath:@"reference.server"]];
-    service = [[NDService alloc] initWithBaseURL:baseURL apiKey:[props valueForKeyPath:@"reference.api-key"] userAgent:@"NewDot/0.1"];
-    id testCredentials = [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TestCredentials" ofType:@"PLIST"]] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:&error];
+    self.loginTests = [[[LoginTests alloc] init] autorelease];
     
-//    [service createSessionForUser:[testCredentials valueForKeyPath:@"fail.username"]
-//                          withPassword:[testCredentials valueForKeyPath:@"fail.password"]
-//                               success:^(id response) {
-//                                   NSAssert(YES==NO, @"Fail succeeded with %@", response);
-//                               }
-//                               failure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-//                                   NSAssert(YES==NO, @"Fail failed normally with %@", error);
-//                               }];
-    [service createSessionForUser:[testCredentials valueForKeyPath:@"success.username"]
-                          withPassword:[testCredentials valueForKeyPath:@"success.password"]
-                               success:nil
-                               failure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                   NSAssert(YES==NO, @"Success failed with %@", error);
-                               }];
+    [self.loginTests test];
     
     
     return YES;
@@ -93,6 +71,9 @@
 - (void)dealloc
 {
     [_window release];
+    
+    self.loginTests = nil;
+    
     [super dealloc];
 }
 

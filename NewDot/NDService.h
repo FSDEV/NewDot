@@ -10,6 +10,9 @@
 
 @class AFHTTPClient;
 
+typedef void(^NDGenericSuccessBlock)(id response);
+typedef void(^NDGenericFailureBlock)(NSError * error);
+
 /**
  * Service-layer interface for dealing with New(DOT)FamilySearch.
  */
@@ -20,9 +23,12 @@
 @property (readwrite, retain) NSString * sessionId;
 @property (readwrite, retain) NSString * userAgent;
 @property (readwrite, retain) AFHTTPClient * client;
+@property (readwrite, retain) NSMutableDictionary * defaultURLParameters;
 
 - (id)initWithBaseURL:(NSURL *)newServerUrl
                apiKey:(NSString *)newApiKey
             userAgent:(NSString *)newUserAgent;
+
+- (NSMutableDictionary *)copyOfDefaultURLParametersWithSessionId;
 
 @end

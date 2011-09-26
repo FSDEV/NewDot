@@ -12,7 +12,6 @@
  * All the possible (documented) responses that the login (session create) request can get you.
  */
 enum NDIdentitySessionCreateResult {
-    OK                                              = 200,      // We have clearance, Clarence.
     FurtherActionRequired                           = 310,      // Terms of Service Change; the user needs to log in using new.FamilySearch.org
     BadRequest                                      = 400,
     BadRequestInsufficientQueryInformation          = 40001,
@@ -46,6 +45,8 @@ enum NDIdentitySessionCreateResult {
     ServiceUnavailable                              = 503       // Probable throttling
 } NDIdentitySessionCreateResult;
 
+typedef void(^NDIdentitySessionCreateFailureBlock)(enum NDIdentitySessionCreateResult result, NSError * error);
+
 /**
  * The Identity module to New(DOT)FamilySearch.
  */
@@ -53,7 +54,13 @@ enum NDIdentitySessionCreateResult {
 
 - (void)createSessionForUser:(NSString *)username
                 withPassword:(NSString *)password
-                     success:(void (^)(id response))success
-                     failure:(void (^)(enum NDIdentitySessionCreateResult result, NSError * error))failure;
+                     success:(NDGenericSuccessBlock)success
+                     failure:(NDIdentitySessionCreateFailureBlock)failure;
+
+- (void)readSessionWithSuccess:(NDGenericSuccessBlock)success
+                       failure:(NDGenericFailureBlock)failure;
+
+- (void)destroySessionWithSuccess:(NDGenericSuccessBlock)success
+                          failure:(NDGenericFailureBlock)failure;
 
 @end
