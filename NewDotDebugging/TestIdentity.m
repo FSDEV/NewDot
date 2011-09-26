@@ -27,12 +27,6 @@
 @synthesize winTest;
 @synthesize failTest;
 
-- (void)test
-{
-    [self testLoginFailure];
-    [self testLogin];
-}
-
 - (void)testLoginFailure
 {
     [self.failTest identityCreateSessionForUser:[self.testCredentials valueForKeyPath:@"fail.username"]
@@ -99,6 +93,14 @@
                                         onFailure:^(NSError * error) {
                                             [NSException raise:@"Session Destruction Failure!" format:@"Should have been able to destroy this session; failed with error %@", error];
                                         }];
+}
+
+#pragma mark Harness
+
+- (void)test
+{
+    [self testLoginFailure];
+    [self testLogin];
 }
 
 #pragma mark NSObject
