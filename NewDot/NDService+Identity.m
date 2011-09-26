@@ -12,11 +12,11 @@
 
 @implementation NDService (Identity)
 
-- (void)createSessionForUser:(NSString *)username
-                withPassword:(NSString *)password
-                      apiKey:(NSString *)apiKey
-                     success:(NDGenericSuccessBlock)success
-                     failure:(NDIdentitySessionCreateFailureBlock)failure
+- (void)identityCreateSessionForUser:(NSString *)username
+                        withPassword:(NSString *)password
+                              apiKey:(NSString *)apiKey
+                             onSuccess:(NDGenericSuccessBlock)success
+                             onFailure:(NDIdentitySessionCreateFailureBlock)failure
 {
     NSMutableDictionary * urlParameters = [self.defaultURLParameters mutableCopy];
     [urlParameters setObject:apiKey forKey:@"key"];
@@ -36,8 +36,8 @@
     [self.client clearAuthorizationHeader];
 }
 
-- (void)readSessionWithSuccess:(NDGenericSuccessBlock)success
-                       failure:(NDGenericFailureBlock)failure
+- (void)identitySessionOnSuccess:(NDGenericSuccessBlock)success
+                       onFailure:(NDGenericFailureBlock)failure
 {
     [self.client getPath:@"/identity/v2/session/"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
@@ -51,8 +51,8 @@
                  }];
 }
 
-- (void)readUserProfileWithSuccess:(NDGenericSuccessBlock)success
-                           failure:(NDGenericFailureBlock)failure
+- (void)identityUserProfileOnSuccess:(NDGenericSuccessBlock)success
+                           onFailure:(NDGenericFailureBlock)failure
 {
     [self.client getPath:@"/identity/v2/user"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
@@ -66,8 +66,8 @@
                  }];
 }
 
-- (void)readUserPermissionsWithSuccess:(NDGenericSuccessBlock)success
-                               failure:(NDGenericFailureBlock)failure
+- (void)identityUserPermissionsOnSuccess:(NDGenericSuccessBlock)success
+                               onFailure:(NDGenericFailureBlock)failure
 {
     [self.client getPath:@"/identity/v2/permission"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
@@ -81,8 +81,8 @@
                  }];
 }
 
-- (void)destroySessionWithSuccess:(NDGenericSuccessBlock)success
-                          failure:(NDGenericFailureBlock)failure
+- (void)identityDestroySessionOnSuccess:(NDGenericSuccessBlock)success
+                              onFailure:(NDGenericFailureBlock)failure
 {
     [self.client getPath:@"/identity/v2/logout"
               parameters:[self copyOfDefaultURLParametersWithSessionId]

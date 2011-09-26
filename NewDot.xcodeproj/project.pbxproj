@@ -51,6 +51,15 @@
 		DAAF5EBB142D2D5D00878D16 /* NDService.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E80142D109300878D16 /* NDService.m */; };
 		DAAF5EBC142D2D5F00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
 		DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3788E1430D20A00F4003C /* TestIdentity.m */; };
+		DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE3789414311AF000F4003C /* NDService+Reservation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DAE3789714311AF000F4003C /* NDService+Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789514311AF000F4003C /* NDService+Reservation.m */; };
+		DAE3789814311AF000F4003C /* NDService+Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789514311AF000F4003C /* NDService+Reservation.m */; };
+		DAE3789B1431237400F4003C /* TestReservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789A1431237400F4003C /* TestReservation.m */; };
+		DAE3789E1431238600F4003C /* Harness.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789D1431238600F4003C /* Harness.m */; };
+		DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE3789F1431247700F4003C /* NDService+FamilyTree.h */; };
+		DAE378A21431247700F4003C /* NDService+FamilyTree.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE378A01431247700F4003C /* NDService+FamilyTree.m */; };
+		DAE378A31431247700F4003C /* NDService+FamilyTree.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE378A01431247700F4003C /* NDService+FamilyTree.m */; };
+		DAE378A81431249700F4003C /* TestFamilyTree.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE378A51431249700F4003C /* TestFamilyTree.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +108,16 @@
 		DAAF5EB4142D2CB200878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
 		DAE3788D1430D20A00F4003C /* TestIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestIdentity.h; sourceTree = "<group>"; };
 		DAE3788E1430D20A00F4003C /* TestIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestIdentity.m; sourceTree = "<group>"; };
+		DAE3789414311AF000F4003C /* NDService+Reservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Reservation.h"; sourceTree = "<group>"; };
+		DAE3789514311AF000F4003C /* NDService+Reservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Reservation.m"; sourceTree = "<group>"; };
+		DAE378991431237400F4003C /* TestReservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestReservation.h; sourceTree = "<group>"; };
+		DAE3789A1431237400F4003C /* TestReservation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestReservation.m; sourceTree = "<group>"; };
+		DAE3789C1431238600F4003C /* Harness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Harness.h; sourceTree = "<group>"; };
+		DAE3789D1431238600F4003C /* Harness.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Harness.m; sourceTree = "<group>"; };
+		DAE3789F1431247700F4003C /* NDService+FamilyTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+FamilyTree.h"; sourceTree = "<group>"; };
+		DAE378A01431247700F4003C /* NDService+FamilyTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+FamilyTree.m"; sourceTree = "<group>"; };
+		DAE378A41431249600F4003C /* TestFamilyTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFamilyTree.h; sourceTree = "<group>"; };
+		DAE378A51431249700F4003C /* TestFamilyTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFamilyTree.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +182,10 @@
 				DAAF5E80142D109300878D16 /* NDService.m */,
 				DAAF5E83142D136C00878D16 /* NDService+Identity.h */,
 				DAAF5E84142D136C00878D16 /* NDService+Identity.m */,
+				DAE3789F1431247700F4003C /* NDService+FamilyTree.h */,
+				DAE378A01431247700F4003C /* NDService+FamilyTree.m */,
+				DAE3789414311AF000F4003C /* NDService+Reservation.h */,
+				DAE3789514311AF000F4003C /* NDService+Reservation.m */,
 				DAAF5E3B142D0C1A00878D16 /* Supporting Files */,
 			);
 			path = NewDot;
@@ -228,6 +251,12 @@
 			children = (
 				DAAF5EA5142D2CB200878D16 /* NewDotDebuggingAppDelegate.h */,
 				DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */,
+				DAE3789C1431238600F4003C /* Harness.h */,
+				DAE3789D1431238600F4003C /* Harness.m */,
+				DAE378A41431249600F4003C /* TestFamilyTree.h */,
+				DAE378A51431249700F4003C /* TestFamilyTree.m */,
+				DAE378991431237400F4003C /* TestReservation.h */,
+				DAE3789A1431237400F4003C /* TestReservation.m */,
 				DAE3788D1430D20A00F4003C /* TestIdentity.h */,
 				DAE3788E1430D20A00F4003C /* TestIdentity.m */,
 				DAAF5EA8142D2CB200878D16 /* iPhone */,
@@ -287,6 +316,8 @@
 				DAAF5E81142D109300878D16 /* NDService.h in Headers */,
 				DAAF5E85142D136C00878D16 /* NDService+Identity.h in Headers */,
 				DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */,
+				DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */,
+				DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +414,8 @@
 				DAAF5E82142D109300878D16 /* NDService.m in Sources */,
 				DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */,
 				DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */,
+				DAE3789714311AF000F4003C /* NDService+Reservation.m in Sources */,
+				DAE378A21431247700F4003C /* NDService+FamilyTree.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +438,11 @@
 				DA5079F4142D2E3000E6AF2E /* UIImageView+AFNetworking.m in Sources */,
 				DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */,
 				DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */,
+				DAE3789814311AF000F4003C /* NDService+Reservation.m in Sources */,
+				DAE3789B1431237400F4003C /* TestReservation.m in Sources */,
+				DAE3789E1431238600F4003C /* Harness.m in Sources */,
+				DAE378A31431247700F4003C /* NDService+FamilyTree.m in Sources */,
+				DAE378A81431249700F4003C /* TestFamilyTree.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

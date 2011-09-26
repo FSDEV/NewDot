@@ -14,10 +14,19 @@
 #import <UIKit/UIKit.h>
 
 @class TestIdentity;
+@class TestFamilyTree;
+@class TestReservation;
 
 @interface NewDotDebuggingAppDelegate : NSObject <UIApplicationDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (readwrite, retain) TestIdentity * loginTests;
+
+@property (readwrite, retain) TestIdentity * identityTests;
+@property (readwrite, retain) TestFamilyTree * familyTreeTests;
+@property (readwrite, retain) TestReservation * reservationTests;
+
+- (IBAction)testIdentity:(id)sender;
+- (IBAction)testFamilyTree:(id)sender;
+- (IBAction)testReservation:(id)sender;
 
 @end

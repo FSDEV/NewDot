@@ -1,5 +1,5 @@
 //
-//  LoginTests.h
+//  TestReservation.h
 //  NewDot
 //
 //  Created by Christopher Miller on 9/26/11.
@@ -12,11 +12,8 @@
 
 @class NDService;
 
-@interface TestIdentity : Harness
+@interface TestReservation : Harness
 
-@property (readwrite, retain) NDService * winTest;
-@property (readwrite, retain) NDService * failTest;
-
-- (void)test;
+@property (readwrite, retain) NDService * service;
 
 @end

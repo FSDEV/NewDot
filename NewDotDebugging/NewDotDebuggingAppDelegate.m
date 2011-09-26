@@ -9,24 +9,42 @@
 #import "NewDotDebuggingAppDelegate.h"
 
 #import "TestIdentity.h"
+#import "TestFamilyTree.h"
+#import "TestReservation.h"
 
 @implementation NewDotDebuggingAppDelegate
 
 @synthesize window = _window;
 
-@synthesize loginTests;
+@synthesize identityTests;
+@synthesize familyTreeTests;
+@synthesize reservationTests;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
     
-    self.loginTests = [[[TestIdentity alloc] init] autorelease];
-    
-    [self.loginTests test];
-    
+    self.identityTests = [[[TestIdentity alloc] init] autorelease];
+    self.familyTreeTests = [[[TestFamilyTree alloc] init] autorelease];
+    self.reservationTests = [[[TestReservation alloc] init] autorelease];
     
     return YES;
+}
+
+- (IBAction)testIdentity:(id)sender
+{
+    [self.identityTests test];
+}
+
+- (IBAction)testFamilyTree:(id)sender
+{
+    [self.familyTreeTests test];
+}
+
+- (IBAction)testReservation:(id)sender
+{
+    [self.reservationTests test];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -72,7 +90,9 @@
 {
     [_window release];
     
-    self.loginTests = nil;
+    self.identityTests = nil;
+    self.familyTreeTests = nil;
+    self.identityTests = nil;
     
     [super dealloc];
 }
