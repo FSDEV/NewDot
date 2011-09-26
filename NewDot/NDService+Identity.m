@@ -14,11 +14,12 @@
 
 - (void)createSessionForUser:(NSString *)username
                 withPassword:(NSString *)password
+                      apiKey:(NSString *)apiKey
                      success:(NDGenericSuccessBlock)success
                      failure:(NDIdentitySessionCreateFailureBlock)failure
 {
     NSMutableDictionary * urlParameters = [self.defaultURLParameters mutableCopy];
-    [urlParameters setObject:self.apiKey forKey:@"key"];
+    [urlParameters setObject:apiKey forKey:@"key"];
     [self.client setAuthorizationHeaderWithUsername:username password:password];
     [self.client getPath:@"/identity/v2/login"
               parameters:urlParameters
@@ -50,12 +51,43 @@
                  }];
 }
 
+- (void)readUserProfileWithSuccess:(NDGenericSuccessBlock)success
+                           failure:(NDGenericFailureBlock)failure
+{
+    [self.client getPath:@"/identity/v2/user"
+              parameters:[self copyOfDefaultURLParametersWithSessionId]
+                 success:^(id response) {
+                     if (success)
+                         success(response);
+                 }
+                 failure:^(NSError * error) {
+                     if (failure)
+                         failure(error);
+                 }];
+}
+
+- (void)readUserPermissionsWithSuccess:(NDGenericSuccessBlock)success
+                               failure:(NDGenericFailureBlock)failure
+{
+    [self.client getPath:@"/identity/v2/permission"
+              parameters:[self copyOfDefaultURLParametersWithSessionId]
+                 success:^(id response) {
+                     if (success)
+                         success(response);
+                 }
+                 failure:^(NSError * error) {
+                     if (failure)
+                         failure(error);
+                 }];
+}
+
 - (void)destroySessionWithSuccess:(NDGenericSuccessBlock)success
                           failure:(NDGenericFailureBlock)failure
 {
     [self.client getPath:@"/identity/v2/logout"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
                  success:^(id response) {
+                     self.sessionId = nil;
                      if (success)
                          success(response);
                  }

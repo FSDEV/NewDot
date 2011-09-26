@@ -24,32 +24,19 @@
 
 - (void)setUserAgent:(NSString *)userAgent
 {
-    [self.client setDefaultHeader:@"User-Agent" value:userAgent];
+    [self.client setDefaultHeader:@"User-Agent" value:(userAgent)?:@"NewDot/0.1"];
 }
 
-//- (NSString *)sessionId
-//{
-//    return [self.client defaultValueForHeader:@"sessionId"];
-//}
-//
-//- (void)setSessionId:(NSString *)sessionId
-//{
-//    [self.client setDefaultHeader:@"sessionId" value:sessionId];
-//}
-
-@synthesize apiKey;
 @synthesize client;
 @synthesize sessionId;
 @synthesize defaultURLParameters;
 
 - (id)initWithBaseURL:(NSURL *)newServerUrl
-               apiKey:(NSString *)newApiKey
             userAgent:(NSString *)newUserAgent
 {
     self = [self init];
     if (self) {
         self->client = [[AFHTTPClient alloc] initWithBaseURL:newServerUrl];
-        self.apiKey = newApiKey;
         self.userAgent = newUserAgent;
     }
     
@@ -77,7 +64,6 @@
 
 - (void)dealloc
 {
-    self.apiKey = nil;
     self.sessionId = nil;
     self.client = nil;
     self.defaultURLParameters = nil;

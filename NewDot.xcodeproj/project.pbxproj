@@ -50,7 +50,7 @@
 		DAAF5EBA142D2CC100878D16 /* TestCredentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E8C142D205A00878D16 /* TestCredentials.plist */; };
 		DAAF5EBB142D2D5D00878D16 /* NDService.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E80142D109300878D16 /* NDService.m */; };
 		DAAF5EBC142D2D5F00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
-		DAE3788F1430D20A00F4003C /* LoginTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3788E1430D20A00F4003C /* LoginTests.m */; };
+		DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3788E1430D20A00F4003C /* TestIdentity.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,8 +97,8 @@
 		DAAF5EB0142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NewDotDebuggingAppDelegate_iPad.h; path = iPad/NewDotDebuggingAppDelegate_iPad.h; sourceTree = "<group>"; };
 		DAAF5EB1142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = NewDotDebuggingAppDelegate_iPad.m; path = iPad/NewDotDebuggingAppDelegate_iPad.m; sourceTree = "<group>"; };
 		DAAF5EB4142D2CB200878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
-		DAE3788D1430D20A00F4003C /* LoginTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginTests.h; sourceTree = "<group>"; };
-		DAE3788E1430D20A00F4003C /* LoginTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginTests.m; sourceTree = "<group>"; };
+		DAE3788D1430D20A00F4003C /* TestIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestIdentity.h; sourceTree = "<group>"; };
+		DAE3788E1430D20A00F4003C /* TestIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestIdentity.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,8 +228,8 @@
 			children = (
 				DAAF5EA5142D2CB200878D16 /* NewDotDebuggingAppDelegate.h */,
 				DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */,
-				DAE3788D1430D20A00F4003C /* LoginTests.h */,
-				DAE3788E1430D20A00F4003C /* LoginTests.m */,
+				DAE3788D1430D20A00F4003C /* TestIdentity.h */,
+				DAE3788E1430D20A00F4003C /* TestIdentity.m */,
 				DAAF5EA8142D2CB200878D16 /* iPhone */,
 				DAAF5EAF142D2CB200878D16 /* iPad */,
 				DAAF5E9D142D2CB200878D16 /* Supporting Files */,
@@ -404,7 +404,7 @@
 				DA5079F3142D2E2E00E6AF2E /* AFNetworkActivityIndicatorManager.m in Sources */,
 				DA5079F4142D2E3000E6AF2E /* UIImageView+AFNetworking.m in Sources */,
 				DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */,
-				DAE3788F1430D20A00F4003C /* LoginTests.m in Sources */,
+				DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

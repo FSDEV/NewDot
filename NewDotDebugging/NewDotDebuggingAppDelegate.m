@@ -8,7 +8,7 @@
 
 #import "NewDotDebuggingAppDelegate.h"
 
-#import "LoginTests.h"
+#import "TestIdentity.h"
 
 @implementation NewDotDebuggingAppDelegate
 
@@ -21,7 +21,7 @@
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
     
-    self.loginTests = [[[LoginTests alloc] init] autorelease];
+    self.loginTests = [[[TestIdentity alloc] init] autorelease];
     
     [self.loginTests test];
     
