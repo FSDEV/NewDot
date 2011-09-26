@@ -36,7 +36,7 @@
                                           [NSException raise:@"Session created with bogus login!" format:@"This really shouldn't happen! Results  are: %@", response];
                                       }
                                       onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                          NSLog(@"[[ WIN ]] Test failed when it was supposed to!");
+                                          printf("[[ WIN ]] Session create failed when it was supposed to!\n");
                                       }];
 }
 
@@ -46,7 +46,7 @@
                                   withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                      onSuccess:^(id response) {
-                                         NSLog(@"[[ WIN ]] Session Create");
+                                         printf("[[ WIN ]] Session create\n");
                                          [self testSessionRead];
                                      }
                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
@@ -57,7 +57,7 @@
 - (void)testSessionRead
 {
     [self.winTest identitySessionOnSuccess:^(id response) {
-        NSLog(@"[[ WIN ]] Session Read");
+        printf("[[ WIN ]] Session read\n");
         [self testUserRead];
     }
                                  onFailure:^(NSError * error) {
@@ -68,6 +68,7 @@
 - (void)testUserRead
 {
     [self.winTest identityUserProfileOnSuccess:^(id response) {
+        printf("[[ WIN ]] User profile read\n");
         [self testPermissionsRead];
     }
                                      onFailure:^(NSError * error) {
@@ -78,6 +79,7 @@
 - (void)testPermissionsRead
 {
     [self.winTest identityUserPermissionsOnSuccess:^(id response) {
+        printf("[[ WIN ]] User permissions read\n");
         [self destroySession];
     }
                                          onFailure:^(NSError * error) {
@@ -88,7 +90,7 @@
 - (void)destroySession
 {
     [self.winTest identityDestroySessionOnSuccess:^(id response) {
-        NSLog(@"[[ WIN ]] Session Destroy");
+        printf("[[ WIN ]] Session destroy\n");
     }
                                         onFailure:^(NSError * error) {
                                             [NSException raise:@"Session Destruction Failure!" format:@"Should have been able to destroy this session; failed with error %@", error];
@@ -99,6 +101,7 @@
 
 - (void)test
 {
+    printf("\n\nTESTING IDENTITY\n\n");
     [self testLoginFailure];
     [self testLogin];
 }

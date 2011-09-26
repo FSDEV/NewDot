@@ -17,6 +17,13 @@
 
 @synthesize service;
 
+#pragma mark Harness
+
+- (void)test
+{
+    printf("\n\nTESTING RESERVATION\n\n");
+}
+
 #pragma mark NSObject
 
 - (id)init
