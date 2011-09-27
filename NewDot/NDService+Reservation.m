@@ -22,7 +22,7 @@
                      for (id kvpair in [response valueForKey:@"properties"])
                          [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
                      if (success)
-                         success([response autorelease]);
+                         success([dict autorelease]);
                  }
                  failure:^(NSError * error) {
                      if (failure)

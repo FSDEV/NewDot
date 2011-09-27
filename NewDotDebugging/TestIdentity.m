@@ -91,6 +91,7 @@
 {
     [self.winTest identityDestroySessionOnSuccess:^(id response) {
         printf("[[ WIN ]] Session destroy\n");
+        printf("         ---- IDENTITY TESTS SUCCESSFUL ----\n");
     }
                                         onFailure:^(NSError * error) {
                                             [NSException raise:@"Session Destruction Failure!" format:@"Should have been able to destroy this session; failed with error %@", error];

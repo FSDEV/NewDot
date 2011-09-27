@@ -13,9 +13,41 @@
 #import "NDService+FamilyTree.h"
 #import "NDService+Reservation.h"
 
+@interface TestReservation ()
+
+- (void)login;
+
+- (void)logout;
+
+@end
+
 @implementation TestReservation
 
 @synthesize service;
+
+- (void)login
+{
+    [self.service identityCreateSessionForUser:[self.testCredentials valueForKeyPath:@"success.username"]
+                                  withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
+                                        apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
+                                     onSuccess:^(id response) {
+                                         printf("[[ WIN ]] Logged in successfully!\n");
+                                     }
+                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
+                                         [NSException raise:@"Failed to log in!" format:@"Error code is %d and error description is %@", result, error];
+                                     }];
+}
+
+- (void)logout
+{
+    [self.service identityDestroySessionOnSuccess:^(id result) {
+        printf("[[ WIN ]] Destroyed session\n");
+        printf("         ---- RESERVATION TESTS SUCCESSFUL ----\n");
+    }
+                                        onFailure:^(NSError * error) {
+                                            [NSException raise:@"Failed to log out" format:@"Error is %@", error];
+                                        }];
+}
 
 #pragma mark Harness
 
