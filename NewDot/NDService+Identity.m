@@ -41,14 +41,8 @@
 {
     [self.client getPath:@"/identity/v2/session/"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:^(id response) {
-                     if (success)
-                         success(response);
-                 }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 success:success
+                 failure:failure];
 }
 
 - (void)identityUserProfileOnSuccess:(NDGenericSuccessBlock)success
@@ -56,14 +50,8 @@
 {
     [self.client getPath:@"/identity/v2/user"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:^(id response) {
-                     if (success)
-                         success(response);
-                 }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 success:success
+                 failure:failure];
 }
 
 - (void)identityUserPermissionsOnSuccess:(NDGenericSuccessBlock)success
@@ -71,14 +59,8 @@
 {
     [self.client getPath:@"/identity/v2/permission"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:^(id response) {
-                     if (success)
-                         success(response);
-                 }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 success:success
+                 failure:failure];
 }
 
 - (void)identityDestroySessionOnSuccess:(NDGenericSuccessBlock)success
@@ -91,10 +73,7 @@
                      if (success)
                          success(response);
                  }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 failure:failure];
 }
 
 @end

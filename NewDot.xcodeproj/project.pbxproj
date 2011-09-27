@@ -53,6 +53,9 @@
 		DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB030A71432218900E2A160 /* NSDictionary+Merge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAB030AA1432218900E2A160 /* NSDictionary+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB030A81432218900E2A160 /* NSDictionary+Merge.m */; };
 		DAB030BE1432291C00E2A160 /* NSDictionary+Merge.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB030A81432218900E2A160 /* NSDictionary+Merge.m */; };
+		DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB030BF1432314900E2A160 /* NSArray+Chunky.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DAB030C21432314900E2A160 /* NSArray+Chunky.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB030C01432314900E2A160 /* NSArray+Chunky.m */; };
+		DAB030C31432314900E2A160 /* NSArray+Chunky.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB030C01432314900E2A160 /* NSArray+Chunky.m */; };
 		DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3788E1430D20A00F4003C /* TestIdentity.m */; };
 		DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE3789414311AF000F4003C /* NDService+Reservation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAE3789714311AF000F4003C /* NDService+Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789514311AF000F4003C /* NDService+Reservation.m */; };
@@ -111,6 +114,8 @@
 		DAAF5EB4142D2CB200878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = iPad/en.lproj/MainWindow_iPad.xib; sourceTree = "<group>"; };
 		DAB030A71432218900E2A160 /* NSDictionary+Merge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Merge.h"; sourceTree = "<group>"; };
 		DAB030A81432218900E2A160 /* NSDictionary+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Merge.m"; sourceTree = "<group>"; };
+		DAB030BF1432314900E2A160 /* NSArray+Chunky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Chunky.h"; sourceTree = "<group>"; };
+		DAB030C01432314900E2A160 /* NSArray+Chunky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Chunky.m"; sourceTree = "<group>"; };
 		DAE3788D1430D20A00F4003C /* TestIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestIdentity.h; sourceTree = "<group>"; };
 		DAE3788E1430D20A00F4003C /* TestIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestIdentity.m; sourceTree = "<group>"; };
 		DAE3789414311AF000F4003C /* NDService+Reservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Reservation.h"; sourceTree = "<group>"; };
@@ -310,6 +315,8 @@
 			children = (
 				DAB030A71432218900E2A160 /* NSDictionary+Merge.h */,
 				DAB030A81432218900E2A160 /* NSDictionary+Merge.m */,
+				DAB030BF1432314900E2A160 /* NSArray+Chunky.h */,
+				DAB030C01432314900E2A160 /* NSArray+Chunky.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -334,6 +341,7 @@
 				DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */,
 				DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */,
 				DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */,
+				DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +441,7 @@
 				DAE3789714311AF000F4003C /* NDService+Reservation.m in Sources */,
 				DAE378A21431247700F4003C /* NDService+FamilyTree.m in Sources */,
 				DAB030AA1432218900E2A160 /* NSDictionary+Merge.m in Sources */,
+				DAB030C21432314900E2A160 /* NSArray+Chunky.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +470,7 @@
 				DAE378A31431247700F4003C /* NDService+FamilyTree.m in Sources */,
 				DAE378A81431249700F4003C /* TestFamilyTree.m in Sources */,
 				DAB030BE1432291C00E2A160 /* NSDictionary+Merge.m in Sources */,
+				DAB030C31432314900E2A160 /* NSArray+Chunky.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

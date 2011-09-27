@@ -23,4 +23,11 @@
                      onSuccess:(NDGenericSuccessBlock)success
                      onFailure:(NDGenericFailureBlock)failure;
 
+/**
+ * Read detailed ordinance reservation information from the Reservation system about the given records.
+ */
+- (void)reservationReadPersons:(NSArray *)people
+                     onSuccess:(NDGenericSuccessBlock)success
+                     onFailure:(NDGenericFailureBlock)failure;
+
 @end

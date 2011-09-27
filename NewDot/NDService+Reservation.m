@@ -24,10 +24,7 @@
                      if (success)
                          success([dict autorelease]);
                  }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 failure:failure];
 }
 
 - (void)reservationListForUser:(NSString *)userId
@@ -36,15 +33,18 @@
 {
     [self.client getPath:[NSString stringWithFormat:@"/reservation/v1/list/%@/", userId]
               parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:^(id response) {
-                     
-                     if (success)
-                         success(response);
-                 }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 success:success
+                 failure:failure];
+}
+
+- (void)reservationReadPersons:(NSArray *)people
+                     onSuccess:(NDGenericSuccessBlock)success
+                     onFailure:(NDGenericFailureBlock)failure
+{
+    [self.client getPath:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]]
+              parameters:[self copyOfDefaultURLParametersWithSessionId]
+                 success:success
+                 failure:failure];
 }
 
 @end

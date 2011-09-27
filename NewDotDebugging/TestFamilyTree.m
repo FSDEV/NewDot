@@ -8,6 +8,8 @@
 
 #import "TestFamilyTree.h"
 
+#import "NewDotDebuggingAppDelegate.h"
+
 #import "NDService.h"
 #import "NDService+Identity.h"
 #import "NDService+FamilyTree.h"
@@ -32,7 +34,7 @@
                                   withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                      onSuccess:^(id response) {
-                                         printf("[[ WIN ]] Session create\n");
+                                         LOG_STUFF(@"[[ WIN ]] Session create\n");
                                          [self readProperties];
                                      }
                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
@@ -43,7 +45,7 @@
 - (void)readProperties
 {
     [self.service familyTreePropertiesOnSuccess:^(id response) {
-        printf("[[ WIN ]] Read the properties successfully!\n");
+        LOG_STUFF(@"[[ WIN ]] Read the properties successfully!\n");
         [self readUserProfile];
     }
                                       onFailure:^(NSError * error) {
@@ -54,7 +56,7 @@
 - (void)readUserProfile
 {
     [self.service familyTreeUserProfileOnSuccess:^(id response) {
-        printf("[[ WIN ]] Read the user profile successfully!\n");
+        LOG_STUFF(@"[[ WIN ]] Read the user profile successfully!\n");
         NSString * userId = [[response valueForKeyPath:@"users.id"] lastObject];
         [self readUserRecord];
     }
@@ -68,7 +70,7 @@
     [self.service familyTreeReadPersons:nil
                          withParameters:[NSDictionary dictionary]
                               onSuccess:^(id response) {
-                                  printf("[[ WIN ]] Read the user record successfully!\n");
+                                  LOG_STUFF(@"[[ WIN ]] Read the user record successfully!\n");
                                   [self logout];
                               }
                               onFailure:^(NSError * error) {
@@ -79,8 +81,8 @@
 - (void)logout
 {
     [self.service identityDestroySessionOnSuccess:^(id response) {
-        printf("[[ WIN ]] Destroyed session\n");
-        printf("         ---- FAMILYTREE TESTS SUCCESSFUL ----\n");
+        LOG_STUFF(@"[[ WIN ]] Destroyed session\n");
+        LOG_STUFF(@"         ---- FAMILYTREE TESTS SUCCESSFUL ----\n");
     }
                                         onFailure:^(NSError * error) {
                                             [NSException raise:@"Failed to destroy session" format:@"Cannot destroy the session; this isn't fatal, but really not expected and probably evidence of a larger problem. Error is %@", error];
@@ -91,7 +93,7 @@
 
 - (void)test
 {
-    printf("\n\nTESTING FAMILYTREE\n\n");
+    LOG_STUFF(@"\n         ---- TESTING FAMILYTREE ----\n");
     [self login];
 }
 

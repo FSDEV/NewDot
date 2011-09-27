@@ -12,3 +12,5 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define LOG_STUFF(message) [(NewDotDebuggingAppDelegate *)[[UIApplication sharedApplication] delegate] log:message]

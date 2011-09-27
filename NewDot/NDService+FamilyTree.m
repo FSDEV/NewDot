@@ -56,10 +56,7 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                      if (success)
                          success(dict);
                  }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 failure:failure];
 }
 
 - (void)familyTreeUserProfileOnSuccess:(NDGenericSuccessBlock)success
@@ -67,14 +64,8 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
 {
     [self.client getPath:@"/familytree/v2/user"
               parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:^(id response) {
-                     if (success)
-                         success(response);
-                 }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 success:success
+                 failure:failure];
 }
 
 - (void)familyTreeReadPersons:(NSArray *)people
@@ -84,14 +75,8 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
 {
     [self.client getPath:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person"
               parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]
-                 success:^(id response) {
-                     if (success)
-                         success(response);
-                 }
-                 failure:^(NSError * error) {
-                     if (failure)
-                         failure(error);
-                 }];
+                 success:success
+                 failure:failure];
 }
 
 @end
