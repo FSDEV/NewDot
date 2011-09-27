@@ -82,7 +82,7 @@
 {
     [self.service identityDestroySessionOnSuccess:^(id response) {
         LOG_STUFF(@"[[ WIN ]] Destroyed session\n");
-        LOG_STUFF(@"         ---- FAMILYTREE TESTS SUCCESSFUL ----\n");
+        LOG_STUFF(@"---- FAMILYTREE TESTS SUCCESSFUL ----\n");
     }
                                         onFailure:^(NSError * error) {
                                             [NSException raise:@"Failed to destroy session" format:@"Cannot destroy the session; this isn't fatal, but really not expected and probably evidence of a larger problem. Error is %@", error];
@@ -93,7 +93,7 @@
 
 - (void)test
 {
-    LOG_STUFF(@"\n         ---- TESTING FAMILYTREE ----\n");
+    LOG_STUFF(@"\n---- TESTING FAMILYTREE ----\n");
     [self login];
 }
 

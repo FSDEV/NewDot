@@ -93,7 +93,7 @@
 {
     [self.winTest identityDestroySessionOnSuccess:^(id response) {
         LOG_STUFF(@"[[ WIN ]] Session destroy\n");
-        LOG_STUFF(@"         ---- IDENTITY TESTS SUCCESSFUL ----\n");
+        LOG_STUFF(@"---- IDENTITY TESTS SUCCESSFUL ----\n");
     }
                                         onFailure:^(NSError * error) {
                                             [NSException raise:@"Session Destruction Failure!" format:@"Should have been able to destroy this session; failed with error %@", error];
@@ -104,7 +104,7 @@
 
 - (void)test
 {
-    LOG_STUFF(@"\n         ---- TESTING IDENTITY ----\n");
+    LOG_STUFF(@"\n---- TESTING IDENTITY ----\n");
     [self testLoginFailure];
     [self testLogin];
 }

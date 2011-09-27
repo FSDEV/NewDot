@@ -151,14 +151,14 @@
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="893327643"/>
 					</object>
-					<object class="IBUITextView" id="348946051">
+					<object class="IBUITextView" id="451229343">
 						<reference key="NSNextResponder" ref="380026005"/>
 						<int key="NSvFlags">1316</int>
 						<string key="NSFrame">{{20, 204}, {280, 256}}</string>
 						<reference key="NSSuperview" ref="380026005"/>
 						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:613</string>
-						<object class="NSColor" key="IBUIBackgroundColor" id="553420860">
+						<object class="NSColor" key="IBUIBackgroundColor" id="137627919">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
@@ -168,7 +168,7 @@
 						<bool key="IBUIEditable">NO</bool>
 						<string key="IBUIText"/>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Menlo-Regular</string>
+							<string key="NSName">CourierNewPSMT</string>
 							<double key="NSSize">13</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -183,7 +183,7 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="762649205"/>
-				<reference key="IBUIBackgroundColor" ref="553420860"/>
+				<reference key="IBUIBackgroundColor" ref="137627919"/>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
@@ -241,7 +241,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">logStuff</string>
 						<reference key="source" ref="987256611"/>
-						<reference key="destination" ref="348946051"/>
+						<reference key="destination" ref="451229343"/>
 					</object>
 					<int key="connectionID">17</int>
 				</object>
@@ -264,7 +264,7 @@
 							<reference ref="841195991"/>
 							<reference ref="355478787"/>
 							<reference ref="596446242"/>
-							<reference ref="348946051"/>
+							<reference ref="451229343"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -307,7 +307,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">16</int>
-						<reference key="object" ref="348946051"/>
+						<reference key="object" ref="451229343"/>
 						<reference key="parent" ref="380026005"/>
 					</object>
 				</object>
