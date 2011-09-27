@@ -17,6 +17,4 @@ You should now be linking against the NewDot library. The headers are accessed u
 
 ## Licensing
 
-NewDot is licensed under the [Firestorm Development Open-Source License][fsdev-fdosl]. More information can be found in the file `COPYING.md`.
-
-[fsdev-fdosl]: http://fsdev.net/fdosl/ Firestorm Development Open-Source License
+NewDot is licensed under the [Firestorm Development Open-Source License](http://fsdev.net/fdosl/). More information can be found in the file `COPYING.md`.
