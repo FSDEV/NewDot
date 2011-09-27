@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA0111DD1432633B0097DDEF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0111DC1432633B0097DDEF /* UIKit.framework */; };
 		DA5079ED142D2E2100E6AF2E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
 		DA5079EF142D2E2400E6AF2E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E65142D0C4F00878D16 /* AFHTTPRequestOperation.m */; };
 		DA5079F0142D2E2600E6AF2E /* AFImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E67142D0C4F00878D16 /* AFImageCache.m */; };
@@ -36,9 +37,7 @@
 		DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
 		DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E8E142D24B800878D16 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
-		DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E48142D0C1A00878D16 /* UIKit.framework */; };
 		DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
-		DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */; };
 		DAAF5EA1142D2CB200878D16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */; };
 		DAAF5EA3142D2CB200878D16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA2142D2CB200878D16 /* main.m */; };
 		DAAF5EA7142D2CB200878D16 /* NewDotDebuggingAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */; };
@@ -62,19 +61,18 @@
 		DAE3789814311AF000F4003C /* NDService+Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789514311AF000F4003C /* NDService+Reservation.m */; };
 		DAE3789B1431237400F4003C /* TestReservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789A1431237400F4003C /* TestReservation.m */; };
 		DAE3789E1431238600F4003C /* Harness.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789D1431238600F4003C /* Harness.m */; };
-		DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE3789F1431247700F4003C /* NDService+FamilyTree.h */; };
+		DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE3789F1431247700F4003C /* NDService+FamilyTree.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAE378A21431247700F4003C /* NDService+FamilyTree.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE378A01431247700F4003C /* NDService+FamilyTree.m */; };
 		DAE378A31431247700F4003C /* NDService+FamilyTree.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE378A01431247700F4003C /* NDService+FamilyTree.m */; };
 		DAE378A81431249700F4003C /* TestFamilyTree.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE378A51431249700F4003C /* TestFamilyTree.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA0111DC1432633B0097DDEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DAAF5E35142D0C1A00878D16 /* libNewDot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNewDot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
 		DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DAAF5E48142D0C1A00878D16 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		DAAF5E52142D0C1A00878D16 /* NewDotTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NewDotTests-Info.plist"; sourceTree = "<group>"; };
 		DAAF5E54142D0C1A00878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = vendor/AFNetworking/AFNetworking/AFHTTPClient.h; sourceTree = "<group>"; };
@@ -135,6 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA0111DD1432633B0097DDEF /* UIKit.framework in Frameworks */,
 				DAAF5E39142D0C1A00878D16 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,9 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */,
 				DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */,
-				DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,8 +176,7 @@
 			children = (
 				DAAF5E38142D0C1A00878D16 /* Foundation.framework */,
 				DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */,
-				DAAF5E48142D0C1A00878D16 /* UIKit.framework */,
-				DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */,
+				DA0111DC1432633B0097DDEF /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -328,6 +324,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAAF5E81142D109300878D16 /* NDService.h in Headers */,
+				DAAF5E85142D136C00878D16 /* NDService+Identity.h in Headers */,
+				DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */,
+				DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */,
+				DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */,
+				DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */,
+				DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */,
 				DAAF5E70142D0C4F00878D16 /* AFHTTPClient.h in Headers */,
 				DAAF5E72142D0C4F00878D16 /* AFHTTPRequestOperation.h in Headers */,
 				DAAF5E74142D0C4F00878D16 /* AFImageCache.h in Headers */,
@@ -335,13 +338,6 @@
 				DAAF5E78142D0C4F00878D16 /* AFJSONRequestOperation.h in Headers */,
 				DAAF5E7A142D0C4F00878D16 /* AFNetworkActivityIndicatorManager.h in Headers */,
 				DAAF5E7C142D0C4F00878D16 /* UIImageView+AFNetworking.h in Headers */,
-				DAAF5E81142D109300878D16 /* NDService.h in Headers */,
-				DAAF5E85142D136C00878D16 /* NDService+Identity.h in Headers */,
-				DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */,
-				DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */,
-				DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */,
-				DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */,
-				DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,9 +556,13 @@
 				DSTROOT = /tmp/NewDot.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NewDot/NewDot-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
+				PUBLIC_HEADERS_FOLDER_PATH = NewDot;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -573,9 +573,13 @@
 				DSTROOT = /tmp/NewDot.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NewDot/NewDot-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
+				PUBLIC_HEADERS_FOLDER_PATH = NewDot;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
