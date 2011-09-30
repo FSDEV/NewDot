@@ -2,3 +2,4 @@ DeveloperKeys.plist
 *.xcodeproj/xcuserdata
 *.xcodeproj/*.xcworkspace
 NewDotTests/TestCredentials.plist
+.DS_Store

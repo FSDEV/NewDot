@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DA0111DD1432633B0097DDEF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA0111DC1432633B0097DDEF /* UIKit.framework */; };
+		DA27878E14365FF900FA5C8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA27878D14365FF900FA5C8C /* UIKit.framework */; };
+		DA2787911436602A00FA5C8C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2787901436602A00FA5C8C /* CoreGraphics.framework */; };
 		DA5079ED142D2E2100E6AF2E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
 		DA5079EF142D2E2400E6AF2E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E65142D0C4F00878D16 /* AFHTTPRequestOperation.m */; };
 		DA5079F0142D2E2600E6AF2E /* AFImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E67142D0C4F00878D16 /* AFImageCache.m */; };
@@ -69,6 +71,8 @@
 
 /* Begin PBXFileReference section */
 		DA0111DC1432633B0097DDEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DA27878D14365FF900FA5C8C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DA2787901436602A00FA5C8C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DAAF5E35142D0C1A00878D16 /* libNewDot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNewDot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA2787911436602A00FA5C8C /* CoreGraphics.framework in Frameworks */,
+				DA27878E14365FF900FA5C8C /* UIKit.framework in Frameworks */,
 				DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,6 +182,8 @@
 			children = (
 				DAAF5E38142D0C1A00878D16 /* Foundation.framework */,
 				DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */,
+				DA2787901436602A00FA5C8C /* CoreGraphics.framework */,
+				DA27878D14365FF900FA5C8C /* UIKit.framework */,
 				DA0111DC1432633B0097DDEF /* UIKit.framework */,
 			);
 			name = Frameworks;
