@@ -8,6 +8,27 @@
 
 #import "NDService.h"
 
+extern const struct NDReservationType {
+    NSString * individual;
+    NSString * sealingToParents;
+    NSString * sealingToSpouse;
+} NDReservationType;
+
+extern const struct NDOrdinanceStatus {
+    NSString * notNeeded;
+    NSString * reserved;
+    NSString * ready;
+    NSString * notReady;
+    NSString * completed;
+    NSString * notAvailable;
+    NSString * needMoreInformation;
+    NSString * inProgress;
+    NSString * onHold;
+    NSString * cancelled;
+    NSString * deleted;
+    NSString * invalid;
+} NDOrdinanceStatus;
+
 @interface NDService (Reservation)
 
 /**
