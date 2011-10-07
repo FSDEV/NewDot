@@ -46,9 +46,7 @@
 		DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
 		DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E8E142D24B800878D16 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
-		DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E48142D0C1A00878D16 /* UIKit.framework */; };
 		DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
-		DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */; };
 		DAAF5EA1142D2CB200878D16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */; };
 		DAAF5EA3142D2CB200878D16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA2142D2CB200878D16 /* main.m */; };
 		DAAF5EA7142D2CB200878D16 /* NewDotDebuggingAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA6142D2CB200878D16 /* NewDotDebuggingAppDelegate.m */; };
@@ -66,6 +64,9 @@
 		DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB030BF1432314900E2A160 /* NSArray+Chunky.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAB030C21432314900E2A160 /* NSArray+Chunky.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB030C01432314900E2A160 /* NSArray+Chunky.m */; };
 		DAB030C31432314900E2A160 /* NSArray+Chunky.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB030C01432314900E2A160 /* NSArray+Chunky.m */; };
+		DAD30C69143F90F400C7D2AF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD30C68143F90F400C7D2AF /* CoreGraphics.framework */; };
+		DAD30C6D143F913500C7D2AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD30C6A143F911900C7D2AF /* UIKit.framework */; };
+		DAD30C6E143F915800C7D2AF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAD30C6A143F911900C7D2AF /* UIKit.framework */; };
 		DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3788E1430D20A00F4003C /* TestIdentity.m */; };
 		DAE3789614311AF000F4003C /* NDService+Reservation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAE3789414311AF000F4003C /* NDService+Reservation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAE3789714311AF000F4003C /* NDService+Reservation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE3789514311AF000F4003C /* NDService+Reservation.m */; };
@@ -94,8 +95,6 @@
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
 		DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DAAF5E48142D0C1A00878D16 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		DAAF5E52142D0C1A00878D16 /* NewDotTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NewDotTests-Info.plist"; sourceTree = "<group>"; };
 		DAAF5E54142D0C1A00878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = vendor/AFNetworking/AFNetworking/AFHTTPClient.h; sourceTree = "<group>"; };
@@ -137,6 +136,8 @@
 		DAB030A81432218900E2A160 /* NSDictionary+Merge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Merge.m"; sourceTree = "<group>"; };
 		DAB030BF1432314900E2A160 /* NSArray+Chunky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Chunky.h"; sourceTree = "<group>"; };
 		DAB030C01432314900E2A160 /* NSArray+Chunky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Chunky.m"; sourceTree = "<group>"; };
+		DAD30C68143F90F400C7D2AF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DAD30C6A143F911900C7D2AF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DAE3788D1430D20A00F4003C /* TestIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestIdentity.h; sourceTree = "<group>"; };
 		DAE3788E1430D20A00F4003C /* TestIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestIdentity.m; sourceTree = "<group>"; };
 		DAE3789414311AF000F4003C /* NDService+Reservation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Reservation.h"; sourceTree = "<group>"; };
@@ -157,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAAF5E39142D0C1A00878D16 /* Foundation.framework in Frameworks */,
+				DAD30C6D143F913500C7D2AF /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,11 +166,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAD30C6E143F915800C7D2AF /* UIKit.framework in Frameworks */,
+				DAD30C69143F90F400C7D2AF /* CoreGraphics.framework in Frameworks */,
 				DA110808143F828500DFCC10 /* SystemConfiguration.framework in Frameworks */,
 				DA110806143F827700DFCC10 /* CFNetwork.framework in Frameworks */,
-				DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */,
 				DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */,
-				DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,8 +215,8 @@
 			children = (
 				DAAF5E38142D0C1A00878D16 /* Foundation.framework */,
 				DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */,
-				DAAF5E48142D0C1A00878D16 /* UIKit.framework */,
-				DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */,
+				DAD30C6A143F911900C7D2AF /* UIKit.framework */,
+				DAD30C68143F90F400C7D2AF /* CoreGraphics.framework */,
 				DA110807143F828500DFCC10 /* SystemConfiguration.framework */,
 				DA110805143F827700DFCC10 /* CFNetwork.framework */,
 			);
