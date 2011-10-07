@@ -55,7 +55,24 @@
                  onSuccess:(NDGenericSuccessBlock)success
                  onFailure:(NDGenericFailureBlock)failure
 {
-    
+    switch (method) {
+        case POST:
+            [self.client postPath:@"/discussions/discussions"
+                       parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:[ids componentsJoinedByString:@","] forKey:@"discussion"]]
+                          success:success
+                          failure:failure];
+            break;
+        case GET:
+            // TODO: Fix this. It's probably broken in major ways.
+            [self.client getPath:@"/discussions/discussions"
+                      parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:[ids componentsJoinedByString:@","] forKey:@"discussion"]]
+                         success:success
+                         failure:failure];
+            break;
+        default:
+            failure([NSError errorWithDomain:@"net.fsdev.newdot.unrecognised-method" code:-1 userInfo:nil]);
+            break;
+    }
 }
 
 @end

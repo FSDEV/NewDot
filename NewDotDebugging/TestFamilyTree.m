@@ -34,34 +34,36 @@
                                   withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                      onSuccess:^(id response) {
-                                         LOG_STUFF(@"[[ WIN ]] Session create\n");
+                                         LOG_FAMILYTREE(0,@"Session created");
                                          [self readProperties];
                                      }
                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                         [NSException raise:@"Failed to log in" format:@"Cannot test the rest of the system without a valid session; failed with error %d and description %@", result, error];
+                                         LOG_FAMILYTREE(5,@"Failed to create session with result:%d and error %@", result, error);
                                      }];
 }
 
 - (void)readProperties
 {
     [self.service familyTreePropertiesOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Read the properties successfully!\n");
+        LOG_FAMILYTREE(0,@"Read the properties succussfully");
         [self readUserProfile];
     }
                                       onFailure:^(NSError * error) {
-                                          [NSException raise:@"Failed to read properties!" format:@"Dude, seriously, what gives? You don't even need to be authenticated to do this! Error is %@", error];
+                                          LOG_FAMILYTREE(5,@"Failed to read properties with error %@", error);
+                                          [self logout];
                                       }];
 }
 
 - (void)readUserProfile
 {
     [self.service familyTreeUserProfileOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Read the user profile successfully!\n");
+        LOG_FAMILYTREE(0,@"Read the user's profile");
         NSString * userId = [[response valueForKeyPath:@"users.id"] lastObject];
         [self readUserRecord];
     }
                                        onFailure:^(NSError * error) {
-                                           [NSException raise:@"Failed to read user profile!" format:@"Error is %@", error];
+                                           LOG_FAMILYTREE(5,@"Failed to read the user's profile with error %@", error);
+                                           [self logout];
                                        }];
 }
 
@@ -70,22 +72,22 @@
     [self.service familyTreeReadPersons:nil
                          withParameters:[NSDictionary dictionary]
                               onSuccess:^(id response) {
-                                  LOG_STUFF(@"[[ WIN ]] Read the user record successfully!\n");
+                                  LOG_FAMILYTREE(0,@"Read the user record successfully");
                                   [self logout];
                               }
                               onFailure:^(NSError * error) {
-                                  [NSException raise:@"Failed to read user record!" format:@"Well, you should be able to read your own living record! Error is %@", error];
+                                  LOG_FAMILYTREE(5,@"Failed to read the user record with error %@", error);
+                                  [self logout];
                               }];
 }
 
 - (void)logout
 {
     [self.service identityDestroySessionOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Destroyed session\n");
-        LOG_STUFF(@"---- FAMILYTREE TESTS SUCCESSFUL ----\n");
+        LOG_FAMILYTREE(0,@"Destroyed session");
     }
                                         onFailure:^(NSError * error) {
-                                            [NSException raise:@"Failed to destroy session" format:@"Cannot destroy the session; this isn't fatal, but really not expected and probably evidence of a larger problem. Error is %@", error];
+                                            LOG_FAMILYTREE(5,@"Failed to destroy session with error %@", error);
                                         }];
 }
 
@@ -93,7 +95,7 @@
 
 - (void)test
 {
-    LOG_STUFF(@"\n---- TESTING FAMILYTREE ----\n");
+    LOG_FAMILYTREE(0,@"Testing the FamilyTree Module");
     [self login];
 }
 

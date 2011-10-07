@@ -10,6 +10,9 @@
 		DA1107FC143F5E4100DFCC10 /* NSString+LastWord.h in Headers */ = {isa = PBXBuildFile; fileRef = DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */; };
 		DA1107FD143F5E4100DFCC10 /* NSString+LastWord.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */; };
 		DA1107FE143F5E4100DFCC10 /* NSString+LastWord.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */; };
+		DA110803143F824600DFCC10 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DA110801143F824600DFCC10 /* LoggerClient.m */; };
+		DA110806143F827700DFCC10 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA110805143F827700DFCC10 /* CFNetwork.framework */; };
+		DA110808143F828500DFCC10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA110807143F828500DFCC10 /* SystemConfiguration.framework */; };
 		DA5079ED142D2E2100E6AF2E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
 		DA5079EF142D2E2400E6AF2E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E65142D0C4F00878D16 /* AFHTTPRequestOperation.m */; };
 		DA5079F0142D2E2600E6AF2E /* AFImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E67142D0C4F00878D16 /* AFImageCache.m */; };
@@ -78,6 +81,11 @@
 /* Begin PBXFileReference section */
 		DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LastWord.h"; sourceTree = "<group>"; };
 		DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastWord.m"; sourceTree = "<group>"; };
+		DA110800143F824600DFCC10 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "vendor/NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
+		DA110801143F824600DFCC10 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoggerClient.m; path = "vendor/NSLogger/Client Logger/iOS/LoggerClient.m"; sourceTree = "<group>"; };
+		DA110802143F824600DFCC10 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerCommon.h; path = "vendor/NSLogger/Client Logger/iOS/LoggerCommon.h"; sourceTree = "<group>"; };
+		DA110805143F827700DFCC10 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		DA110807143F828500DFCC10 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DA71B7D1143E3DBC00E9EE94 /* NDService+Discussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Discussions.h"; sourceTree = "<group>"; };
 		DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Discussions.m"; sourceTree = "<group>"; };
 		DA71B7D7143E42B700E9EE94 /* TestDiscussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDiscussions.h; sourceTree = "<group>"; };
@@ -156,6 +164,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA110808143F828500DFCC10 /* SystemConfiguration.framework in Frameworks */,
+				DA110806143F827700DFCC10 /* CFNetwork.framework in Frameworks */,
 				DAAF5E99142D2CB200878D16 /* UIKit.framework in Frameworks */,
 				DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */,
 				DAAF5E9B142D2CB200878D16 /* CoreGraphics.framework in Frameworks */,
@@ -165,6 +175,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA110804143F824B00DFCC10 /* NSLogger */ = {
+			isa = PBXGroup;
+			children = (
+				DA110800143F824600DFCC10 /* LoggerClient.h */,
+				DA110801143F824600DFCC10 /* LoggerClient.m */,
+				DA110802143F824600DFCC10 /* LoggerCommon.h */,
+			);
+			name = NSLogger;
+			sourceTree = "<group>";
+		};
 		DAAF5E2A142D0C1A00878D16 = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +192,7 @@
 				DAAF5E50142D0C1A00878D16 /* NewDotTests */,
 				DAAF5E7E142D0C5300878D16 /* AFNetworking */,
 				DAAF5E92142D24BD00878D16 /* JSONKit */,
+				DA110804143F824B00DFCC10 /* NSLogger */,
 				DAAF5E9C142D2CB200878D16 /* NewDotDebugging */,
 				DAAF5E37142D0C1A00878D16 /* Frameworks */,
 				DAAF5E36142D0C1A00878D16 /* Products */,
@@ -194,6 +215,8 @@
 				DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */,
 				DAAF5E48142D0C1A00878D16 /* UIKit.framework */,
 				DAAF5E4B142D0C1A00878D16 /* CoreGraphics.framework */,
+				DA110807143F828500DFCC10 /* SystemConfiguration.framework */,
+				DA110805143F827700DFCC10 /* CFNetwork.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -497,6 +520,7 @@
 				DA71B7D5143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */,
 				DA71B7D9143E42B700E9EE94 /* TestDiscussions.m in Sources */,
 				DA1107FE143F5E4100DFCC10 /* NSString+LastWord.m in Sources */,
+				DA110803143F824600DFCC10 /* LoggerClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

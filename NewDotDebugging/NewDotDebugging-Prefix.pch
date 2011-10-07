@@ -13,4 +13,27 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#define LOG_STUFF(message) [(NewDotDebuggingAppDelegate *)[[UIApplication sharedApplication] delegate] log:message]
+#ifdef DEBUG
+    #import "LoggerCommon.h"
+    #import "LoggerClient.h"
+    #define LOG_IDENTITY(level, ...)      LogMessageF(__FILE__,__LINE__,__FUNCTION__,@"identity",level,__VA_ARGS__)
+    #define LOG_FAMILYTREE(level, ...)    LogMessageF(__FILE__,__LINE__,__FUNCTION__,@"familytree",level,__VA_ARGS__)
+    #define LOG_DISCUSSIONS(level, ...)   LogMessageF(__FILE__,__LINE__,__FUNCTION__,@"discussions",level,__VA_ARGS__)
+    #define LOG_RESERVATION(level, ...)   LogMessageF(__FILE__,__LINE__,__FUNCTION__,@"reservation",level,__VA_ARGS__)
+#else
+    #define LOG_IDENTITY(...)      do{}while(0)
+    #define LOG_FAMILYTREE(...)    do{}while(0)
+    #define LOG_DISCUSSIONS(...)   do{}while(0)
+    #define LOG_RESERVATION(...)   do{}while(0)
+#endif
+
+#if defined(DEBUG) && !defined(NDEBUG)
+    #undef assert
+    #if __DARWIN_UNIX03
+        #define assert(e) \
+        (__builtin_expect(!(e), 0) ? (CFShow(CFSTR("assert going to fail, connect NSLogger NOW\n")), LoggerFlush(NULL,YES), __assert_rtn(__func__, __FILE__, __LINE__, #e)) : (void)0)
+    #else
+        #define assert(e)  \
+        (__builtin_expect(!(e), 0) ? (CFShow(CFSTR("assert going to fail, connect NSLogger NOW\n")), LoggerFlush(NULL,YES), __assert(#e, __FILE__, __LINE__)) : (void)0)
+    #endif
+#endif

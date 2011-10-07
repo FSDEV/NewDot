@@ -16,18 +16,11 @@
 @implementation NewDotDebuggingAppDelegate
 
 @synthesize window = _window;
-@synthesize logStuff;
 
 @synthesize identityTests;
 @synthesize familyTreeTests;
 @synthesize discussionsTests;
 @synthesize reservationTests;
-
-- (void)log:(NSString *)message
-{
-    self.logStuff.text = [self.logStuff.text stringByAppendingString:message];
-    [self.logStuff scrollRangeToVisible:NSMakeRange([self.logStuff.text length], 0)];
-}
 
 #pragma mark UIApplicationDelegate
 
@@ -106,7 +99,6 @@
 - (void)dealloc
 {
     [_window release];
-    self.logStuff = nil;
     
     self.identityTests = nil;
     self.familyTreeTests = nil;

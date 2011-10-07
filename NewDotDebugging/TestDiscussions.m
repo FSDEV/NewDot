@@ -26,6 +26,7 @@
 - (void)discussionsWithSystemTags:(NSArray *)systemTags;
 - (void)accumulateDiscussion;
 - (void)accumulateDiscussionWithIds:(NSArray *)dIds;
+- (void)goFetchumDiscussions;
 - (void)logout;
 
 @end
@@ -44,18 +45,18 @@
                                   withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                      onSuccess:^(id response) {
-                                         LOG_STUFF(@"[[ WIN ]] Session create\n");
+                                         LOG_DISCUSSIONS(0,@"Session Created");
                                          [self discussionsList];
                                      }
                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                         [NSException raise:@"Failed to log in" format:@"Cannot test the rest of the system without a valid session; failed with error %d and description %@", result, error];
+                                         LOG_DISCUSSIONS(5,@"Failed to log in!");
                                      }];
 }
 
 - (void)discussionsList
 {
     [self.service discussionsSystemTagsOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Got stuff from discussions API\n");
+        LOG_DISCUSSIONS(0,@"Retrieved tags from the discussions API");
         NSArray * rawTags = [response valueForKey:@"tags"];
         NSMutableArray * fixedTags = [NSMutableArray arrayWithCapacity:[rawTags count]];
         
@@ -63,10 +64,13 @@
             [fixedTags addObject:[tag substringFromIndex:[tag length]-8]];
         }
         
+        LOG_DISCUSSIONS(0,@"Got these tags: %@", fixedTags);
+        
         [self discussionsWithSystemTags:fixedTags];
     }
                                        onFailure:^(NSError * error) {
-                                           [NSException raise:@"Failed to get crap from the API" format:@"Failed with error %@", error];
+                                           LOG_DISCUSSIONS(5,@"Failed to get system tags from the API with error %@", error);
+                                           [self logout];
                                        }];
 }
 
@@ -78,15 +82,14 @@
     for (id tag in systemTags)
         [self.service familyTreeDiscussionsForPerson:tag
                                            onSuccess:^(id response) {
-                                               NSString * string = [NSString stringWithFormat:@"[[ WIN ]] Got discussions list for %@\n", tag];
-                                               LOG_STUFF(string);
-                                               [self accumulateDiscussionWithIds:[response valueForKeyPath:@"persons.discussions.uri"]];
+                                               LOG_DISCUSSIONS(0,@"Got the discussions list for %@",tag);
+                                               [self accumulateDiscussionWithIds:[[response valueForKeyPath:@"persons.discussions.uri"] lastObject]];
                                            }
                                            onFailure:^(NSInteger code, NSError * error) {
                                                if (code != 403)
-                                                   [NSException raise:@"Failed to get crap from the API" format:@"Failed with error %@", error];
+                                                   LOG_DISCUSSIONS(4,@"Failed to get crap from the API with error %@", error);
                                                else {
-                                                   LOG_STUFF(@"[[ WIN ]] Just got a 403 on some dumb living record.\n");
+                                                   LOG_DISCUSSIONS(1,@"403 on some dumb living record. Meh.");
                                                    [self accumulateDiscussion];
                                                }
                                            }];
@@ -95,26 +98,45 @@
 - (void)accumulateDiscussion
 {
     if (++self.tagAccumulator==self.tagCount)
-        [self logout];
+        [self goFetchumDiscussions];
 }
 
 - (void)accumulateDiscussionWithIds:(NSArray *)dIds
 {
     for (id discussionId in dIds) {
         if (discussionId != [NSNull null])
-            [self.discussionIds addObject:discussionId];
+            [self.discussionIds addObject:[discussionId stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     }
     [self accumulateDiscussion];
+}
+
+
+- (void)goFetchumDiscussions
+{
+    if ([self.discussionIds count]==0) {
+        LOG_DISCUSSIONS(1,@"No discussions to request");
+        [self logout];
+    }
+    [self.service discussionsWithIds:self.discussionIds
+                              method:GET
+                           onSuccess:^(id response) {
+                               LOG_DISCUSSIONS(0,@"Retrieved discussions data from the API");
+                               LOG_DISCUSSIONS(0,@"Discussion object is %@",response);
+                               [self logout];
+                           }
+                           onFailure:^(NSError * error) {
+                               LOG_DISCUSSIONS(5,@"Failed to get discussion from the API with error %@", error);
+                               [self logout];
+                           }];
 }
 
 - (void)logout
 {
     [self.service identityDestroySessionOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Destroyed session\n");
-        LOG_STUFF(@"---- DISCUSSIONS TESTS SUCCESSFUL ----\n");
+        LOG_DISCUSSIONS(0,@"Destroyed session");
     }
                                         onFailure:^(NSError * error) {
-                                            [NSException raise:@"Failed to destroy session" format:@"Cannot destroy the session; this isn't fatal, but really not expected and probably evidence of a larger problem. Error is %@", error];
+                                            LOG_DISCUSSIONS(5,@"Failed to destroy session with error %@",error);
                                         }];
 }
 
@@ -122,7 +144,7 @@
 
 - (void)test
 {
-    LOG_STUFF(@"\n---- TESTING DISCUSSIONS ----\n");
+    LOG_DISCUSSIONS(0,@"Testing discussions module");
     [self login];
 }
 

@@ -35,10 +35,10 @@
                                    withPassword:[self.testCredentials valueForKeyPath:@"fail.password"]
                                          apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                       onSuccess:^(id response) {
-                                          [NSException raise:@"Session created with bogus login!" format:@"This really shouldn't happen! Results  are: %@", response];
+                                          LOG_IDENTITY(5,@"Created session with bogus login credentials. This really shouldn't happen. Results are %@", response);
                                       }
                                       onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                          LOG_STUFF(@"[[ WIN ]] Session create failed when it was supposed to!\n");
+                                          LOG_IDENTITY(0,@"Session creation failed when it was supposed to with result:%d and error %@", result, error);
                                       }];
 }
 
@@ -48,55 +48,57 @@
                                   withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                      onSuccess:^(id response) {
-                                         LOG_STUFF(@"[[ WIN ]] Session create\n");
+                                         LOG_IDENTITY(0,@"Session created");
                                          [self testSessionRead];
                                      }
                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                         [NSException raise:@"Session Create Failure!" format:@"Should have been able to create this session, bro! Error code is: %d; Error is: %@", result, error];
+                                         LOG_IDENTITY(5,@"Session creation failed when it should have with error code %d and error %@", result, error);
                                      }];
 }
 
 - (void)testSessionRead
 {
     [self.winTest identitySessionOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Session read\n");
+        LOG_IDENTITY(0,@"Session read");
         [self testUserRead];
     }
                                  onFailure:^(NSError * error) {
-                                     [NSException raise:@"Session Read Failure!" format:@"Failed to read session when it shouldn't have; error %@", error];
+                                     LOG_IDENTITY(5,@"Failed to read session with error %@", error);
+                                     [self destroySession];
                                  }];
 }
 
 - (void)testUserRead
 {
     [self.winTest identityUserProfileOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] User profile read\n");
+        LOG_IDENTITY(0,@"User profile read");
         [self testPermissionsRead];
     }
                                      onFailure:^(NSError * error) {
-                                         [NSException raise:@"User read failure!" format:@"Should have been able to read this user! Failed with error %@", error];
+                                         LOG_IDENTITY(5,@"Failed to read user profile with error %@", error);
+                                         [self destroySession];
                                      }];
 }
 
 - (void)testPermissionsRead
 {
     [self.winTest identityUserPermissionsOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] User permissions read\n");
+        LOG_IDENTITY(0,@"Read the user's permissions");
         [self destroySession];
     }
                                          onFailure:^(NSError * error) {
-                                             [NSException raise:@"User Permissions read failure!" format:@"Should have been able to read this user's permissions. Failed with error %@", error];
+                                             LOG_IDENTITY(5,@"Failed to read the user's permissions (maybe he or she doesn't have permission?) with error %@", error);
+                                             [self destroySession];
                                          }];
 }
 
 - (void)destroySession
 {
     [self.winTest identityDestroySessionOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Session destroy\n");
-        LOG_STUFF(@"---- IDENTITY TESTS SUCCESSFUL ----\n");
+        LOG_IDENTITY(0,@"Destroyed session");
     }
                                         onFailure:^(NSError * error) {
-                                            [NSException raise:@"Session Destruction Failure!" format:@"Should have been able to destroy this session; failed with error %@", error];
+                                            LOG_IDENTITY(5,@"Failed to destroy session with error %@", error);
                                         }];
 }
 
@@ -104,7 +106,7 @@
 
 - (void)test
 {
-    LOG_STUFF(@"\n---- TESTING IDENTITY ----\n");
+    LOG_IDENTITY(0,@"Testing the Identity Module");
     [self testLoginFailure];
     [self testLogin];
 }

@@ -42,34 +42,36 @@
                                   withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
                                      onSuccess:^(id response) {
-                                         LOG_STUFF(@"[[ WIN ]] Logged in successfully!\n");
+                                         LOG_RESERVATION(0,@"Session created");
                                          [self readProperties];
                                      }
                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
-                                         [NSException raise:@"Failed to log in!" format:@"Error code is %d and error description is %@", result, error];
+                                         LOG_RESERVATION(5,@"Failed to create session with code:%d and error %@", result, error);
                                      }];
 }
 
 - (void)readProperties
 {
     [self.service reservationPropertiesOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Read reservation properties\n");
+        LOG_RESERVATION(0,@"Read reservation module properties");
         self.personmaxids = [[response valueForKey:@"person.max.ids"] integerValue];
         [self readUserProfile];
     }
                                        onFailure:^(NSError * error) {
-                                           [NSException raise:@"Failed to read properties!" format:@"Error description is %@", error];
+                                           LOG_RESERVATION(5,@"Failed to read properties with error %@", error);
+                                           [self logout];
                                        }];
 }
 
 - (void)readUserProfile
 {
     [self.service familyTreeUserProfileOnSuccess:^(id response) {
-        LOG_STUFF(@"[[ WIN ]] Read user profile\n");
+        LOG_RESERVATION(0,@"Read user profile");
         [self reservationListForUser:[[response valueForKeyPath:@"users.id"] lastObject]];
     }
                                        onFailure:^(NSError * error) {
-                                           [NSException raise:@"Failed to read user profile!" format:@"Error is %@", error];
+                                           LOG_RESERVATION(5,@"Failed to read user profile with error %@", error);
+                                           [self logout];
                                        }];
 }
 
@@ -77,18 +79,25 @@
 {
     [self.service reservationListForUser:userId
                                onSuccess:^(id response) {
-                                   LOG_STUFF(@"[[ WIN ]] Read the reservation list!\n");
+                                   LOG_RESERVATION(0,@"Read the reservation list");
                                    id collectedIds = [self collectPersonIds:response];
+                                   LOG_RESERVATION(0,@"Read the following IDs: %@", collectedIds);
                                    [self readPeople:[self collectPersonIds:response]];
                                }
                                onFailure:^(NSError * error) {
-                                   [NSException raise:@"Failed to read the reservation list!" format:@"Error is %@", error];
+                                   LOG_RESERVATION(5,@"Failed to read the reservation list with error %@", error);
+                                   [self logout];
                                }];
 }
 
 - (void)readPeople:(NSArray *)people
 {
-    [self readChunkedPeople:[people fs_chunkifyWithMaxSize:self.personmaxids]];
+    if ([people count]==0) {
+        LOG_RESERVATION(1,@"There are no reserved ordinances to read");
+        [self logout];
+    } else {
+        [self readChunkedPeople:[people fs_chunkifyWithMaxSize:self.personmaxids]];
+    }
 }
 
 - (void)readChunkedPeople:(NSArray *)people
@@ -97,26 +106,25 @@
     NSArray * remaining = [people subarrayWithRange:NSMakeRange(0, [people count]-1)];
     [self.service reservationReadPersons:current
                                onSuccess:^(id response) {
-                                   NSString * str = [NSString stringWithFormat:@"[[ WIN ]] Read people: %@\n", [current componentsJoinedByString:@", "]];
-                                   LOG_STUFF(str);
+                                   LOG_RESERVATION(0,@"Read reservation records for the following people: %@", [current componentsJoinedByString:@", "]);
                                    if ([remaining count] == 0)
                                        [self logout];
                                    else
                                        [self readChunkedPeople:remaining];
                                }
                                onFailure:^(NSError * error) {
-                                   [NSException raise:@"Cannot read people!" format:@"Error is %@", error];
+                                   LOG_RESERVATION(5,@"Cannot read (%@) with error %@", [current componentsJoinedByString:@","], error);
+                                   [self logout];
                                }];
 }
 
 - (void)logout
 {
     [self.service identityDestroySessionOnSuccess:^(id result) {
-        LOG_STUFF(@"[[ WIN ]] Destroyed session\n");
-        LOG_STUFF(@"---- RESERVATION TESTS SUCCESSFUL ----\n");
+        LOG_RESERVATION(0,@"Destroyed session");
     }
                                         onFailure:^(NSError * error) {
-                                            [NSException raise:@"Failed to log out" format:@"Error is %@", error];
+                                            LOG_RESERVATION(5,@"Failed to destroy session with error %@", error);
                                         }];
 }
 
@@ -161,7 +169,7 @@
 
 - (void)test
 {
-    LOG_STUFF(@"\n---- TESTING RESERVATION ----\n");
+    LOG_RESERVATION(0,@"Testing the Reservation Module");
     [self login];
 }
 
