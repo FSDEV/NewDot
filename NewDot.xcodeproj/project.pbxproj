@@ -93,8 +93,6 @@
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
 		DAAF5E46142D0C1A00878D16 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DAAF5E52142D0C1A00878D16 /* NewDotTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NewDotTests-Info.plist"; sourceTree = "<group>"; };
-		DAAF5E54142D0C1A00878D16 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPClient.h; path = vendor/AFNetworking/AFNetworking/AFHTTPClient.h; sourceTree = "<group>"; };
 		DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFHTTPClient.m; path = vendor/AFNetworking/AFNetworking/AFHTTPClient.m; sourceTree = "<group>"; };
 		DAAF5E64142D0C4F00878D16 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFHTTPRequestOperation.h; path = vendor/AFNetworking/AFNetworking/AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -187,7 +185,6 @@
 			isa = PBXGroup;
 			children = (
 				DAAF5E3A142D0C1A00878D16 /* NewDot */,
-				DAAF5E50142D0C1A00878D16 /* NewDotTests */,
 				DAAF5E7E142D0C5300878D16 /* AFNetworking */,
 				DAAF5E92142D24BD00878D16 /* JSONKit */,
 				DA110804143F824B00DFCC10 /* NSLogger */,
@@ -242,23 +239,6 @@
 			isa = PBXGroup;
 			children = (
 				DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		DAAF5E50142D0C1A00878D16 /* NewDotTests */ = {
-			isa = PBXGroup;
-			children = (
-				DAAF5E51142D0C1A00878D16 /* Supporting Files */,
-			);
-			path = NewDotTests;
-			sourceTree = "<group>";
-		};
-		DAAF5E51142D0C1A00878D16 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				DAAF5E52142D0C1A00878D16 /* NewDotTests-Info.plist */,
-				DAAF5E53142D0C1A00878D16 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -521,14 +501,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DAAF5E53142D0C1A00878D16 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DAAF5E54142D0C1A00878D16 /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
