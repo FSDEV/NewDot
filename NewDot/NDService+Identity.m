@@ -10,6 +10,8 @@
 
 #import "AFHTTPClient.h"
 
+#import "NSString+LastWord.h"
+
 @implementation NDService (Identity)
 
 - (void)identityCreateSessionForUser:(NSString *)username
@@ -29,7 +31,7 @@
                      if (success)
                          success(response);
                  } failure:^(NSError * error) {
-                     enum NDIdentitySessionCreateResult response = [[[[[error userInfo] objectForKey:NSLocalizedDescriptionKey] componentsSeparatedByString:@" "] lastObject] integerValue];
+                     enum NDIdentitySessionCreateResult response = [[[[error userInfo] objectForKey:NSLocalizedDescriptionKey] fs_lastWord] integerValue];
                      if (failure)
                          failure(response, error);
                  }];

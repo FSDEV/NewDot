@@ -41,8 +41,11 @@
                         onSuccess:(NDGenericSuccessBlock)success
                         onFailure:(NDGenericFailureBlock)failure
 {
-    [self.client getPath:@"/discussions/discussions"
-              parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:[tags componentsJoinedByString:@","] forKey:@"systemTag"]]
+    NSMutableArray * paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
+    for (id tag in tags)
+        [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",tag]];
+    [self.client getPath:[NSString stringWithFormat:@"/discussions/discussions?%@", [paramTags componentsJoinedByString:@"&"]]
+              parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:@"" forKey:@"productKey"]]
                  success:success
                  failure:failure];
 }

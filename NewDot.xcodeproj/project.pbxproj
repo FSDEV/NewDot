@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA1107FC143F5E4100DFCC10 /* NSString+LastWord.h in Headers */ = {isa = PBXBuildFile; fileRef = DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */; };
+		DA1107FD143F5E4100DFCC10 /* NSString+LastWord.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */; };
+		DA1107FE143F5E4100DFCC10 /* NSString+LastWord.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */; };
 		DA5079ED142D2E2100E6AF2E /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
 		DA5079EF142D2E2400E6AF2E /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E65142D0C4F00878D16 /* AFHTTPRequestOperation.m */; };
 		DA5079F0142D2E2600E6AF2E /* AFImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E67142D0C4F00878D16 /* AFImageCache.m */; };
@@ -73,6 +76,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LastWord.h"; sourceTree = "<group>"; };
+		DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastWord.m"; sourceTree = "<group>"; };
 		DA71B7D1143E3DBC00E9EE94 /* NDService+Discussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Discussions.h"; sourceTree = "<group>"; };
 		DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Discussions.m"; sourceTree = "<group>"; };
 		DA71B7D7143E42B700E9EE94 /* TestDiscussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDiscussions.h; sourceTree = "<group>"; };
@@ -329,6 +334,8 @@
 				DAB030A81432218900E2A160 /* NSDictionary+Merge.m */,
 				DAB030BF1432314900E2A160 /* NSArray+Chunky.h */,
 				DAB030C01432314900E2A160 /* NSArray+Chunky.m */,
+				DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */,
+				DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -355,6 +362,7 @@
 				DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */,
 				DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */,
 				DA71B7D3143E3DBC00E9EE94 /* NDService+Discussions.h in Headers */,
+				DA1107FC143F5E4100DFCC10 /* NSString+LastWord.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +464,7 @@
 				DAB030AA1432218900E2A160 /* NSDictionary+Merge.m in Sources */,
 				DAB030C21432314900E2A160 /* NSArray+Chunky.m in Sources */,
 				DA71B7D4143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */,
+				DA1107FD143F5E4100DFCC10 /* NSString+LastWord.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,6 +496,7 @@
 				DAB030C31432314900E2A160 /* NSArray+Chunky.m in Sources */,
 				DA71B7D5143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */,
 				DA71B7D9143E42B700E9EE94 /* TestDiscussions.m in Sources */,
+				DA1107FE143F5E4100DFCC10 /* NSString+LastWord.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

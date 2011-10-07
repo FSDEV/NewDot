@@ -12,6 +12,7 @@
 
 typedef void(^NDGenericSuccessBlock)(id response);
 typedef void(^NDGenericFailureBlock)(NSError * error);
+typedef void(^NDParsedFailureBlock)(NSInteger code, NSError * error);
 
 enum NDRequestMethod {
     GET,

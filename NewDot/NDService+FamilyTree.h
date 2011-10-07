@@ -70,4 +70,8 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
                     onSuccess:(NDGenericSuccessBlock)success
                     onFailure:(NDGenericFailureBlock)failure;
 
+- (void)familyTreeDiscussionsForPerson:(NSString *)personId
+                             onSuccess:(NDGenericSuccessBlock)success
+                             onFailure:(NDParsedFailureBlock)failure;
+
 @end

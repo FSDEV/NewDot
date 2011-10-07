@@ -10,6 +10,7 @@
 
 #import "AFHTTPClient.h"
 #import "NSDictionary+Merge.h"
+#import "NSString+LastWord.h"
 
 const struct NDFamilyTreeReadPersonsRequestParameters NDFamilyTreeReadPersonsRequestParameters = {
     .names              = @"names",
@@ -77,6 +78,20 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
               parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]
                  success:success
                  failure:failure];
+}
+
+- (void)familyTreeDiscussionsForPerson:(NSString *)personId
+                             onSuccess:(NDGenericSuccessBlock)success
+                             onFailure:(NDParsedFailureBlock)failure
+{
+    [self.client getPath:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId]
+              parameters:[self copyOfDefaultURLParametersWithSessionId]
+                 success:success
+                 failure:^(NSError * error) {
+                     NSInteger i = [[[[error userInfo] objectForKey:NSLocalizedDescriptionKey] fs_lastWord] integerValue];
+                     if (failure)
+                         failure(i, error);
+                 }];
 }
 
 @end

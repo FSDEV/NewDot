@@ -12,13 +12,20 @@
 
 #import "NDService.h"
 #import "NDService+Identity.h"
+#import "NDService+FamilyTree.h"
 #import "NDService+Discussions.h"
 
 @interface TestDiscussions ()
 
+@property (readwrite, assign) NSUInteger tagCount;
+@property (readwrite, assign) NSUInteger tagAccumulator;
+@property (readwrite, retain) NSMutableArray * discussionIds;
+
 - (void)login;
 - (void)discussionsList;
 - (void)discussionsWithSystemTags:(NSArray *)systemTags;
+- (void)accumulateDiscussion;
+- (void)accumulateDiscussionWithIds:(NSArray *)dIds;
 - (void)logout;
 
 @end
@@ -26,6 +33,10 @@
 @implementation TestDiscussions
 
 @synthesize service;
+
+@synthesize tagCount;
+@synthesize tagAccumulator;
+@synthesize discussionIds;
 
 - (void)login
 {
@@ -45,7 +56,14 @@
 {
     [self.service discussionsSystemTagsOnSuccess:^(id response) {
         LOG_STUFF(@"[[ WIN ]] Got stuff from discussions API\n");
-        [self discussionsWithSystemTags:[response valueForKey:@"tags"]];
+        NSArray * rawTags = [response valueForKey:@"tags"];
+        NSMutableArray * fixedTags = [NSMutableArray arrayWithCapacity:[rawTags count]];
+        
+        for (NSString * tag in rawTags) {
+            [fixedTags addObject:[tag substringFromIndex:[tag length]-8]];
+        }
+        
+        [self discussionsWithSystemTags:fixedTags];
     }
                                        onFailure:^(NSError * error) {
                                            [NSException raise:@"Failed to get crap from the API" format:@"Failed with error %@", error];
@@ -54,14 +72,39 @@
 
 - (void)discussionsWithSystemTags:(NSArray *)systemTags
 {
-    [self.service discussionsWithSystemTags:systemTags
-                                  onSuccess:^(id response) {
-                                      LOG_STUFF(@"[[ WIN ]] Got stuff from the discussions API\n");
-                                      [self logout];
-                                  }
-                                  onFailure:^(NSError * error) {
-                                      [NSException raise:@"Failed to get crap from the API" format:@"Failed with error %@", error];
-                                  }];
+    self.tagCount = [systemTags count]-1;
+    self.tagAccumulator = 0;
+    self.discussionIds = [NSMutableArray array];
+    for (id tag in systemTags)
+        [self.service familyTreeDiscussionsForPerson:tag
+                                           onSuccess:^(id response) {
+                                               NSString * string = [NSString stringWithFormat:@"[[ WIN ]] Got discussions list for %@\n", tag];
+                                               LOG_STUFF(string);
+                                               [self accumulateDiscussionWithIds:[response valueForKeyPath:@"persons.discussions.uri"]];
+                                           }
+                                           onFailure:^(NSInteger code, NSError * error) {
+                                               if (code != 403)
+                                                   [NSException raise:@"Failed to get crap from the API" format:@"Failed with error %@", error];
+                                               else {
+                                                   LOG_STUFF(@"[[ WIN ]] Just got a 403 on some dumb living record.\n");
+                                                   [self accumulateDiscussion];
+                                               }
+                                           }];
+}
+
+- (void)accumulateDiscussion
+{
+    if (++self.tagAccumulator==self.tagCount)
+        [self logout];
+}
+
+- (void)accumulateDiscussionWithIds:(NSArray *)dIds
+{
+    for (id discussionId in dIds) {
+        if (discussionId != [NSNull null])
+            [self.discussionIds addObject:discussionId];
+    }
+    [self accumulateDiscussion];
 }
 
 - (void)logout
@@ -99,6 +142,7 @@
 - (void)dealloc
 {
     self.service = nil;
+    self.discussionIds = nil;
     
     [super dealloc];
 }
