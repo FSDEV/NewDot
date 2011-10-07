@@ -1,6 +1,6 @@
 # NewDot
 
-The official API for interfacing with FamilySearch using Apple technologies.
+The New API for interfacing with FamilySearch using Apple technologies.
 
 ## Installation
 

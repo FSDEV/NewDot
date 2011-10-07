@@ -10,6 +10,27 @@
 
 #import "AFHTTPClient.h"
 
+const struct NDReservationType NDReservationType = {
+    .individual              = @"individualReservation",
+    .sealingToParents        = @"sealingToParentsReservation",
+    .sealingToSpouse         = @"sealingToSpouseReservation"
+};
+
+const struct NDOrdinanceStatus NDOrdinanceStatus = {
+    .notNeeded              = @"Not Needed",
+    .reserved               = @"Reserved",
+    .ready                  = @"Ready",
+    .notReady               = @"Not Ready",
+    .completed              = @"Completed",
+    .notAvailable           = @"Not Available",
+    .needMoreInformation    = @"Need More Information",
+    .inProgress             = @"In Progress",
+    .onHold                 = @"On Hold",
+    .cancelled              = @"Cancelled",
+    .deleted                = @"Deleted",
+    .invalid                = @"Invalid"
+};
+
 @implementation NDService (Reservation)
 
 - (void)reservationPropertiesOnSuccess:(NDGenericSuccessBlock)success
