@@ -31,9 +31,9 @@
 
 - (void)testLoginFailure
 {
-    [self.failTest identityCreateSessionForUser:[self.testCredentials valueForKeyPath:@"fail.username"]
-                                   withPassword:[self.testCredentials valueForKeyPath:@"fail.password"]
-                                         apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
+    [self.failTest identityCreateSessionForUser:@"Fail"
+                                   withPassword:@"Fail"
+                                         apiKey:self.apiKey
                                       onSuccess:^(id response) {
                                           LOG_IDENTITY(5,@"Created session with bogus login credentials. This really shouldn't happen. Results are %@", response);
                                       }
@@ -44,9 +44,9 @@
 
 - (void)testLogin
 {
-    [self.winTest identityCreateSessionForUser:[self.testCredentials valueForKeyPath:@"success.username"]
-                                  withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
-                                        apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
+    [self.winTest identityCreateSessionForUser:self.username
+                                  withPassword:self.password
+                                        apiKey:self.apiKey
                                      onSuccess:^(id response) {
                                          LOG_IDENTITY(0,@"Session created");
                                          [self testSessionRead];
@@ -104,8 +104,14 @@
 
 #pragma mark Harness
 
-- (void)test
+- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
 {
+    [super testWithUsername:u password:p serverLocation:s apiKey:a];
+    
+    NSURL * baseURL = [NSURL URLWithString:s];
+    self.winTest = [[[NDService alloc] initWithBaseURL:baseURL userAgent:nil] autorelease];
+    self.failTest = [[[NDService alloc] initWithBaseURL:baseURL userAgent:nil] autorelease];
+    
     LOG_IDENTITY(0,@"Testing the Identity Module");
     [self testLoginFailure];
     [self testLogin];
@@ -117,9 +123,7 @@
 {
     self = [super init];
     if (self) {
-        NSURL * baseURL = [NSURL URLWithString:[self.properties valueForKeyPath:@"reference.server"]];
-        self.winTest = [[NDService alloc] initWithBaseURL:baseURL userAgent:nil];
-        self.failTest = [[NDService alloc] initWithBaseURL:baseURL userAgent:nil];
+
     }
     
     return self;

@@ -30,9 +30,9 @@
 
 - (void)login
 {
-    [self.service identityCreateSessionForUser:[self.testCredentials valueForKeyPath:@"success.username"]
-                                  withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
-                                        apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
+    [self.service identityCreateSessionForUser:self.username
+                                  withPassword:self.password
+                                        apiKey:self.apiKey
                                      onSuccess:^(id response) {
                                          LOG_FAMILYTREE(0,@"Session created");
                                          [self readProperties];
@@ -93,9 +93,12 @@
 
 #pragma mark Harness
 
-- (void)test
+- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
 {
-    LOG_FAMILYTREE(0,@"Testing the FamilyTree Module");
+    [super testWithUsername:u password:p serverLocation:s apiKey:a];
+    
+    self.service = [[[NDService alloc] initWithBaseURL:[NSURL URLWithString:self.serverLocation] userAgent:nil] autorelease];
+    LOG_FAMILYTREE(0, @"Testing the FamilyTree Module");
     [self login];
 }
 
@@ -105,8 +108,7 @@
 {
     self = [super init];
     if (self) {
-        self.service = [[NDService alloc] initWithBaseURL:[NSURL URLWithString:[self.properties valueForKeyPath:@"reference.server"]]
-                                                userAgent:nil];
+
     }
     
     return self;

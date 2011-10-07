@@ -22,12 +22,27 @@
 @synthesize discussionsTests;
 @synthesize reservationTests;
 
+@synthesize username;
+@synthesize password;
+@synthesize serverLocation;
+@synthesize apiKey;
+
 #pragma mark UIApplicationDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [self.window makeKeyAndVisible];
+    
+    /**
+     PLEASE NOTICE THAT STORING CREDENTIALS IN NSUSERDEFAULTS IS WRONG AND YOU SHOULD NEVER DO THIS IN A PRODUCTION APPLICATION
+     */
+    
+    NSUserDefaults * d = [NSUserDefaults standardUserDefaults];
+    self.username.text = [d stringForKey:@"username"];
+    self.password.text = [d stringForKey:@"password"];
+    self.serverLocation.text = [d stringForKey:@"serverLocation"];
+    self.apiKey.text = [d stringForKey:@"apiKey"];
     
     self.identityTests = [[[TestIdentity alloc] init] autorelease];
     self.familyTreeTests = [[[TestFamilyTree alloc] init] autorelease];
@@ -37,24 +52,49 @@
     return YES;
 }
 
+- (void)saveDefaults
+{
+    NSUserDefaults * d = [NSUserDefaults standardUserDefaults];
+    [d setObject:self.username.text forKey:@"username"];
+    [d setObject:self.password.text forKey:@"password"];
+    [d setObject:self.serverLocation.text forKey:@"serverLocation"];
+    [d setObject:self.apiKey.text forKey:@"apiKey"];
+}
+
 - (IBAction)testIdentity:(id)sender
 {
-    [self.identityTests test];
+    [self saveDefaults];
+    [self.identityTests testWithUsername:self.username.text
+                                password:self.password.text
+                          serverLocation:self.serverLocation.text
+                                  apiKey:self.apiKey.text];
 }
 
 - (IBAction)testFamilyTree:(id)sender
 {
-    [self.familyTreeTests test];
+    [self saveDefaults];
+    [self.familyTreeTests testWithUsername:self.username.text
+                                  password:self.password.text
+                            serverLocation:self.serverLocation.text
+                                    apiKey:self.apiKey.text];
 }
 
 - (IBAction)testDiscussions:(id)sender
 {
-    [self.discussionsTests test];
+    [self saveDefaults];
+    [self.discussionsTests testWithUsername:self.username.text
+                                   password:self.password.text 
+                             serverLocation:self.serverLocation.text
+                                     apiKey:self.apiKey.text];
 }
 
 - (IBAction)testReservation:(id)sender
 {
-    [self.reservationTests test];
+    [self saveDefaults];
+    [self.reservationTests testWithUsername:self.username.text
+                                   password:self.password.text
+                             serverLocation:self.serverLocation.text
+                                     apiKey:self.apiKey.text];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -96,6 +136,24 @@
      */
 }
 
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == self.username)
+        [self.password becomeFirstResponder];
+    else if (textField == self.password)
+        [self.serverLocation becomeFirstResponder];
+    else if (textField == self.serverLocation)
+        [self.apiKey becomeFirstResponder];
+    else
+        [textField resignFirstResponder];
+    
+    return YES;
+}
+
+#pragma mark NSObject
+
 - (void)dealloc
 {
     [_window release];
@@ -103,6 +161,11 @@
     self.identityTests = nil;
     self.familyTreeTests = nil;
     self.identityTests = nil;
+
+    self.username = nil;
+    self.password = nil;
+    self.serverLocation = nil;
+    self.apiKey = nil;
     
     [super dealloc];
 }

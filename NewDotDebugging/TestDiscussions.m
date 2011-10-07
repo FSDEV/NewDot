@@ -41,9 +41,9 @@
 
 - (void)login
 {
-    [self.service identityCreateSessionForUser:[self.testCredentials valueForKeyPath:@"success.username"]
-                                  withPassword:[self.testCredentials valueForKeyPath:@"success.password"]
-                                        apiKey:[self.properties valueForKeyPath:@"reference.api-key"]
+    [self.service identityCreateSessionForUser:self.username
+                                  withPassword:self.password
+                                        apiKey:self.apiKey
                                      onSuccess:^(id response) {
                                          LOG_DISCUSSIONS(0,@"Session Created");
                                          [self discussionsList];
@@ -142,9 +142,12 @@
 
 #pragma mark Harness
 
-- (void)test
+- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
 {
-    LOG_DISCUSSIONS(0,@"Testing discussions module");
+    [super testWithUsername:u password:p serverLocation:s apiKey:a];
+    
+    self.service = [[[NDService alloc] initWithBaseURL:[NSURL URLWithString:self.serverLocation] userAgent:nil] autorelease];
+    LOG_DISCUSSIONS(0, @"Testing Discussions Module");
     [self login];
 }
 
@@ -154,8 +157,7 @@
 {
     self = [super init];
     if (self) {
-        self.service = [[NDService alloc] initWithBaseURL:[NSURL URLWithString:[self.properties valueForKeyPath:@"reference.server"]]
-                                                userAgent:nil];
+
     }
     
     return self;

@@ -10,8 +10,19 @@
 
 @implementation Harness
 
-@synthesize properties;
-@synthesize testCredentials;
+@synthesize username;
+@synthesize password;
+@synthesize serverLocation;
+@synthesize apiKey;
+
+
+- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
+{
+    self.username = u;
+    self.password = p;
+    self.serverLocation = s;
+    self.apiKey = a;
+}
 
 - (void)test
 {
@@ -24,17 +35,7 @@
 {
     self = [super init];
     if (self) {
-        NSString * error;
-        self.properties = [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DeveloperKeys"
-                                                                                                                                           ofType:@"PLIST"]]
-                                                           mutabilityOption:NSPropertyListImmutable
-                                                                     format:NULL
-                                                           errorDescription:&error];
-        
-        self.testCredentials = [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"TestCredentials" ofType:@"PLIST"]]
-                                                                mutabilityOption:NSPropertyListImmutable
-                                                                          format:NULL
-                                                                errorDescription:&error];
+    
     }
     
     return self;
@@ -42,8 +43,10 @@
 
 - (void)dealloc
 {
-    self.properties = nil;
-    self.testCredentials = nil;
+    self.username = nil;
+    self.password = nil;
+    self.serverLocation = nil;
+    self.apiKey = nil;
     
     [super dealloc];
 }

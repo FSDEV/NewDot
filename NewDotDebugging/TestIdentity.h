@@ -17,6 +17,4 @@
 @property (readwrite, retain) NDService * winTest;
 @property (readwrite, retain) NDService * failTest;
 
-- (void)test;
-
 @end
