@@ -54,8 +54,6 @@
 		DAAF5EAE142D2CB200878D16 /* MainWindow_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5EAC142D2CB200878D16 /* MainWindow_iPhone.xib */; };
 		DAAF5EB2142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EB1142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m */; };
 		DAAF5EB5142D2CB200878D16 /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5EB3142D2CB200878D16 /* MainWindow_iPad.xib */; };
-		DAAF5EB9142D2CBD00878D16 /* DeveloperKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E8A142D1DCE00878D16 /* DeveloperKeys.plist */; };
-		DAAF5EBA142D2CC100878D16 /* TestCredentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E8C142D205A00878D16 /* TestCredentials.plist */; };
 		DAAF5EBB142D2D5D00878D16 /* NDService.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E80142D109300878D16 /* NDService.m */; };
 		DAAF5EBC142D2D5F00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
 		DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */ = {isa = PBXBuildFile; fileRef = DAB030A71432218900E2A160 /* NSDictionary+Merge.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -115,8 +113,6 @@
 		DAAF5E80142D109300878D16 /* NDService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NDService.m; sourceTree = "<group>"; };
 		DAAF5E83142D136C00878D16 /* NDService+Identity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Identity.h"; sourceTree = "<group>"; };
 		DAAF5E84142D136C00878D16 /* NDService+Identity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Identity.m"; sourceTree = "<group>"; };
-		DAAF5E8A142D1DCE00878D16 /* DeveloperKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DeveloperKeys.plist; sourceTree = SOURCE_ROOT; };
-		DAAF5E8C142D205A00878D16 /* TestCredentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = TestCredentials.plist; path = ../NewDotTests/TestCredentials.plist; sourceTree = "<group>"; };
 		DAAF5E8E142D24B800878D16 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = vendor/JSONKit/JSONKit.h; sourceTree = "<group>"; };
 		DAAF5E8F142D24B800878D16 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = vendor/JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		DAAF5E97142D2CB200878D16 /* NewDotDebugging.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewDotDebugging.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -322,8 +318,6 @@
 		DAAF5E9D142D2CB200878D16 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				DAAF5E8A142D1DCE00878D16 /* DeveloperKeys.plist */,
-				DAAF5E8C142D205A00878D16 /* TestCredentials.plist */,
 				DAAF5E9E142D2CB200878D16 /* NewDotDebugging-Info.plist */,
 				DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */,
 				DAAF5EA2142D2CB200878D16 /* main.m */,
@@ -462,8 +456,6 @@
 				DAAF5EA1142D2CB200878D16 /* InfoPlist.strings in Resources */,
 				DAAF5EAE142D2CB200878D16 /* MainWindow_iPhone.xib in Resources */,
 				DAAF5EB5142D2CB200878D16 /* MainWindow_iPad.xib in Resources */,
-				DAAF5EB9142D2CBD00878D16 /* DeveloperKeys.plist in Resources */,
-				DAAF5EBA142D2CC100878D16 /* TestCredentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

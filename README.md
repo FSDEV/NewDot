@@ -6,7 +6,7 @@ The New API for interfacing with FamilySearch using Apple technologies.
 
 Clone NewDot into your project as a Git submodule, then clone the other sub-submodules that NewDot depends on:
 
-	git submodule add git@github.com:NSError/NewDot.git vendor/NewDot
+	git submodule add git@github.com:FSDEV/NewDot.git vendor/NewDot
 	cd vendor/NewDot
 	git submodule init
 	git submodule update
