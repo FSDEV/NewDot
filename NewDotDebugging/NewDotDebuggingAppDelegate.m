@@ -10,6 +10,7 @@
 
 #import "TestIdentity.h"
 #import "TestFamilyTree.h"
+#import "TestDiscussions.h"
 #import "TestReservation.h"
 
 @implementation NewDotDebuggingAppDelegate
@@ -19,6 +20,7 @@
 
 @synthesize identityTests;
 @synthesize familyTreeTests;
+@synthesize discussionsTests;
 @synthesize reservationTests;
 
 - (void)log:(NSString *)message
@@ -36,6 +38,7 @@
     
     self.identityTests = [[[TestIdentity alloc] init] autorelease];
     self.familyTreeTests = [[[TestFamilyTree alloc] init] autorelease];
+    self.discussionsTests = [[[TestDiscussions alloc] init] autorelease];
     self.reservationTests = [[[TestReservation alloc] init] autorelease];
     
     return YES;
@@ -49,6 +52,11 @@
 - (IBAction)testFamilyTree:(id)sender
 {
     [self.familyTreeTests test];
+}
+
+- (IBAction)testDiscussions:(id)sender
+{
+    [self.discussionsTests test];
 }
 
 - (IBAction)testReservation:(id)sender

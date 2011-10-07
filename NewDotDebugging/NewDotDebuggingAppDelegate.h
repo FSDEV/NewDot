@@ -15,6 +15,7 @@
 
 @class TestIdentity;
 @class TestFamilyTree;
+@class TestDiscussions;
 @class TestReservation;
 
 @interface NewDotDebuggingAppDelegate : NSObject <UIApplicationDelegate>
@@ -25,10 +26,12 @@
 
 @property (readwrite, retain) TestIdentity * identityTests;
 @property (readwrite, retain) TestFamilyTree * familyTreeTests;
+@property (readwrite, retain) TestDiscussions * discussionsTests;
 @property (readwrite, retain) TestReservation * reservationTests;
 
 - (IBAction)testIdentity:(id)sender;
 - (IBAction)testFamilyTree:(id)sender;
+- (IBAction)testDiscussions:(id)sender;
 - (IBAction)testReservation:(id)sender;
 
 - (void)log:(NSString *)message;

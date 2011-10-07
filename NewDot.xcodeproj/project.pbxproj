@@ -15,6 +15,10 @@
 		DA5079F3142D2E2E00E6AF2E /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E6D142D0C4F00878D16 /* AFNetworkActivityIndicatorManager.m */; };
 		DA5079F4142D2E3000E6AF2E /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E6F142D0C4F00878D16 /* UIImageView+AFNetworking.m */; };
 		DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
+		DA71B7D3143E3DBC00E9EE94 /* NDService+Discussions.h in Headers */ = {isa = PBXBuildFile; fileRef = DA71B7D1143E3DBC00E9EE94 /* NDService+Discussions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DA71B7D4143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */; };
+		DA71B7D5143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */; };
+		DA71B7D9143E42B700E9EE94 /* TestDiscussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D8143E42B700E9EE94 /* TestDiscussions.m */; };
 		DAAF5E39142D0C1A00878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
 		DAAF5E70142D0C4F00878D16 /* AFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAAF5E71142D0C4F00878D16 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
@@ -69,6 +73,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA71B7D1143E3DBC00E9EE94 /* NDService+Discussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Discussions.h"; sourceTree = "<group>"; };
+		DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Discussions.m"; sourceTree = "<group>"; };
+		DA71B7D7143E42B700E9EE94 /* TestDiscussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDiscussions.h; sourceTree = "<group>"; };
+		DA71B7D8143E42B700E9EE94 /* TestDiscussions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDiscussions.m; sourceTree = "<group>"; };
 		DAAF5E35142D0C1A00878D16 /* libNewDot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNewDot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
@@ -194,6 +202,8 @@
 				DAAF5E84142D136C00878D16 /* NDService+Identity.m */,
 				DAE3789F1431247700F4003C /* NDService+FamilyTree.h */,
 				DAE378A01431247700F4003C /* NDService+FamilyTree.m */,
+				DA71B7D1143E3DBC00E9EE94 /* NDService+Discussions.h */,
+				DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */,
 				DAE3789414311AF000F4003C /* NDService+Reservation.h */,
 				DAE3789514311AF000F4003C /* NDService+Reservation.m */,
 				DAB030BD143226BF00E2A160 /* Categories */,
@@ -268,6 +278,8 @@
 				DAE3788E1430D20A00F4003C /* TestIdentity.m */,
 				DAE378A41431249600F4003C /* TestFamilyTree.h */,
 				DAE378A51431249700F4003C /* TestFamilyTree.m */,
+				DA71B7D7143E42B700E9EE94 /* TestDiscussions.h */,
+				DA71B7D8143E42B700E9EE94 /* TestDiscussions.m */,
 				DAE378991431237400F4003C /* TestReservation.h */,
 				DAE3789A1431237400F4003C /* TestReservation.m */,
 				DAAF5EA8142D2CB200878D16 /* iPhone */,
@@ -342,6 +354,7 @@
 				DAE378A11431247700F4003C /* NDService+FamilyTree.h in Headers */,
 				DAB030A91432218900E2A160 /* NSDictionary+Merge.h in Headers */,
 				DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */,
+				DA71B7D3143E3DBC00E9EE94 /* NDService+Discussions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +455,7 @@
 				DAE378A21431247700F4003C /* NDService+FamilyTree.m in Sources */,
 				DAB030AA1432218900E2A160 /* NSDictionary+Merge.m in Sources */,
 				DAB030C21432314900E2A160 /* NSArray+Chunky.m in Sources */,
+				DA71B7D4143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +485,8 @@
 				DAE378A81431249700F4003C /* TestFamilyTree.m in Sources */,
 				DAB030BE1432291C00E2A160 /* NSDictionary+Merge.m in Sources */,
 				DAB030C31432314900E2A160 /* NSArray+Chunky.m in Sources */,
+				DA71B7D5143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */,
+				DA71B7D9143E42B700E9EE94 /* TestDiscussions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

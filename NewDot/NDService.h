@@ -13,6 +13,11 @@
 typedef void(^NDGenericSuccessBlock)(id response);
 typedef void(^NDGenericFailureBlock)(NSError * error);
 
+enum NDRequestMethod {
+    GET,
+    POST
+} NDRequestMethod;
+
 /**
  * Service-layer interface for dealing with New(DOT)FamilySearch APIs and systems.
  *
