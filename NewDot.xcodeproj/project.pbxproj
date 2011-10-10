@@ -185,10 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				DAAF5E3A142D0C1A00878D16 /* NewDot */,
-				DAAF5E7E142D0C5300878D16 /* AFNetworking */,
-				DAAF5E92142D24BD00878D16 /* JSONKit */,
-				DA110804143F824B00DFCC10 /* NSLogger */,
 				DAAF5E9C142D2CB200878D16 /* NewDotDebugging */,
+				DADF6C37143F9F7E00ED2C23 /* Vendor */,
 				DAAF5E37142D0C1A00878D16 /* Frameworks */,
 				DAAF5E36142D0C1A00878D16 /* Products */,
 			);
@@ -337,6 +335,16 @@
 				DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		DADF6C37143F9F7E00ED2C23 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				DAAF5E7E142D0C5300878D16 /* AFNetworking */,
+				DAAF5E92142D24BD00878D16 /* JSONKit */,
+				DA110804143F824B00DFCC10 /* NSLogger */,
+			);
+			name = Vendor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -576,6 +584,7 @@
 				DSTROOT = /tmp/NewDot.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NewDot/NewDot-Prefix.pch";
+				INSTALL_PATH = NewDot;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
@@ -589,6 +598,7 @@
 				DSTROOT = /tmp/NewDot.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NewDot/NewDot-Prefix.pch";
+				INSTALL_PATH = NewDot;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
