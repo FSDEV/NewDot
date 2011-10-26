@@ -55,16 +55,18 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     [self.client getPath:[NSString stringWithFormat:@"/reservation/v1/list/%@/", userId]
               parameters:[self copyOfDefaultURLParametersWithSessionId]
                  success:^(id response) {
-                     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-                     NSMutableArray * ordinances = [NSMutableArray array];
-                     NSMutableDictionary * dict;
-                     for (id reservation in [response valueForKeyPath:@"list.reservation"]) {
-                         dict = [NSMutableDictionary dictionaryWithDictionary:[reservation objectForKey:[[reservation allKeys] lastObject]]];
-                         [dict setObject:[[reservation allKeys] lastObject] forKey:@"type"];
-                         [ordinances addObject:[NSDictionary dictionaryWithDictionary:dict]];
+                     id fixedUpOrdinances = nil;
+                     @autoreleasepool {
+                         NSMutableArray * ordinances = [NSMutableArray array];
+                         NSMutableDictionary * dict;
+                         for (id reservation in [response valueForKeyPath:@"list.reservation"]) {
+                             dict = [NSMutableDictionary dictionaryWithDictionary:[reservation objectForKey:[[reservation allKeys] lastObject]]];
+                             [dict setObject:[[reservation allKeys] lastObject] forKey:@"type"];
+                             [ordinances addObject:[NSDictionary dictionaryWithDictionary:dict]];
+                         }
+                         fixedUpOrdinances = [[NSArray alloc] initWithArray:ordinances];
+
                      }
-                     id fixedUpOrdinances = [[NSArray alloc] initWithArray:ordinances];
-                     [pool release];
                      if (success)
                          success([fixedUpOrdinances autorelease]);
                  }
