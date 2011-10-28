@@ -43,6 +43,12 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
     .disputing      = @"disputing"
 };
 
+@interface NDService (FamilyTree_private)
+
+- (NSDictionary*)readPersonsValidKeys;
+
+@end
+
 @implementation NDService (FamilyTree)
 
 - (void)familyTreePropertiesOnSuccess:(NDGenericSuccessBlock)success
@@ -74,6 +80,14 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                     onSuccess:(NDGenericSuccessBlock)success
                     onFailure:(NDGenericFailureBlock)failure
 {
+    NSDictionary* validKeys = [self readPersonsValidKeys];
+    NSArray* keys = [validKeys allKeys];
+    [parameters enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL* stop) {
+        if (![keys containsObject:key])
+            return;
+        else if (![[validKeys objectForKey:key] containsObject:obj])
+            [NSException raise:NSInternalInconsistencyException format:@"Value %@ is not valid for parameter %@", obj, key];
+    }];
     [self.client getPath:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person"
               parameters:[[self copyOfDefaultURLParametersWithSessionId] fs_dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]
                  success:success
@@ -92,6 +106,67 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                      if (failure)
                          failure(i, error);
                  }];
+}
+
+- (NSArray*)familyTreeLocales
+{
+    static NSArray* locales;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        locales = [[NSArray alloc] initWithObjects:@"ar", @"be", @"bg", @"ca", @"cs", @"da", @"de", @"el", @"en", @"es", @"et", @"fi", @"fr", @"ga", @"hr", @"hu", @"in", @"is", @"it", @"iw", @"ja", @"ko", @"lt", @"lv", @"mk", @"ms", @"mt", @"nl", @"no", @"pl", @"pt", @"ro", @"ru", @"sk", @"sl", @"sq", @"sr", @"sv", @"th", @"tr", @"uk", @"vi", @"zh", nil];
+    });
+    return locales;
+}
+
+#pragma mark FamilyTree+Private
+
+- (NSArray*)ft_noneSummaryAll
+{
+    static NSArray* noneSummaryAllKeys;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        noneSummaryAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.summary, NDFamilyTreeReadPersonsRequestKeys.all, nil];
+    });
+    return noneSummaryAllKeys;
+}
+
+- (NSArray*)ft_noneAll
+{
+    static NSArray* noneAllKeys;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        noneAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.all, nil];
+    });
+    return noneAllKeys;
+}
+
+- (NSDictionary*)readPersonsValidKeys
+{
+    static NSDictionary* validKeys;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        validKeys = [[NSDictionary alloc] initWithObjectsAndKeys:
+                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.names,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.genders,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.summary, NDFamilyTreeReadPersonsRequestKeys.standard, NDFamilyTreeReadPersonsRequestKeys.all, nil], NDFamilyTreeReadPersonsRequestParameters.events,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.characteristics,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.exists,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.values,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.ordinances,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.assertions,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.families,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.children,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.parents,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.all, NDFamilyTreeReadPersonsRequestKeys.mine, nil], NDFamilyTreeReadPersonsRequestParameters.personas,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.changes,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.properties,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.identifiers,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestKeys.all, NDFamilyTreeReadPersonsRequestKeys.affirming, NDFamilyTreeReadPersonsRequestKeys.disputing, nil], NDFamilyTreeReadPersonsRequestParameters.dispositions,
+                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.contributors,
+                     [self familyTreeLocales], NDFamilyTreeReadPersonsRequestParameters.locale,
+                     nil];
+    });
+    return validKeys;
 }
 
 @end

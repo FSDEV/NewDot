@@ -24,12 +24,12 @@ extern const struct NDFamilyTreeReadPersonsRequestParameters {
     NSString * children;            // [*none, all]
     NSString * parents;             // [*none, summary, all]
     NSString * personas;            // [all, *none, mine]
-    NSString * changes;             // [all, *none] DO NOT USE
+    NSString * changes;             // [all, *none] DO NOT USE TO ROLL BACK CHANGES!
     NSString * properties;          // [*none, summary, all]
     NSString * identifiers;         // [*none, all]
     NSString * dispositions;        // [all, *affirming, disputing]
     NSString * contributors;        // [all, *none]
-    NSString * locale;              // you're on your own; if you want to help, pull requests are more than welcome
+    NSString * locale;              // see familyTreeLocales
 } NDFamilyTreeReadPersonsRequestParameters;
 
 /**
@@ -60,7 +60,7 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
                              onFailure:(NDGenericFailureBlock)failure;
 
 /**
- * Read up to `person.max.ids` records from the API.
+ * Read up to `person.max.ids` records from the API. Throws an `NSInternalInconsistencyException` in the event that a parameter is using a key that the API does not support.
  *
  * @param people If `nil`, then it returns the current user's person record.
  * @param parameters See `NDFamilyTreeReadPersonsRequestParameters` and `NDFamilyTreeReadPersonsRequestKeys`; may be nil.
@@ -73,5 +73,10 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
 - (void)familyTreeDiscussionsForPerson:(NSString *)personId
                              onSuccess:(NDGenericSuccessBlock)success
                              onFailure:(NDParsedFailureBlock)failure;
+
+/**
+ * Locales! Note that this may migrate to a less specialized category in the future.
+ */
+- (NSArray*)familyTreeLocales;
 
 @end
