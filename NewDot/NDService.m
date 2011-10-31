@@ -13,23 +13,10 @@
 
 @implementation NDService
 
-- (NSURL*)serverUrl
-{
-    return self.client.baseURL;
-}
-
-- (NSString*)userAgent
-{
-    return [self.client defaultValueForHeader:@"User-Agent"];
-}
-
-- (void)setUserAgent:(NSString*)userAgent
-{
-    [self.client setDefaultHeader:@"User-Agent" value:(userAgent)?:@"NewDot/0.1"];
-}
-
+@synthesize serverUrl;
 @synthesize client;
 @synthesize sessionId;
+@synthesize userAgent;
 @synthesize defaultURLParameters;
 
 - (id)initWithBaseURL:(NSURL*)newServerUrl
@@ -37,6 +24,7 @@
 {
     self = [self init];
     if (self) {
+        serverUrl = [newServerUrl retain];
         self.client = [[[AFHTTPClient alloc] initWithBaseURL:newServerUrl] autorelease];
         [self.client registerHTTPOperationClass:[AFJSONRequestOperation class]];
         self.userAgent = newUserAgent;
