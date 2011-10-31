@@ -19,7 +19,7 @@
     [self.client getPath:@"/discussions/properties"
               parameters:self.defaultURLParameters
                  success:^(id response) {
-                     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+                     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
                      for (id kvpair in [response valueForKey:@"properties"])
                          [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
                      if (success)
@@ -37,11 +37,11 @@
                  failure:failure];
 }
 
-- (void)discussionsWithSystemTags:(NSArray *)tags
+- (void)discussionsWithSystemTags:(NSArray*)tags
                         onSuccess:(NDGenericSuccessBlock)success
                         onFailure:(NDGenericFailureBlock)failure
 {
-    NSMutableArray * paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
+    NSMutableArray* paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
     for (id tag in tags)
         [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",tag]];
     [self.client getPath:[NSString stringWithFormat:@"/discussions/discussions?%@", [paramTags componentsJoinedByString:@"&"]]
@@ -50,7 +50,7 @@
                  failure:failure];
 }
 
-- (void)discussionsWithIds:(NSArray *)ids
+- (void)discussionsWithIds:(NSArray*)ids
                     method:(enum NDRequestMethod)method
                  onSuccess:(NDGenericSuccessBlock)success
                  onFailure:(NDGenericFailureBlock)failure
@@ -70,7 +70,7 @@
                          failure:failure];
             break;
         default:
-            failure([NSError errorWithDomain:@"net.fsdev.newdot.unrecognised-method" code:-1 userInfo:nil]);
+            failure(nil, [NSError errorWithDomain:@"net.fsdev.newdot.unrecognised-method" code:-1 userInfo:nil]);
             break;
     }
 }

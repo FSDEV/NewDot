@@ -37,7 +37,7 @@
                                       onSuccess:^(id response) {
                                           LOG_IDENTITY(5,@"Created session with bogus login credentials. This really shouldn't happen. Results are %@", response);
                                       }
-                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
+                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
                                           LOG_IDENTITY(0,@"Session creation failed when it was supposed to with result:%d and error %@", result, error);
                                       }];
 }
@@ -51,7 +51,7 @@
                                          LOG_IDENTITY(0,@"Session created");
                                          [self testSessionRead];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
+                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
                                          LOG_IDENTITY(5,@"Session creation failed when it should have with error code %d and error %@", result, error);
                                      }];
 }
@@ -62,7 +62,7 @@
         LOG_IDENTITY(0,@"Session read");
         [self testUserRead];
     }
-                                 onFailure:^(NSError * error) {
+                                 onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                      LOG_IDENTITY(5,@"Failed to read session with error %@", error);
                                      [self destroySession];
                                  }];
@@ -74,7 +74,7 @@
         LOG_IDENTITY(0,@"User profile read");
         [self testPermissionsRead];
     }
-                                     onFailure:^(NSError * error) {
+                                     onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                          LOG_IDENTITY(5,@"Failed to read user profile with error %@", error);
                                          [self destroySession];
                                      }];
@@ -86,7 +86,7 @@
         LOG_IDENTITY(0,@"Read the user's permissions");
         [self destroySession];
     }
-                                         onFailure:^(NSError * error) {
+                                         onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                              LOG_IDENTITY(5,@"Failed to read the user's permissions (maybe he or she doesn't have permission?) with error %@", error);
                                              [self destroySession];
                                          }];
@@ -97,18 +97,18 @@
     [self.winTest identityDestroySessionOnSuccess:^(id response) {
         LOG_IDENTITY(0,@"Destroyed session");
     }
-                                        onFailure:^(NSError * error) {
+                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                             LOG_IDENTITY(5,@"Failed to destroy session with error %@", error);
                                         }];
 }
 
 #pragma mark Harness
 
-- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
+- (void)testWithUsername:(NSString*)u password:(NSString*)p serverLocation:(NSString*)s apiKey:(NSString*)a
 {
     [super testWithUsername:u password:p serverLocation:s apiKey:a];
     
-    NSURL * baseURL = [NSURL URLWithString:s];
+    NSURL* baseURL = [NSURL URLWithString:s];
     self.winTest = [[[NDService alloc] initWithBaseURL:baseURL userAgent:nil] autorelease];
     self.failTest = [[[NDService alloc] initWithBaseURL:baseURL userAgent:nil] autorelease];
     

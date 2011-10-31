@@ -12,6 +12,6 @@
 
 @interface TestFamilyTree : Harness
 
-@property (readwrite, retain) NDService * service;
+@property (readwrite, retain) NDService* service;
 
 @end

@@ -16,7 +16,7 @@
 @synthesize apiKey;
 
 
-- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
+- (void)testWithUsername:(NSString*)u password:(NSString*)p serverLocation:(NSString*)s apiKey:(NSString*)a
 {
     self.username = u;
     self.password = p;

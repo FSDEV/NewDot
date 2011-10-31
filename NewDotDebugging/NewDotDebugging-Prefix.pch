@@ -37,3 +37,5 @@
         (__builtin_expect(!(e), 0) ? (CFShow(CFSTR("assert going to fail, connect NSLogger NOW\n")), LoggerFlush(NULL,YES), __assert(#e, __FILE__, __LINE__)) : (void)0)
     #endif
 #endif
+
+#import "NSData+UTF8String.h"

@@ -20,6 +20,6 @@
  *
  * @param aDict The `NSDictionary` to be merged into a mutable copy of `self` to create a new `NSDictionary`.
  */
-- (NSDictionary *)fs_dictionaryByMergingDictionary:(NSDictionary *)aDict;
+- (NSDictionary*)fs_dictionaryByMergingDictionary:(NSDictionary*)aDict;
 
 @end

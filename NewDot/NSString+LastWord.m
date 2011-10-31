@@ -10,7 +10,7 @@
 
 @implementation NSString (LastWord)
 
-- (NSString *)fs_lastWord
+- (NSString*)fs_lastWord
 {
     return [[self componentsSeparatedByString:@" "] lastObject];
 }

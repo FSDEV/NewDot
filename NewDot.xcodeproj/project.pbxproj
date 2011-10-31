@@ -25,6 +25,19 @@
 		DA71B7D4143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */; };
 		DA71B7D5143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */; };
 		DA71B7D9143E42B700E9EE94 /* TestDiscussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D8143E42B700E9EE94 /* TestDiscussions.m */; };
+		DAAAC291145B4218006546B4 /* AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAAC28A145B4218006546B4 /* AFNetworking.h */; };
+		DAAAC292145B4218006546B4 /* AFPropertyListRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAAC28B145B4218006546B4 /* AFPropertyListRequestOperation.h */; };
+		DAAAC293145B4218006546B4 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC28C145B4218006546B4 /* AFPropertyListRequestOperation.m */; };
+		DAAAC294145B4218006546B4 /* AFPropertyListRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC28C145B4218006546B4 /* AFPropertyListRequestOperation.m */; };
+		DAAAC295145B4218006546B4 /* AFURLConnectionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAAC28D145B4218006546B4 /* AFURLConnectionOperation.h */; };
+		DAAAC296145B4218006546B4 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC28E145B4218006546B4 /* AFURLConnectionOperation.m */; };
+		DAAAC297145B4218006546B4 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC28E145B4218006546B4 /* AFURLConnectionOperation.m */; };
+		DAAAC298145B4218006546B4 /* AFXMLRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAAC28F145B4218006546B4 /* AFXMLRequestOperation.h */; };
+		DAAAC299145B4219006546B4 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC290145B4218006546B4 /* AFXMLRequestOperation.m */; };
+		DAAAC29A145B4219006546B4 /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC290145B4218006546B4 /* AFXMLRequestOperation.m */; };
+		DAAAC29E145B4841006546B4 /* NSData+UTF8String.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAAC29C145B4841006546B4 /* NSData+UTF8String.h */; };
+		DAAAC29F145B4841006546B4 /* NSData+UTF8String.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC29D145B4841006546B4 /* NSData+UTF8String.m */; };
+		DAAAC2A0145B4841006546B4 /* NSData+UTF8String.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAAC29D145B4841006546B4 /* NSData+UTF8String.m */; };
 		DAAF5E39142D0C1A00878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
 		DAAF5E70142D0C4F00878D16 /* AFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAAF5E71142D0C4F00878D16 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */; };
@@ -89,6 +102,15 @@
 		DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Discussions.m"; sourceTree = "<group>"; };
 		DA71B7D7143E42B700E9EE94 /* TestDiscussions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDiscussions.h; sourceTree = "<group>"; };
 		DA71B7D8143E42B700E9EE94 /* TestDiscussions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDiscussions.m; sourceTree = "<group>"; };
+		DAAAC28A145B4218006546B4 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworking.h; path = vendor/AFNetworking/AFNetworking/AFNetworking.h; sourceTree = "<group>"; };
+		DAAAC28B145B4218006546B4 /* AFPropertyListRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFPropertyListRequestOperation.h; path = vendor/AFNetworking/AFNetworking/AFPropertyListRequestOperation.h; sourceTree = "<group>"; };
+		DAAAC28C145B4218006546B4 /* AFPropertyListRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFPropertyListRequestOperation.m; path = vendor/AFNetworking/AFNetworking/AFPropertyListRequestOperation.m; sourceTree = "<group>"; };
+		DAAAC28D145B4218006546B4 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFURLConnectionOperation.h; path = vendor/AFNetworking/AFNetworking/AFURLConnectionOperation.h; sourceTree = "<group>"; };
+		DAAAC28E145B4218006546B4 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFURLConnectionOperation.m; path = vendor/AFNetworking/AFNetworking/AFURLConnectionOperation.m; sourceTree = "<group>"; };
+		DAAAC28F145B4218006546B4 /* AFXMLRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFXMLRequestOperation.h; path = vendor/AFNetworking/AFNetworking/AFXMLRequestOperation.h; sourceTree = "<group>"; };
+		DAAAC290145B4218006546B4 /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFXMLRequestOperation.m; path = vendor/AFNetworking/AFNetworking/AFXMLRequestOperation.m; sourceTree = "<group>"; };
+		DAAAC29C145B4841006546B4 /* NSData+UTF8String.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+UTF8String.h"; sourceTree = "<group>"; };
+		DAAAC29D145B4841006546B4 /* NSData+UTF8String.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+UTF8String.m"; sourceTree = "<group>"; };
 		DAAF5E35142D0C1A00878D16 /* libNewDot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNewDot.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAAF5E38142D0C1A00878D16 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAAF5E3C142D0C1A00878D16 /* NewDot-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NewDot-Prefix.pch"; sourceTree = "<group>"; };
@@ -244,6 +266,13 @@
 		DAAF5E7E142D0C5300878D16 /* AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				DAAAC28A145B4218006546B4 /* AFNetworking.h */,
+				DAAAC28B145B4218006546B4 /* AFPropertyListRequestOperation.h */,
+				DAAAC28C145B4218006546B4 /* AFPropertyListRequestOperation.m */,
+				DAAAC28D145B4218006546B4 /* AFURLConnectionOperation.h */,
+				DAAAC28E145B4218006546B4 /* AFURLConnectionOperation.m */,
+				DAAAC28F145B4218006546B4 /* AFXMLRequestOperation.h */,
+				DAAAC290145B4218006546B4 /* AFXMLRequestOperation.m */,
 				DAAF5E62142D0C4F00878D16 /* AFHTTPClient.h */,
 				DAAF5E63142D0C4F00878D16 /* AFHTTPClient.m */,
 				DAAF5E64142D0C4F00878D16 /* AFHTTPRequestOperation.h */,
@@ -333,6 +362,8 @@
 				DAB030C01432314900E2A160 /* NSArray+Chunky.m */,
 				DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */,
 				DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */,
+				DAAAC29C145B4841006546B4 /* NSData+UTF8String.h */,
+				DAAAC29D145B4841006546B4 /* NSData+UTF8String.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -370,6 +401,11 @@
 				DAB030C11432314900E2A160 /* NSArray+Chunky.h in Headers */,
 				DA71B7D3143E3DBC00E9EE94 /* NDService+Discussions.h in Headers */,
 				DA1107FC143F5E4100DFCC10 /* NSString+LastWord.h in Headers */,
+				DAAAC291145B4218006546B4 /* AFNetworking.h in Headers */,
+				DAAAC292145B4218006546B4 /* AFPropertyListRequestOperation.h in Headers */,
+				DAAAC295145B4218006546B4 /* AFURLConnectionOperation.h in Headers */,
+				DAAAC298145B4218006546B4 /* AFXMLRequestOperation.h in Headers */,
+				DAAAC29E145B4841006546B4 /* NSData+UTF8String.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +507,10 @@
 				DAB030C21432314900E2A160 /* NSArray+Chunky.m in Sources */,
 				DA71B7D4143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */,
 				DA1107FD143F5E4100DFCC10 /* NSString+LastWord.m in Sources */,
+				DAAAC293145B4218006546B4 /* AFPropertyListRequestOperation.m in Sources */,
+				DAAAC296145B4218006546B4 /* AFURLConnectionOperation.m in Sources */,
+				DAAAC299145B4219006546B4 /* AFXMLRequestOperation.m in Sources */,
+				DAAAC29F145B4841006546B4 /* NSData+UTF8String.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,6 +544,10 @@
 				DA71B7D9143E42B700E9EE94 /* TestDiscussions.m in Sources */,
 				DA1107FE143F5E4100DFCC10 /* NSString+LastWord.m in Sources */,
 				DA110803143F824600DFCC10 /* LoggerClient.m in Sources */,
+				DAAAC294145B4218006546B4 /* AFPropertyListRequestOperation.m in Sources */,
+				DAAAC297145B4218006546B4 /* AFURLConnectionOperation.m in Sources */,
+				DAAAC29A145B4219006546B4 /* AFXMLRequestOperation.m in Sources */,
+				DAAAC2A0145B4841006546B4 /* NSData+UTF8String.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

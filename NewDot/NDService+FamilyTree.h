@@ -12,37 +12,37 @@
  * Set of values to help you construct parameter dictionaries.
  */
 extern const struct NDFamilyTreeReadPersonsRequestParameters {
-    NSString * names;               // [none, *summary, all]
-    NSString * genders;             // [none, *summary, all]
-    NSString * events;              // [none, *summary, standard, all]
-    NSString * characteristics;     // [*none, all]
-    NSString * exists;              // [*none, all]
-    NSString * values;              // [*summary, all]
-    NSString * ordinances;          // [*none, all]
-    NSString * assertions;          // [none, *all] (limited by other parameters)
-    NSString * families;            // [*none, summary, all]
-    NSString * children;            // [*none, all]
-    NSString * parents;             // [*none, summary, all]
-    NSString * personas;            // [all, *none, mine]
-    NSString * changes;             // [all, *none] DO NOT USE TO ROLL BACK CHANGES!
-    NSString * properties;          // [*none, summary, all]
-    NSString * identifiers;         // [*none, all]
-    NSString * dispositions;        // [all, *affirming, disputing]
-    NSString * contributors;        // [all, *none]
-    NSString * locale;              // see familyTreeLocales
+    NSString* names;               // [none, *summary, all]
+    NSString* genders;             // [none, *summary, all]
+    NSString* events;              // [none, *summary, standard, all]
+    NSString* characteristics;     // [*none, all]
+    NSString* exists;              // [*none, all]
+    NSString* values;              // [*summary, all]
+    NSString* ordinances;          // [*none, all]
+    NSString* assertions;          // [none, *all] (limited by other parameters)
+    NSString* families;            // [*none, summary, all]
+    NSString* children;            // [*none, all]
+    NSString* parents;             // [*none, summary, all]
+    NSString* personas;            // [all, *none, mine]
+    NSString* changes;             // [all, *none] DO NOT USE TO ROLL BACK CHANGES!
+    NSString* properties;          // [*none, summary, all]
+    NSString* identifiers;         // [*none, all]
+    NSString* dispositions;        // [all, *affirming, disputing]
+    NSString* contributors;        // [all, *none]
+    NSString* locale;              // see familyTreeLocales
 } NDFamilyTreeReadPersonsRequestParameters;
 
 /**
  * A set of keys to help you construct parameter dictionaries.
  */
 extern const struct NDFamilyTreeReadPersonsRequestKeys {
-    NSString * none;
-    NSString * summary;
-    NSString * all;
-    NSString * standard;
-    NSString * mine;
-    NSString * affirming;
-    NSString * disputing;
+    NSString* none;
+    NSString* summary;
+    NSString* all;
+    NSString* standard;
+    NSString* mine;
+    NSString* affirming;
+    NSString* disputing;
 } NDFamilyTreeReadPersonsRequestKeys;
 
 @interface NDService (FamilyTree)
@@ -65,12 +65,12 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
  * @param people If `nil`, then it returns the current user's person record.
  * @param parameters See `NDFamilyTreeReadPersonsRequestParameters` and `NDFamilyTreeReadPersonsRequestKeys`; may be nil.
  */
-- (void)familyTreeReadPersons:(NSArray *)people
-               withParameters:(NSDictionary *)parameters
+- (void)familyTreeReadPersons:(NSArray*)people
+               withParameters:(NSDictionary*)parameters
                     onSuccess:(NDGenericSuccessBlock)success
                     onFailure:(NDGenericFailureBlock)failure;
 
-- (void)familyTreeDiscussionsForPerson:(NSString *)personId
+- (void)familyTreeDiscussionsForPerson:(NSString*)personId
                              onSuccess:(NDGenericSuccessBlock)success
                              onFailure:(NDParsedFailureBlock)failure;
 

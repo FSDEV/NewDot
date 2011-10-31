@@ -45,7 +45,7 @@ enum NDIdentitySessionCreateResult {
     ServiceUnavailable                              = 503       // Probable throttling
 } NDIdentitySessionCreateResult;
 
-typedef void(^NDIdentitySessionCreateFailureBlock)(enum NDIdentitySessionCreateResult result, NSError * error);
+typedef void(^NDIdentitySessionCreateFailureBlock)(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError * error);
 
 /**
  * The Identity module to New(DOT)FamilySearch. Use these requests to log in, keep a session alive, read user profile and permissions information, and to log out.
@@ -58,9 +58,9 @@ typedef void(^NDIdentitySessionCreateFailureBlock)(enum NDIdentitySessionCreateR
  * @param success This method will automatically set the sessionId; you do not need to do anything here if you don't want to.
  * @param failure In addition to the default NSError object, you will also receive a pre-parsed integer corresponding to an enumeration of all possible errors.
  */
-- (void)identityCreateSessionForUser:(NSString *)username
-                        withPassword:(NSString *)password
-                              apiKey:(NSString *)apiKey
+- (void)identityCreateSessionForUser:(NSString*)username
+                        withPassword:(NSString*)password
+                              apiKey:(NSString*)apiKey
                            onSuccess:(NDGenericSuccessBlock)success
                            onFailure:(NDIdentitySessionCreateFailureBlock)failure;
 

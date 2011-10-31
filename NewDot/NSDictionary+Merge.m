@@ -10,7 +10,7 @@
 
 @implementation NSDictionary (Merge)
 
-- (NSDictionary *)fs_dictionaryByMergingDictionary:(NSDictionary *)aDict
+- (NSDictionary*)fs_dictionaryByMergingDictionary:(NSDictionary*)aDict
 {
     NSMutableDictionary * mutableSelf = [self mutableCopy];
     

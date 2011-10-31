@@ -19,13 +19,13 @@
 
 @property (readwrite, assign) NSUInteger tagCount;
 @property (readwrite, assign) NSUInteger tagAccumulator;
-@property (readwrite, retain) NSMutableArray * discussionIds;
+@property (readwrite, retain) NSMutableArray* discussionIds;
 
 - (void)login;
 - (void)discussionsList;
-- (void)discussionsWithSystemTags:(NSArray *)systemTags;
+- (void)discussionsWithSystemTags:(NSArray*)systemTags;
 - (void)accumulateDiscussion;
-- (void)accumulateDiscussionWithIds:(NSArray *)dIds;
+- (void)accumulateDiscussionWithIds:(NSArray*)dIds;
 - (void)goFetchumDiscussions;
 - (void)logout;
 
@@ -48,7 +48,7 @@
                                          LOG_DISCUSSIONS(0,@"Session Created");
                                          [self discussionsList];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
+                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
                                          LOG_DISCUSSIONS(5,@"Failed to log in!");
                                      }];
 }
@@ -57,10 +57,10 @@
 {
     [self.service discussionsSystemTagsOnSuccess:^(id response) {
         LOG_DISCUSSIONS(0,@"Retrieved tags from the discussions API");
-        NSArray * rawTags = [response valueForKey:@"tags"];
-        NSMutableArray * fixedTags = [NSMutableArray arrayWithCapacity:[rawTags count]];
+        NSArray* rawTags = [response valueForKey:@"tags"];
+        NSMutableArray* fixedTags = [NSMutableArray arrayWithCapacity:[rawTags count]];
         
-        for (NSString * tag in rawTags) {
+        for (NSString* tag in rawTags) {
             [fixedTags addObject:[tag substringFromIndex:[tag length]-8]];
         }
         
@@ -68,13 +68,13 @@
         
         [self discussionsWithSystemTags:fixedTags];
     }
-                                       onFailure:^(NSError * error) {
+                                       onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                            LOG_DISCUSSIONS(5,@"Failed to get system tags from the API with error %@", error);
                                            [self logout];
                                        }];
 }
 
-- (void)discussionsWithSystemTags:(NSArray *)systemTags
+- (void)discussionsWithSystemTags:(NSArray*)systemTags
 {
     self.tagCount = [systemTags count]-1;
     self.tagAccumulator = 0;
@@ -85,7 +85,7 @@
                                                LOG_DISCUSSIONS(0,@"Got the discussions list for %@",tag);
                                                [self accumulateDiscussionWithIds:[[response valueForKeyPath:@"persons.discussions.uri"] lastObject]];
                                            }
-                                           onFailure:^(NSInteger code, NSError * error) {
+                                           onFailure:^(NSInteger code, NSHTTPURLResponse* xhr, NSError* error) {
                                                if (code != 403)
                                                    LOG_DISCUSSIONS(4,@"Failed to get crap from the API with error %@", error);
                                                else {
@@ -124,7 +124,7 @@
                                LOG_DISCUSSIONS(0,@"Discussion object is %@",response);
                                [self logout];
                            }
-                           onFailure:^(NSError * error) {
+                           onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                LOG_DISCUSSIONS(5,@"Failed to get discussion from the API with error %@", error);
                                [self logout];
                            }];
@@ -135,14 +135,14 @@
     [self.service identityDestroySessionOnSuccess:^(id response) {
         LOG_DISCUSSIONS(0,@"Destroyed session");
     }
-                                        onFailure:^(NSError * error) {
+                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                             LOG_DISCUSSIONS(5,@"Failed to destroy session with error %@",error);
                                         }];
 }
 
 #pragma mark Harness
 
-- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
+- (void)testWithUsername:(NSString*)u password:(NSString*)p serverLocation:(NSString*)s apiKey:(NSString*)a
 {
     [super testWithUsername:u password:p serverLocation:s apiKey:a];
     

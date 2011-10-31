@@ -10,6 +10,6 @@
 
 @interface NSString (LastWord)
 
-- (NSString *)fs_lastWord;
+- (NSString*)fs_lastWord;
 
 @end

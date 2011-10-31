@@ -14,7 +14,7 @@
 
 @interface TestReservation : Harness
 
-@property (readwrite, retain) NDService * service;
+@property (readwrite, retain) NDService* service;
 @property (readwrite, assign) NSInteger personmaxids;
 
 @end

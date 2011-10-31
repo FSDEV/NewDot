@@ -9,18 +9,19 @@
 #import "NDService+Identity.h"
 
 #import "AFHTTPClient.h"
+#import "JSONKit.h"
 
 #import "NSString+LastWord.h"
 
 @implementation NDService (Identity)
 
-- (void)identityCreateSessionForUser:(NSString *)username
-                        withPassword:(NSString *)password
-                              apiKey:(NSString *)apiKey
+- (void)identityCreateSessionForUser:(NSString*)username
+                        withPassword:(NSString*)password
+                              apiKey:(NSString*)apiKey
                              onSuccess:(NDGenericSuccessBlock)success
                              onFailure:(NDIdentitySessionCreateFailureBlock)failure
 {
-    NSMutableDictionary * urlParameters = [self.defaultURLParameters mutableCopy];
+    NSMutableDictionary* urlParameters = [self.defaultURLParameters mutableCopy];
     [urlParameters setObject:apiKey forKey:@"key"];
     [self.client setAuthorizationHeaderWithUsername:username password:password];
     [self.client getPath:@"/identity/v2/login"
@@ -30,10 +31,10 @@
                      self.sessionId = [response valueForKeyPath:@"session.id"];
                      if (success)
                          success(response);
-                 } failure:^(NSError * error) {
+                 } failure:^(NSHTTPURLResponse* xhr, NSError* error) {
                      enum NDIdentitySessionCreateResult response = [[[[error userInfo] objectForKey:NSLocalizedDescriptionKey] fs_lastWord] integerValue];
                      if (failure)
-                         failure(response, error);
+                         failure(response, xhr, error);
                  }];
     [self.client clearAuthorizationHeader];
 }

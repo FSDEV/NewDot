@@ -11,8 +11,8 @@
 @class AFHTTPClient;
 
 typedef void(^NDGenericSuccessBlock)(id response);
-typedef void(^NDGenericFailureBlock)(NSError * error);
-typedef void(^NDParsedFailureBlock)(NSInteger code, NSError * error);
+typedef void(^NDGenericFailureBlock)(NSHTTPURLResponse* xhr, NSError* error);
+typedef void(^NDParsedFailureBlock)(NSInteger code, NSHTTPURLResponse* xhr, NSError* error);
 
 enum NDRequestMethod {
     GET,
@@ -39,27 +39,27 @@ enum NDRequestMethod {
 /**
  * The base URL prefixed to all API requests.
  */
-@property (readonly) NSURL * serverUrl;
+@property (readonly) NSURL* serverUrl;
 
 /**
  * The session ID for the current NDService; nil if the receiver is not logged in.
  */
-@property (readwrite, retain) NSString * sessionId;
+@property (readwrite, retain) NSString* sessionId;
 
 /**
  * Set the receiver's `User-Agent` header; useful for disambiguating between multiple clients running on the same API key. If set to `nil`, then it is actually set to `NewDot/x.x`.
  */
-@property (readwrite, retain) NSString * userAgent;
+@property (readwrite, retain) NSString* userAgent;
 
 /**
  * The receiver's AFNetworking client. Please do not use this to manually run un-implemented requests. Please fork NewDot on Github, then make a pull-request when you're done. When you do this, we can then take over supporting that portion of the code-base for you - for free!
  */
-@property (readwrite, retain) AFHTTPClient * client;
+@property (readwrite, retain) AFHTTPClient* client;
 
 /**
  * These parameters are appeneded to every request URL; by default, only `dataFormat=application/json` will be in here.
  */
-@property (readwrite, retain) NSMutableDictionary * defaultURLParameters;
+@property (readwrite, retain) NSMutableDictionary* defaultURLParameters;
 
 /**
  * Make a new NDService object bound to the given base URL, with the given `User-Agent`.
@@ -67,12 +67,12 @@ enum NDRequestMethod {
  * @param newServerUrl The base URL prefixed to all requests.
  * @param newUserAgent The `User-Agent` string; if `nil`, it defaults to `NewDot/x.x`.
  */
-- (id)initWithBaseURL:(NSURL *)newServerUrl
-            userAgent:(NSString *)newUserAgent;
+- (id)initWithBaseURL:(NSURL*)newServerUrl
+            userAgent:(NSString*)newUserAgent;
 
 /**
  * Somewhat internal bit that you shouldn't have to worry about.
  */
-- (NSMutableDictionary *)copyOfDefaultURLParametersWithSessionId;
+- (NSMutableDictionary*)copyOfDefaultURLParametersWithSessionId;
 
 @end

@@ -9,20 +9,21 @@
 #import "NDService.h"
 
 #import "AFHTTPClient.h"
+#import "AFJSONRequestOperation.h"
 
 @implementation NDService
 
-- (NSURL *)serverUrl
+- (NSURL*)serverUrl
 {
     return self.client.baseURL;
 }
 
-- (NSString *)userAgent
+- (NSString*)userAgent
 {
     return [self.client defaultValueForHeader:@"User-Agent"];
 }
 
-- (void)setUserAgent:(NSString *)userAgent
+- (void)setUserAgent:(NSString*)userAgent
 {
     [self.client setDefaultHeader:@"User-Agent" value:(userAgent)?:@"NewDot/0.1"];
 }
@@ -31,21 +32,22 @@
 @synthesize sessionId;
 @synthesize defaultURLParameters;
 
-- (id)initWithBaseURL:(NSURL *)newServerUrl
-            userAgent:(NSString *)newUserAgent
+- (id)initWithBaseURL:(NSURL*)newServerUrl
+            userAgent:(NSString*)newUserAgent
 {
     self = [self init];
     if (self) {
-        self->client = [[AFHTTPClient alloc] initWithBaseURL:newServerUrl];
+        self.client = [[[AFHTTPClient alloc] initWithBaseURL:newServerUrl] autorelease];
+        [self.client registerHTTPOperationClass:[AFJSONRequestOperation class]];
         self.userAgent = newUserAgent;
     }
     
     return self;
 }
 
-- (NSMutableDictionary *)copyOfDefaultURLParametersWithSessionId
+- (NSMutableDictionary*)copyOfDefaultURLParametersWithSessionId
 {
-    NSMutableDictionary * toReturn = [self.defaultURLParameters mutableCopy];
+    NSMutableDictionary* toReturn = [self.defaultURLParameters mutableCopy];
     [toReturn setObject:self.sessionId forKey:@"sessionId"];
     return toReturn;
 }

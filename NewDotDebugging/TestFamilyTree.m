@@ -37,7 +37,7 @@
                                          LOG_FAMILYTREE(0,@"Session created");
                                          [self readProperties];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSError * error) {
+                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
                                          LOG_FAMILYTREE(5,@"Failed to create session with result:%d and error %@", result, error);
                                      }];
 }
@@ -48,7 +48,7 @@
         LOG_FAMILYTREE(0,@"Read the properties succussfully");
         [self readUserProfile];
     }
-                                      onFailure:^(NSError * error) {
+                                      onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                           LOG_FAMILYTREE(5,@"Failed to read properties with error %@", error);
                                           [self logout];
                                       }];
@@ -58,10 +58,10 @@
 {
     [self.service familyTreeUserProfileOnSuccess:^(id response) {
         LOG_FAMILYTREE(0,@"Read the user's profile");
-        NSString * userId = [[response valueForKeyPath:@"users.id"] lastObject];
+        NSString* userId = [[response valueForKeyPath:@"users.id"] lastObject];
         [self readUserRecord];
     }
-                                       onFailure:^(NSError * error) {
+                                       onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                            LOG_FAMILYTREE(5,@"Failed to read the user's profile with error %@", error);
                                            [self logout];
                                        }];
@@ -75,7 +75,7 @@
                                   LOG_FAMILYTREE(0,@"Read the user record successfully");
                                   [self logout];
                               }
-                              onFailure:^(NSError * error) {
+                              onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                   LOG_FAMILYTREE(5,@"Failed to read the user record with error %@", error);
                                   [self logout];
                               }];
@@ -86,14 +86,14 @@
     [self.service identityDestroySessionOnSuccess:^(id response) {
         LOG_FAMILYTREE(0,@"Destroyed session");
     }
-                                        onFailure:^(NSError * error) {
+                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
                                             LOG_FAMILYTREE(5,@"Failed to destroy session with error %@", error);
                                         }];
 }
 
 #pragma mark Harness
 
-- (void)testWithUsername:(NSString *)u password:(NSString *)p serverLocation:(NSString *)s apiKey:(NSString *)a
+- (void)testWithUsername:(NSString*)u password:(NSString*)p serverLocation:(NSString*)s apiKey:(NSString*)a
 {
     [super testWithUsername:u password:p serverLocation:s apiKey:a];
     

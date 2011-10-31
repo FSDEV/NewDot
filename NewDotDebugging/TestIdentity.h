@@ -14,7 +14,7 @@
 
 @interface TestIdentity : Harness
 
-@property (readwrite, retain) NDService * winTest;
-@property (readwrite, retain) NDService * failTest;
+@property (readwrite, retain) NDService* winTest;
+@property (readwrite, retain) NDService* failTest;
 
 @end

@@ -39,7 +39,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     [self.client getPath:@"/reservation/v1/properties"
               parameters:self.defaultURLParameters
                  success:^(id response) {
-                     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+                     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
                      for (id kvpair in [response valueForKey:@"properties"])
                          [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
                      if (success)
@@ -48,7 +48,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                  failure:failure];
 }
 
-- (void)reservationListForUser:(NSString *)userId
+- (void)reservationListForUser:(NSString*)userId
                      onSuccess:(NDGenericSuccessBlock)success
                      onFailure:(NDGenericFailureBlock)failure
 {
@@ -57,8 +57,8 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                  success:^(id response) {
                      id fixedUpOrdinances = nil;
                      @autoreleasepool {
-                         NSMutableArray * ordinances = [NSMutableArray array];
-                         NSMutableDictionary * dict;
+                         NSMutableArray* ordinances = [NSMutableArray array];
+                         NSMutableDictionary* dict;
                          for (id reservation in [response valueForKeyPath:@"list.reservation"]) {
                              dict = [NSMutableDictionary dictionaryWithDictionary:[reservation objectForKey:[[reservation allKeys] lastObject]]];
                              [dict setObject:[[reservation allKeys] lastObject] forKey:@"type"];
@@ -73,7 +73,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                  failure:failure];
 }
 
-- (void)reservationReadPersons:(NSArray *)people
+- (void)reservationReadPersons:(NSArray*)people
                      onSuccess:(NDGenericSuccessBlock)success
                      onFailure:(NDGenericFailureBlock)failure
 {

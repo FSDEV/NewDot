@@ -9,6 +9,7 @@
 #import "NDService+FamilyTree.h"
 
 #import "AFHTTPClient.h"
+#import "JSONKit.h"
 #import "NSDictionary+Merge.h"
 #import "NSString+LastWord.h"
 
@@ -57,7 +58,7 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
     [self.client getPath:@"/familytree/v2/properties"
               parameters:self.defaultURLParameters
                  success:^(id response) {
-                     NSMutableDictionary * dict = [[NSMutableDictionary alloc] init];
+                     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
                      for (id kvpair in [response valueForKey:@"properties"])
                          [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
                      if (success)
@@ -75,8 +76,8 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                  failure:failure];
 }
 
-- (void)familyTreeReadPersons:(NSArray *)people
-               withParameters:(NSDictionary *)parameters
+- (void)familyTreeReadPersons:(NSArray*)people
+               withParameters:(NSDictionary*)parameters
                     onSuccess:(NDGenericSuccessBlock)success
                     onFailure:(NDGenericFailureBlock)failure
 {
@@ -94,17 +95,17 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                  failure:failure];
 }
 
-- (void)familyTreeDiscussionsForPerson:(NSString *)personId
+- (void)familyTreeDiscussionsForPerson:(NSString*)personId
                              onSuccess:(NDGenericSuccessBlock)success
                              onFailure:(NDParsedFailureBlock)failure
 {
     [self.client getPath:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId]
               parameters:[self copyOfDefaultURLParametersWithSessionId]
                  success:success
-                 failure:^(NSError * error) {
+                 failure:^(NSHTTPURLResponse* xhr, NSError* error) {
                      NSInteger i = [[[[error userInfo] objectForKey:NSLocalizedDescriptionKey] fs_lastWord] integerValue];
                      if (failure)
-                         failure(i, error);
+                         failure(i, xhr, error);
                  }];
 }
 

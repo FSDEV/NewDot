@@ -25,7 +25,7 @@
 /**
  * Request for all discussions with the given system tags.
  */
-- (void)discussionsWithSystemTags:(NSArray *)tags
+- (void)discussionsWithSystemTags:(NSArray*)tags
                         onSuccess:(NDGenericSuccessBlock)success
                         onFailure:(NDGenericFailureBlock)failure;
 
@@ -34,7 +34,7 @@
  *
  * @param method This can be requested using either GET or POST.
  */
-- (void)discussionsWithIds:(NSArray *)ids
+- (void)discussionsWithIds:(NSArray*)ids
                     method:(enum NDRequestMethod)method
                  onSuccess:(NDGenericSuccessBlock)success
                  onFailure:(NDGenericFailureBlock)failure;
