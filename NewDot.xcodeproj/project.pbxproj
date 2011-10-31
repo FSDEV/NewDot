@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA020B34145F4222008DA3AE /* NDService+Implementation.h in Headers */ = {isa = PBXBuildFile; fileRef = DA020B32145F4222008DA3AE /* NDService+Implementation.h */; };
+		DA020B35145F4222008DA3AE /* NDService+Implementation.m in Sources */ = {isa = PBXBuildFile; fileRef = DA020B33145F4222008DA3AE /* NDService+Implementation.m */; };
+		DA020B36145F4222008DA3AE /* NDService+Implementation.m in Sources */ = {isa = PBXBuildFile; fileRef = DA020B33145F4222008DA3AE /* NDService+Implementation.m */; };
 		DA1107FC143F5E4100DFCC10 /* NSString+LastWord.h in Headers */ = {isa = PBXBuildFile; fileRef = DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */; };
 		DA1107FD143F5E4100DFCC10 /* NSString+LastWord.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */; };
 		DA1107FE143F5E4100DFCC10 /* NSString+LastWord.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */; };
@@ -100,6 +103,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA020B32145F4222008DA3AE /* NDService+Implementation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NDService+Implementation.h"; sourceTree = "<group>"; };
+		DA020B33145F4222008DA3AE /* NDService+Implementation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NDService+Implementation.m"; sourceTree = "<group>"; };
 		DA1107FA143F5E4100DFCC10 /* NSString+LastWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LastWord.h"; sourceTree = "<group>"; };
 		DA1107FB143F5E4100DFCC10 /* NSString+LastWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LastWord.m"; sourceTree = "<group>"; };
 		DA110800143F824600DFCC10 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoggerClient.h; path = "vendor/NSLogger/Client Logger/iOS/LoggerClient.h"; sourceTree = "<group>"; };
@@ -264,6 +269,8 @@
 				DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */,
 				DAE3789414311AF000F4003C /* NDService+Reservation.h */,
 				DAE3789514311AF000F4003C /* NDService+Reservation.m */,
+				DA020B32145F4222008DA3AE /* NDService+Implementation.h */,
+				DA020B33145F4222008DA3AE /* NDService+Implementation.m */,
 				DAB030BD143226BF00E2A160 /* Categories */,
 				DAAF5E3B142D0C1A00878D16 /* Supporting Files */,
 				DAAB86F6145F2EDA00794B4A /* NDHTTPURLOperation.h */,
@@ -430,6 +437,7 @@
 				DAAB86ED145F172E00794B4A /* NSURL+QueryStringConstructor.h in Headers */,
 				DAAB86F3145F21B400794B4A /* NSString+Base64.h in Headers */,
 				DAAB86F8145F2EDA00794B4A /* NDHTTPURLOperation.h in Headers */,
+				DA020B34145F4222008DA3AE /* NDService+Implementation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +546,7 @@
 				DAAB86EE145F172E00794B4A /* NSURL+QueryStringConstructor.m in Sources */,
 				DAAB86F4145F21B400794B4A /* NSString+Base64.m in Sources */,
 				DAAB86F9145F2EDA00794B4A /* NDHTTPURLOperation.m in Sources */,
+				DA020B35145F4222008DA3AE /* NDService+Implementation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +587,7 @@
 				DAAB86EF145F172E00794B4A /* NSURL+QueryStringConstructor.m in Sources */,
 				DAAB86F5145F21B400794B4A /* NSString+Base64.m in Sources */,
 				DAAB86FA145F2EDA00794B4A /* NDHTTPURLOperation.m in Sources */,
+				DA020B36145F4222008DA3AE /* NDService+Implementation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

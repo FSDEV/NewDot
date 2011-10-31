@@ -7,6 +7,7 @@
 //
 
 #import "NDService+Identity.h"
+#import "NDService+Implementation.h"
 
 #import "AFHTTPClient.h"
 #import "JSONKit.h"
@@ -26,10 +27,9 @@
     NSMutableDictionary* urlParameters = [self.defaultURLParameters mutableCopy];
     [urlParameters setObject:apiKey forKey:@"key"];
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/login" relativeToURL:self.serverUrl queryParameters:urlParameters];
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
-    [req setHTTPMethod:@"GET"];
+    
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:[NSString stringWithFormat:@"Basic %@", [NSString fs_encodeBase64WithString:[NSString stringWithFormat:@"%@:%@", username, password]]] forHTTPHeaderField:@"Authorization"];
-    [req addValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
 //    [req addValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
 
     [NSURLConnection sendAsynchronousRequest:req
@@ -55,9 +55,7 @@
 {
     NSDictionary* params = [self copyOfDefaultURLParametersWithSessionId];
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/session/" relativeToURL:self.serverUrl queryParameters:params];
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
-    [req setHTTPMethod:@"GET"];
-    [req addValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue currentQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -69,20 +67,13 @@
                                        success([[JSONDecoder decoder] objectWithData:payload]);
                                }
                            }];
-    
-//    [self.client getPath:@"/identity/v2/session/"
-//              parameters:[self copyOfDefaultURLParametersWithSessionId]
-//                 success:success
-//                 failure:failure];
 }
 
 - (void)identityUserProfileOnSuccess:(NDGenericSuccessBlock)success
                            onFailure:(NDGenericFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/user" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
-    [req setHTTPMethod:@"GET"];
-    [req addValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
             if (failure)
@@ -92,19 +83,13 @@
                 success([[JSONDecoder decoder] objectWithData:payload]);
         }
     }];
-//    [self.client getPath:@"/identity/v2/user"
-//              parameters:[self copyOfDefaultURLParametersWithSessionId]
-//                 success:success
-//                 failure:failure];
 }
 
 - (void)identityUserPermissionsOnSuccess:(NDGenericSuccessBlock)success
                                onFailure:(NDGenericFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/permission" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
-    [req setHTTPMethod:@"GET"];
-    [req addValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
             if (failure)
@@ -114,19 +99,13 @@
                 success([[JSONDecoder decoder] objectWithData:payload]);
         }
     }];
-//    [self.client getPath:@"/identity/v2/permission"
-//              parameters:[self copyOfDefaultURLParametersWithSessionId]
-//                 success:success
-//                 failure:failure];
 }
 
 - (void)identityDestroySessionOnSuccess:(NDGenericSuccessBlock)success
                               onFailure:(NDGenericFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/logout" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
-    NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
-    [req setHTTPMethod:@"GET"];
-    [req addValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
             if (failure)
@@ -137,14 +116,6 @@
                 success([[JSONDecoder decoder] objectWithData:payload]);
         }
     }];
-//    [self.client getPath:@"/identity/v2/logout"
-//              parameters:[self copyOfDefaultURLParametersWithSessionId]
-//                 success:^(id response) {
-//                     self.sessionId = nil;
-//                     if (success)
-//                         success(response);
-//                 }
-//                 failure:failure];
 }
 
 @end
