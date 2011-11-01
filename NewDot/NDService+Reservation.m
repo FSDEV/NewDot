@@ -13,8 +13,6 @@
 
 #import "JSONKit.h"
 
-#import "AFHTTPClient.h"
-
 const struct NDReservationType NDReservationType = {
     .individual              = @"individualReservation",
     .sealingToParents        = @"sealingToParentsReservation",

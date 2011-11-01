@@ -41,36 +41,40 @@
     [self.service identityCreateSessionForUser:self.username
                                   withPassword:self.password
                                         apiKey:self.apiKey
-                                     onSuccess:^(id response) {
-                                         LOG_RESERVATION(0,@"Session created");
+                                     onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
+                                         LOG_RESERVATION(0,@"Session %@ created", self.service.sessionId);
                                          [self readProperties];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
-                                         LOG_RESERVATION(5,@"Failed to create session with code:%d and error %@", result, error);
+                                     onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                         LOG_RESERVATION(5,@"Failed to create session with code: %d and payload %@", [xhr statusCode], [payload fs_stringValue]);
                                      }];
 }
 
 - (void)readProperties
 {
-    [self.service reservationPropertiesOnSuccess:^(id response) {
-        LOG_RESERVATION(0,@"Read reservation module properties");
+    [self.service reservationPropertiesOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
+        LOG_RESERVATION(0,@"Read reservation module properties with payload:");
+        LOG_RESERVATION(0,@"%@", response);
         self.personmaxids = [[response valueForKey:@"person.max.ids"] integerValue];
         [self readUserProfile];
     }
-                                       onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                           LOG_RESERVATION(5,@"Failed to read properties with error %@", error);
+                                       onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                           LOG_RESERVATION(5,@"Failed to read properties with error %d", [xhr statusCode]);
+                                           LOG_RESERVATION(5, @"%@", [payload fs_stringValue]);
                                            [self logout];
                                        }];
 }
 
 - (void)readUserProfile
 {
-    [self.service familyTreeUserProfileOnSuccess:^(id response) {
-        LOG_RESERVATION(0,@"Read user profile");
+    [self.service familyTreeUserProfileOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
+        LOG_RESERVATION(0,@"Read user profile with payload:");
+        LOG_RESERVATION(0,@"%@",response);
         [self reservationListForUser:[[response valueForKeyPath:@"users.id"] lastObject]];
     }
-                                       onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                           LOG_RESERVATION(5,@"Failed to read user profile with error %@", error);
+                                       onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                           LOG_RESERVATION(5,@"Failed to read user profile with error %d", [xhr statusCode]);
+                                           LOG_RESERVATION(5, @"%@", [payload fs_stringValue]);
                                            [self logout];
                                        }];
 }
@@ -78,14 +82,15 @@
 - (void)reservationListForUser:(NSString*)userId
 {
     [self.service reservationListForUser:userId
-                               onSuccess:^(id response) {
+                               onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
                                    LOG_RESERVATION(0,@"Read the reservation list");
                                    id collectedIds = [self collectPersonIds:response];
                                    LOG_RESERVATION(0,@"Read the following IDs: %@", collectedIds);
                                    [self readPeople:[self collectPersonIds:response]];
                                }
-                               onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                   LOG_RESERVATION(5,@"Failed to read the reservation list with error %@", error);
+                               onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                   LOG_RESERVATION(5,@"Failed to read the reservation list with error %d", [xhr statusCode]);
+                                   LOG_RESERVATION(5, @"%@", [payload fs_stringValue]);
                                    [self logout];
                                }];
 }
@@ -105,26 +110,27 @@
     NSArray* current = [people lastObject];
     NSArray* remaining = [people subarrayWithRange:NSMakeRange(0, [people count]-1)];
     [self.service reservationReadPersons:current
-                               onSuccess:^(id response) {
+                               onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
                                    LOG_RESERVATION(0,@"Read reservation records for the following people: %@", [current componentsJoinedByString:@", "]);
                                    if ([remaining count] == 0)
                                        [self logout];
                                    else
                                        [self readChunkedPeople:remaining];
                                }
-                               onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                   LOG_RESERVATION(5,@"Cannot read (%@) with error %@", [current componentsJoinedByString:@","], error);
+                               onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                   LOG_RESERVATION(5,@"Cannot read (%@) with error %d", [current componentsJoinedByString:@","], [xhr statusCode]);
+                                   LOG_RESERVATION(5,@"%@", [payload fs_stringValue]);
                                    [self logout];
                                }];
 }
 
 - (void)logout
 {
-    [self.service identityDestroySessionOnSuccess:^(id result) {
+    [self.service identityDestroySessionOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_RESERVATION(0,@"Destroyed session");
     }
-                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                            LOG_RESERVATION(5,@"Failed to destroy session with error %@", error);
+                                        onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                            LOG_RESERVATION(5,@"Failed to destroy session with error %d", [xhr statusCode]);
                                         }];
 }
 

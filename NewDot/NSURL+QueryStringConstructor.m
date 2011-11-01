@@ -34,7 +34,7 @@
             [_URLString appendFormat:@"%@=%@&", [[key description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding], [[[params objectForKey:key] description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         if (!tailParams) [_URLString deleteCharactersInRange:NSMakeRange([_URLString length]-1, 1)]; // kill the trailing '&'
     }
-    [_URLString appendString:tailParams];
+    if (tailParams) [_URLString appendString:tailParams];
     
     return [self initWithString:[_URLString autorelease] relativeToURL:baseURL];
 }

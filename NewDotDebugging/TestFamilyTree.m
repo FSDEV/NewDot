@@ -33,36 +33,41 @@
     [self.service identityCreateSessionForUser:self.username
                                   withPassword:self.password
                                         apiKey:self.apiKey
-                                     onSuccess:^(id response) {
+                                     onSuccess:^(NSHTTPURLResponse* resp, id parsed_payload, NSData* payload) {
                                          LOG_FAMILYTREE(0,@"Session created");
+                                         LOG_FAMILYTREE(0,@"Session ID: %@", self.service.sessionId);
                                          [self readProperties];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
-                                         LOG_FAMILYTREE(5,@"Failed to create session with result:%d and error %@", result, error);
+                                     onFailure:^(NSHTTPURLResponse* resp, NSData* payload, NSError* error) {
+                                         LOG_FAMILYTREE(5,@"Failed to create session with error: %d and payload: %@", [resp statusCode], [payload fs_stringValue]);
                                      }];
 }
 
 - (void)readProperties
 {
-    [self.service familyTreePropertiesOnSuccess:^(id response) {
+    [self.service familyTreePropertiesOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_FAMILYTREE(0,@"Read the properties succussfully");
+        LOG_FAMILYTREE(0, @"%@", response);
         [self readUserProfile];
     }
-                                      onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                          LOG_FAMILYTREE(5,@"Failed to read properties with error %@", error);
+                                      onFailure:^(NSHTTPURLResponse* resp, NSData* payload, NSError* error) {
+                                          LOG_FAMILYTREE(5,@"Failed to read properties with error %@", [resp statusCode]);
+                                          LOG_FAMILYTREE(5,@"Error payload: %@", [payload fs_stringValue]);
                                           [self logout];
                                       }];
 }
 
 - (void)readUserProfile
 {
-    [self.service familyTreeUserProfileOnSuccess:^(id response) {
+    [self.service familyTreeUserProfileOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_FAMILYTREE(0,@"Read the user's profile");
+        LOG_FAMILYTREE(0, @"%@", response);
         NSString* userId = [[response valueForKeyPath:@"users.id"] lastObject];
         [self readUserRecord];
     }
-                                       onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                           LOG_FAMILYTREE(5,@"Failed to read the user's profile with error %@", error);
+                                       onFailure:^(NSHTTPURLResponse* resp, NSData* payload, NSError* error) {
+                                           LOG_FAMILYTREE(5,@"Failed to read the user's profile with error %@", [resp statusCode]);
+                                           LOG_FAMILYTREE(5,@"Error payload: %@", [payload fs_stringValue]);
                                            [self logout];
                                        }];
 }
@@ -71,23 +76,24 @@
 {
     [self.service familyTreeReadPersons:nil
                          withParameters:[NSDictionary dictionary]
-                              onSuccess:^(id response) {
+                              onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
                                   LOG_FAMILYTREE(0,@"Read the user record successfully");
+                                  LOG_FAMILYTREE(0,@"User Record: %@", response);
                                   [self logout];
                               }
-                              onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                  LOG_FAMILYTREE(5,@"Failed to read the user record with error %@", error);
+                              onFailure:^(NSHTTPURLResponse* resp, NSData* payload, NSError* error) {
+                                  LOG_FAMILYTREE(5,@"Failed to read the user record with error %d and payload: %@", [resp statusCode], [payload fs_stringValue]);
                                   [self logout];
                               }];
 }
 
 - (void)logout
 {
-    [self.service identityDestroySessionOnSuccess:^(id response) {
+    [self.service identityDestroySessionOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_FAMILYTREE(0,@"Destroyed session");
     }
-                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                            LOG_FAMILYTREE(5,@"Failed to destroy session with error %@", error);
+                                        onFailure:^(NSHTTPURLResponse* resp, NSData* payload, NSError* error) {
+                                            LOG_FAMILYTREE(5,@"Failed to destroy session with error %d and payload %@", [resp statusCode], [payload fs_stringValue]);
                                         }];
 }
 

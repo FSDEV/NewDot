@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSData (UTF8String)
+@interface NSData (StringValue)
 
-- (NSString*)fs_UTF8String;
+- (NSString*)fs_stringValue;
 
 @end
+

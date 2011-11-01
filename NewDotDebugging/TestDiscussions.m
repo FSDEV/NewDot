@@ -44,18 +44,19 @@
     [self.service identityCreateSessionForUser:self.username
                                   withPassword:self.password
                                         apiKey:self.apiKey
-                                     onSuccess:^(id response) {
-                                         LOG_DISCUSSIONS(0,@"Session Created");
+                                     onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
+                                         LOG_DISCUSSIONS(0,@"Session %@ Created", self.service.sessionId);
                                          [self discussionsList];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
-                                         LOG_DISCUSSIONS(5,@"Failed to log in!");
+                                     onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                         LOG_DISCUSSIONS(5,@"Failed to log in with error %d!", [xhr statusCode]);
+                                         LOG_DISCUSSIONS(5, @"%@", [payload fs_stringValue]);
                                      }];
 }
 
 - (void)discussionsList
 {
-    [self.service discussionsSystemTagsOnSuccess:^(id response) {
+    [self.service discussionsSystemTagsOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_DISCUSSIONS(0,@"Retrieved tags from the discussions API");
         NSArray* rawTags = [response valueForKey:@"tags"];
         NSMutableArray* fixedTags = [NSMutableArray arrayWithCapacity:[rawTags count]];
@@ -64,12 +65,18 @@
             [fixedTags addObject:[tag substringFromIndex:[tag length]-8]];
         }
         
+        LOG_DISCUSSIONS(0, @"%@", [payload fs_stringValue]);
+        
         LOG_DISCUSSIONS(0,@"Got these tags: %@", fixedTags);
         
-        [self discussionsWithSystemTags:fixedTags];
+        if ([fixedTags count]==0)
+            [self logout];
+        else
+            [self discussionsWithSystemTags:fixedTags];
     }
-                                       onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                           LOG_DISCUSSIONS(5,@"Failed to get system tags from the API with error %@", error);
+                                       onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                           LOG_DISCUSSIONS(5,@"Failed to get system tags from the API with error %d", [xhr statusCode]);
+                                           LOG_DISCUSSIONS(5, @"%@", [payload fs_stringValue]);
                                            [self logout];
                                        }];
 }
@@ -81,16 +88,17 @@
     self.discussionIds = [NSMutableArray array];
     for (id tag in systemTags)
         [self.service familyTreeDiscussionsForPerson:tag
-                                           onSuccess:^(id response) {
+                                           onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
                                                LOG_DISCUSSIONS(0,@"Got the discussions list for %@",tag);
                                                [self accumulateDiscussionWithIds:[[response valueForKeyPath:@"persons.discussions.uri"] lastObject]];
                                            }
-                                           onFailure:^(NSInteger code, NSHTTPURLResponse* xhr, NSError* error) {
-                                               if (code != 403)
-                                                   LOG_DISCUSSIONS(4,@"Failed to get crap from the API with error %@", error);
-                                               else {
-                                                   LOG_DISCUSSIONS(1,@"403 on some dumb living record. Meh.");
-                                                   [self accumulateDiscussion];
+                                           onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                               if ([xhr statusCode]!=403) {
+                                                   LOG_DISCUSSIONS(4, @"Failed to get crap from the API with error %d", [xhr statusCode]);
+                                                   LOG_DISCUSSIONS(4, @"%@", [payload fs_stringValue]);
+                                               } else {
+                                                   LOG_DISCUSSIONS(1, @"403 on some dumb living record. Meh.");
+                                                   LOG_DISCUSSIONS(1, @"%@", [payload fs_stringValue]);
                                                }
                                            }];
 }
@@ -119,24 +127,26 @@
     }
     [self.service discussionsWithIds:self.discussionIds
                               method:GET
-                           onSuccess:^(id response) {
+                           onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
                                LOG_DISCUSSIONS(0,@"Retrieved discussions data from the API");
                                LOG_DISCUSSIONS(0,@"Discussion object is %@",response);
                                [self logout];
                            }
-                           onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                               LOG_DISCUSSIONS(5,@"Failed to get discussion from the API with error %@", error);
+                           onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                               LOG_DISCUSSIONS(5,@"Failed to get discussion from the API with error %d", [xhr statusCode]);
+                               LOG_DISCUSSIONS(5, @"%@", [payload fs_stringValue]);
                                [self logout];
                            }];
 }
 
 - (void)logout
 {
-    [self.service identityDestroySessionOnSuccess:^(id response) {
+    [self.service identityDestroySessionOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_DISCUSSIONS(0,@"Destroyed session");
     }
-                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                            LOG_DISCUSSIONS(5,@"Failed to destroy session with error %@",error);
+                                        onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                            LOG_DISCUSSIONS(5,@"Failed to destroy session with error %d",[xhr statusCode]);
+                                            LOG_DISCUSSIONS(5, @"%@", [payload fs_stringValue]);
                                         }];
 }
 

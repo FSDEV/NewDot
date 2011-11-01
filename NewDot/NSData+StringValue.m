@@ -6,11 +6,11 @@
 //  Copyright (c) 2011 FSDEV. All rights reserved.
 //
 
-#import "NSData+UTF8String.h"
+#import "NSData+StringValue.h"
 
-@implementation NSData (UTF8String)
+@implementation NSData (StringValue)
 
-- (NSString*)fs_UTF8String
+- (NSString*)fs_stringValue
 {
     return [NSString stringWithCString:[self bytes] encoding:NSUTF8StringEncoding];
 }

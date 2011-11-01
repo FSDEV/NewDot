@@ -34,11 +34,13 @@
     [self.failTest identityCreateSessionForUser:@"Fail"
                                    withPassword:@"Fail"
                                          apiKey:self.apiKey
-                                      onSuccess:^(id response) {
+                                      onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
                                           LOG_IDENTITY(5,@"Created session with bogus login credentials. This really shouldn't happen. Results are %@", response);
+                                          LOG_IDENTITY(5, @"%@", response);
                                       }
-                                      onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
-                                          LOG_IDENTITY(0,@"Session creation failed when it was supposed to with result:%d and error %@", result, error);
+                                      onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                          LOG_IDENTITY(0,@"Session creation failed when it was supposed to with result: %d", [xhr statusCode]);
+                                          LOG_IDENTITY(0, @"%@", [payload fs_stringValue]);
                                       }];
 }
 
@@ -47,58 +49,66 @@
     [self.winTest identityCreateSessionForUser:self.username
                                   withPassword:self.password
                                         apiKey:self.apiKey
-                                     onSuccess:^(id response) {
-                                         LOG_IDENTITY(0,@"Session created");
+                                     onSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
+                                         LOG_IDENTITY(0,@"Session %@ created", self.winTest.sessionId);
                                          [self testSessionRead];
                                      }
-                                     onFailure:^(enum NDIdentitySessionCreateResult result, NSHTTPURLResponse* xhr, NSError* error) {
-                                         LOG_IDENTITY(5,@"Session creation failed when it should have with error code %d and error %@", result, error);
+                                     onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                         LOG_IDENTITY(5,@"Session creation failed when it wasn't supposed to with result: %d", [xhr statusCode]);
+                                         LOG_IDENTITY(5, @"%@", [payload fs_stringValue]);
                                      }];
 }
 
 - (void)testSessionRead
 {
-    [self.winTest identitySessionOnSuccess:^(id response) {
+    [self.winTest identitySessionOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_IDENTITY(0,@"Session read");
+        LOG_IDENTITY(0, @"%@", response);
         [self testUserRead];
     }
-                                 onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                     LOG_IDENTITY(5,@"Failed to read session with error %@", error);
+                                 onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                     LOG_IDENTITY(5,@"Failed to read session with error %d", [xhr statusCode]);
+                                     LOG_IDENTITY(5, @"%@", [payload fs_stringValue]);
                                      [self destroySession];
                                  }];
 }
 
 - (void)testUserRead
 {
-    [self.winTest identityUserProfileOnSuccess:^(id response) {
+    [self.winTest identityUserProfileOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_IDENTITY(0,@"User profile read");
+        LOG_IDENTITY(0, @"%@", response);
         [self testPermissionsRead];
     }
-                                     onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                         LOG_IDENTITY(5,@"Failed to read user profile with error %@", error);
+                                     onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                         LOG_IDENTITY(5,@"Failed to read user profile with error %d", [xhr statusCode]);
+                                         LOG_IDENTITY(5, @"%@", [payload fs_stringValue]);
                                          [self destroySession];
                                      }];
 }
 
 - (void)testPermissionsRead
 {
-    [self.winTest identityUserPermissionsOnSuccess:^(id response) {
+    [self.winTest identityUserPermissionsOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_IDENTITY(0,@"Read the user's permissions");
+        LOG_IDENTITY(0, @"%@", response);
         [self destroySession];
     }
-                                         onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                             LOG_IDENTITY(5,@"Failed to read the user's permissions (maybe he or she doesn't have permission?) with error %@", error);
+                                         onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                             LOG_IDENTITY(5,@"Failed to read the user's permissions (maybe he or she doesn't have permission?) with error %d", [xhr statusCode]);
+                                             LOG_IDENTITY(5, @"%@", [payload fs_stringValue]);
                                              [self destroySession];
                                          }];
 }
 
 - (void)destroySession
 {
-    [self.winTest identityDestroySessionOnSuccess:^(id response) {
+    [self.winTest identityDestroySessionOnSuccess:^(NSHTTPURLResponse* resp, id response, NSData* payload) {
         LOG_IDENTITY(0,@"Destroyed session");
     }
-                                        onFailure:^(NSHTTPURLResponse* xhr, NSError* error) {
-                                            LOG_IDENTITY(5,@"Failed to destroy session with error %@", error);
+                                        onFailure:^(NSHTTPURLResponse* xhr, NSData* payload, NSError* error) {
+                                            LOG_IDENTITY(5,@"Failed to destroy session with error %d", [xhr statusCode]);
+                                            LOG_IDENTITY(5, @"%@", [payload fs_stringValue]);
                                         }];
 }
 
