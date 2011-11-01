@@ -20,8 +20,8 @@
 - (void)identityCreateSessionForUser:(NSString*)username
                         withPassword:(NSString*)password
                               apiKey:(NSString*)apiKey
-                             onSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDIdentitySessionCreateFailureBlock)failure
+                           onSuccess:(NDSuccessBlock)success
+                           onFailure:(NDFailureBlock)failure
 {
     NSMutableDictionary* urlParameters = [self.defaultURLParameters mutableCopy];
     [urlParameters setObject:apiKey forKey:@"key"];
@@ -34,23 +34,19 @@
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue currentQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-                               if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
-                                   // something very bad hath happened
-                                   if (failure) {
-                                       enum NDIdentitySessionCreateResult code = [((NSHTTPURLResponse*)resp) statusCode];
-                                       failure(code, (NSHTTPURLResponse*)resp, asplosion);
-                                   }
+                               NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+                               if (asplosion||[_resp statusCode]!=200) {
+                                   if (failure) failure(_resp, payload, asplosion);
                                } else {
                                    id parsed_payload = [[JSONDecoder decoder] objectWithData:payload];
                                    self.sessionId = [parsed_payload valueForKeyPath:@"session.id"];
-                                   if (success)
-                                       success(parsed_payload);
+                                   if (success) success(_resp, parsed_payload, payload);
                                }
                            }];
 }
 
-- (void)identitySessionOnSuccess:(NDGenericSuccessBlock)success
-                       onFailure:(NDGenericFailureBlock)failure
+- (void)identitySessionOnSuccess:(NDSuccessBlock)success
+                       onFailure:(NDFailureBlock)failure
 {
     NSDictionary* params = [self copyOfDefaultURLParametersWithSessionId];
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/session/" relativeToURL:self.serverUrl queryParameters:params];
@@ -58,61 +54,51 @@
     [NSURLConnection sendAsynchronousRequest:req
                                        queue:[NSOperationQueue currentQueue]
                            completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-                               if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
-                                   if (failure)
-                                       failure((NSHTTPURLResponse*)resp, asplosion);
-                               } else {
-                                   if (success)
-                                       success([[JSONDecoder decoder] objectWithData:payload]);
-                               }
+                               NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+                               if (asplosion||[_resp statusCode]!=200) {
+                                   if (failure) failure(_resp, payload, asplosion);
+                               } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
                            }];
 }
 
-- (void)identityUserProfileOnSuccess:(NDGenericSuccessBlock)success
-                           onFailure:(NDGenericFailureBlock)failure
+- (void)identityUserProfileOnSuccess:(NDSuccessBlock)success
+                           onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/user" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
-            if (failure)
-                failure((NSHTTPURLResponse*)resp, asplosion);
-        } else {
-            if (success)
-                success([[JSONDecoder decoder] objectWithData:payload]);
-        }
+        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+        if (asplosion||[_resp statusCode]!=200) {
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
     }];
 }
 
-- (void)identityUserPermissionsOnSuccess:(NDGenericSuccessBlock)success
-                               onFailure:(NDGenericFailureBlock)failure
+- (void)identityUserPermissionsOnSuccess:(NDSuccessBlock)success
+                               onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/permission" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
-            if (failure)
-                failure((NSHTTPURLResponse*)resp, asplosion);
-        } else {
-            if (success)
-                success([[JSONDecoder decoder] objectWithData:payload]);
-        }
+        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+        if (asplosion||[_resp statusCode]!=200) {
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
     }];
 }
 
-- (void)identityDestroySessionOnSuccess:(NDGenericSuccessBlock)success
-                              onFailure:(NDGenericFailureBlock)failure
+- (void)identityDestroySessionOnSuccess:(NDSuccessBlock)success
+                              onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/logout" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        if (asplosion||[((NSHTTPURLResponse*)resp) statusCode]!=200) {
-            if (failure)
-                failure((NSHTTPURLResponse*)resp, asplosion);
+        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+        if (asplosion||[_resp statusCode]!=200) {
+            if (failure) failure(_resp, payload, asplosion);
         } else {
             self.sessionId = nil;
-            if (success)
-                success([[JSONDecoder decoder] objectWithData:payload]);
+            if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
         }
     }];
 }

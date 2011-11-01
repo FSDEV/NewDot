@@ -10,9 +10,9 @@
 
 @class AFHTTPClient;
 
-typedef void(^NDGenericSuccessBlock)(id response);
-typedef void(^NDGenericFailureBlock)(NSHTTPURLResponse* xhr, NSError* error);
-typedef void(^NDParsedFailureBlock)(NSInteger code, NSHTTPURLResponse* xhr, NSError* error);
+typedef void(^NDSuccessBlock)(NSHTTPURLResponse* resp, id response, NSData* payload);
+typedef void(^NDFailureBlock)(NSHTTPURLResponse* resp, NSData* payload, NSError* error);
+typedef void(^NDParsedFailureBlock)(NSInteger code, NSHTTPURLResponse* xhr, NSError* error); // deprecate me!
 
 enum NDRequestMethod {
     GET,
@@ -69,10 +69,5 @@ enum NDRequestMethod {
  */
 - (id)initWithBaseURL:(NSURL*)newServerUrl
             userAgent:(NSString*)newUserAgent;
-
-/**
- * Somewhat internal bit that you shouldn't have to worry about.
- */
-- (NSMutableDictionary*)copyOfDefaultURLParametersWithSessionId;
 
 @end

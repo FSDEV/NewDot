@@ -10,6 +10,13 @@
 
 @implementation NDService (Implementation)
 
+- (NSMutableDictionary*)copyOfDefaultURLParametersWithSessionId
+{
+    NSMutableDictionary* toReturn = [self.defaultURLParameters mutableCopy];
+    [toReturn setObject:self.sessionId forKey:@"sessionId"];
+    return [toReturn autorelease];
+}
+
 - (NSMutableURLRequest*)standardRequestForURL:(NSURL*)url HTTPMethod:(NSString*)method
 {
     NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];

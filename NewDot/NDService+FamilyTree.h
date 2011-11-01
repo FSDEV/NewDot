@@ -50,14 +50,14 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
 /**
  * Some relevant properties related to working with the FamilyTree module of FamilySearch.
  */
-- (void)familyTreePropertiesOnSuccess:(NDGenericSuccessBlock)success
-                            onFailure:(NDGenericFailureBlock)failure;
+- (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success
+                            onFailure:(NDFailureBlock)failure;
 
 /**
  * Read the user profile of the currently logged-in user; for instance, this data includes the record ID of this user.
  */
-- (void)familyTreeUserProfileOnSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDGenericFailureBlock)failure;
+- (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure;
 
 /**
  * Read up to `person.max.ids` records from the API. Throws an `NSInternalInconsistencyException` in the event that a parameter is using a key that the API does not support.
@@ -67,12 +67,12 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
  */
 - (void)familyTreeReadPersons:(NSArray*)people
                withParameters:(NSDictionary*)parameters
-                    onSuccess:(NDGenericSuccessBlock)success
-                    onFailure:(NDGenericFailureBlock)failure;
+                    onSuccess:(NDSuccessBlock)success
+                    onFailure:(NDFailureBlock)failure;
 
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId
-                             onSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDParsedFailureBlock)failure;
+                             onSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure;
 
 /**
  * Locales! Note that this may migrate to a less specialized category in the future.

@@ -7,6 +7,11 @@
 //
 
 #import "NDService+Reservation.h"
+#import "NDService+Implementation.h"
+
+#import "NSURL+QueryStringConstructor.h"
+
+#import "JSONKit.h"
 
 #import "AFHTTPClient.h"
 
@@ -33,54 +38,65 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
 
 @implementation NDService (Reservation)
 
-- (void)reservationPropertiesOnSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDGenericFailureBlock)failure
+- (void)reservationPropertiesOnSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure
 {
-    [self.client getPath:@"/reservation/v1/properties"
-              parameters:self.defaultURLParameters
-                 success:^(id response) {
-                     NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-                     for (id kvpair in [response valueForKey:@"properties"])
-                         [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
-                     if (success)
-                         success([dict autorelease]);
-                 }
-                 failure:failure];
+    NSURL* url = [NSURL fs_URLWithString:@"/reservation/v1/properties" relativeToURL:self.serverUrl queryParameters:self.defaultURLParameters];
+    NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
+        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+        if (asplosion||[_resp statusCode]!=200) {
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) {
+            id _payload = [[JSONDecoder decoder] objectWithData:payload];
+            NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+            for (id kvpair in [_payload valueForKey:@"properties"])
+                [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]];
+            success(_resp, dict, payload);
+        }
+    }];
 }
 
 - (void)reservationListForUser:(NSString*)userId
-                     onSuccess:(NDGenericSuccessBlock)success
-                     onFailure:(NDGenericFailureBlock)failure
+                     onSuccess:(NDSuccessBlock)success
+                     onFailure:(NDFailureBlock)failure
 {
-    [self.client getPath:[NSString stringWithFormat:@"/reservation/v1/list/%@/", userId]
-              parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:^(id response) {
-                     id fixedUpOrdinances = nil;
-                     @autoreleasepool {
-                         NSMutableArray* ordinances = [NSMutableArray array];
-                         NSMutableDictionary* dict;
-                         for (id reservation in [response valueForKeyPath:@"list.reservation"]) {
-                             dict = [NSMutableDictionary dictionaryWithDictionary:[reservation objectForKey:[[reservation allKeys] lastObject]]];
-                             [dict setObject:[[reservation allKeys] lastObject] forKey:@"type"];
-                             [ordinances addObject:[NSDictionary dictionaryWithDictionary:dict]];
-                         }
-                         fixedUpOrdinances = [[NSArray alloc] initWithArray:ordinances];
-
-                     }
-                     if (success)
-                         success([fixedUpOrdinances autorelease]);
-                 }
-                 failure:failure];
+    NSURL* url = [NSURL fs_URLWithString:[NSString stringWithFormat:@"/reservation/v1/list/%@", userId] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
+    NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
+        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+        if (asplosion||[_resp statusCode]!=200) {
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) {
+            id _payload = [[JSONDecoder decoder] objectWithData:payload];
+            id fixedUpOrdinances = nil;
+            @autoreleasepool {
+                NSMutableArray* ordinances = [NSMutableArray array];
+                NSMutableDictionary* dict;
+                for (id reservation in [_payload valueForKeyPath:@"list.reservation"]) {
+                    dict = [NSMutableDictionary dictionaryWithDictionary:[reservation objectForKey:[[reservation allKeys] lastObject]]];
+                    [dict setObject:[[reservation allKeys] lastObject] forKey:@"type"];
+                    [ordinances addObject:[NSDictionary dictionaryWithDictionary:dict]];
+                }
+                fixedUpOrdinances = [[NSArray alloc] initWithArray:ordinances];
+            }
+            success(_resp, [fixedUpOrdinances autorelease], payload);
+        }
+    }];
 }
 
 - (void)reservationReadPersons:(NSArray*)people
-                     onSuccess:(NDGenericSuccessBlock)success
-                     onFailure:(NDGenericFailureBlock)failure
+                     onSuccess:(NDSuccessBlock)success
+                     onFailure:(NDFailureBlock)failure
 {
-    [self.client getPath:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]]
-              parameters:[self copyOfDefaultURLParametersWithSessionId]
-                 success:success
-                 failure:failure];
+    NSURL* url = [NSURL fs_URLWithString:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
+    NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
+        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
+        if (asplosion||[_resp statusCode]!=200) {
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+    }];
 }
 
 @end

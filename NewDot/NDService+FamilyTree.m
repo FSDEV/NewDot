@@ -53,45 +53,44 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
 
 @implementation NDService (FamilyTree)
 
-- (void)familyTreePropertiesOnSuccess:(NDGenericSuccessBlock)success
-                            onFailure:(NDGenericFailureBlock)failure
+- (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success
+                            onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL fs_URLWithString:@"/familytree/v2/properties" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
+    NSURL* url = [NSURL fs_URLWithString:@"/familytree/v2/properties" relativeToURL:self.serverUrl queryParameters:[self defaultURLParameters]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
         if (asplosion||[_resp statusCode]!=200) {
-            if (failure)
-                failure(_resp, asplosion);
+            if (failure) failure(_resp, payload, asplosion);
         } else {
             if (success) {
                 NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
                 id _payload = [[JSONDecoder decoder] objectWithData:payload];
                 for (id kvpair in [_payload valueForKey:@"properties"])
                     [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
-                success(dict);
+                success(_resp, dict, payload);
             }
         }
     }];
 }
 
-- (void)familyTreeUserProfileOnSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDGenericFailureBlock)failure
+- (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/familytree/v2/user" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
         if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure(_resp, asplosion);
-        } else if (success) success([[JSONDecoder decoder] objectWithData:payload]);
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
     }];
 }
 
 - (void)familyTreeReadPersons:(NSArray*)people
                withParameters:(NSDictionary*)parameters
-                    onSuccess:(NDGenericSuccessBlock)success
-                    onFailure:(NDGenericFailureBlock)failure
+                    onSuccess:(NDSuccessBlock)success
+                    onFailure:(NDFailureBlock)failure
 {
     NSDictionary* validKeys = [self readPersonsValidKeys];
     NSArray* keys = [validKeys allKeys];
@@ -106,22 +105,22 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
         if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure(_resp, asplosion);
-        } else if (success) success([[JSONDecoder decoder] objectWithData:payload]);
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
     }];
 }
 
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId
-                             onSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDParsedFailureBlock)failure
+                             onSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
         if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure([_resp statusCode], _resp, asplosion);
-        } else if (success) success([[JSONDecoder decoder] objectWithData:payload]);
+            if (failure) failure(_resp, payload, asplosion);
+        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
     }];
 }
 

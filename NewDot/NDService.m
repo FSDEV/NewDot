@@ -33,13 +33,6 @@
     return self;
 }
 
-- (NSMutableDictionary*)copyOfDefaultURLParametersWithSessionId
-{
-    NSMutableDictionary* toReturn = [self.defaultURLParameters mutableCopy];
-    [toReturn setObject:self.sessionId forKey:@"sessionId"];
-    return [toReturn autorelease];
-}
-
 #pragma mark NSObject
 
 - (id)init

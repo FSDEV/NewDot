@@ -13,21 +13,21 @@
 /**
  * Some relevant properties to working with the Discussions module.
  */
-- (void)discussionsPropertiesOnSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDGenericFailureBlock)failure;
+- (void)discussionsPropertiesOnSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure;
 
 /**
  * Returns a list of all system tags created by the currently authenticated user.
  */
-- (void)discussionsSystemTagsOnSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDGenericFailureBlock)failure;
+- (void)discussionsSystemTagsOnSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure;
 
 /**
  * Request for all discussions with the given system tags.
  */
 - (void)discussionsWithSystemTags:(NSArray*)tags
-                        onSuccess:(NDGenericSuccessBlock)success
-                        onFailure:(NDGenericFailureBlock)failure;
+                        onSuccess:(NDSuccessBlock)success
+                        onFailure:(NDFailureBlock)failure;
 
 /**
  * Request for all discussions with the given discussion IDs.
@@ -36,7 +36,7 @@
  */
 - (void)discussionsWithIds:(NSArray*)ids
                     method:(enum NDRequestMethod)method
-                 onSuccess:(NDGenericSuccessBlock)success
-                 onFailure:(NDGenericFailureBlock)failure;
+                 onSuccess:(NDSuccessBlock)success
+                 onFailure:(NDFailureBlock)failure;
 
 @end

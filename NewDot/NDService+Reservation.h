@@ -34,21 +34,21 @@ extern const struct NDOrdinanceStatus {
 /**
  * Request to get the properties associated with the Ordinance Reservation Module.
  */
-- (void)reservationPropertiesOnSuccess:(NDGenericSuccessBlock)success
-                             onFailure:(NDGenericFailureBlock)failure;
+- (void)reservationPropertiesOnSuccess:(NDSuccessBlock)success
+                             onFailure:(NDFailureBlock)failure;
 
 /**
  * List of all reserved ordinances for a given user.
  */
 - (void)reservationListForUser:(NSString*)userId
-                     onSuccess:(NDGenericSuccessBlock)success
-                     onFailure:(NDGenericFailureBlock)failure;
+                     onSuccess:(NDSuccessBlock)success
+                     onFailure:(NDFailureBlock)failure;
 
 /**
  * Read detailed ordinance reservation information from the Reservation system about the given records.
  */
 - (void)reservationReadPersons:(NSArray*)people
-                     onSuccess:(NDGenericSuccessBlock)success
-                     onFailure:(NDGenericFailureBlock)failure;
+                     onSuccess:(NDSuccessBlock)success
+                     onFailure:(NDFailureBlock)failure;
 
 @end
