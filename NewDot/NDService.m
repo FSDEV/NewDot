@@ -37,7 +37,7 @@
 {
     NSMutableDictionary* toReturn = [self.defaultURLParameters mutableCopy];
     [toReturn setObject:self.sessionId forKey:@"sessionId"];
-    return toReturn;
+    return [toReturn autorelease];
 }
 
 #pragma mark NSObject

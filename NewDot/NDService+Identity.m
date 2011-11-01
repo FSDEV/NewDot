@@ -9,7 +9,6 @@
 #import "NDService+Identity.h"
 #import "NDService+Implementation.h"
 
-#import "AFHTTPClient.h"
 #import "JSONKit.h"
 
 #import "NSString+LastWord.h"
@@ -26,7 +25,7 @@
 {
     NSMutableDictionary* urlParameters = [self.defaultURLParameters mutableCopy];
     [urlParameters setObject:apiKey forKey:@"key"];
-    NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/login" relativeToURL:self.serverUrl queryParameters:urlParameters];
+    NSURL* url = [NSURL fs_URLWithString:@"/identity/v2/login" relativeToURL:self.serverUrl queryParameters:[urlParameters autorelease]];
     
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:[NSString stringWithFormat:@"Basic %@", [NSString fs_encodeBase64WithString:[NSString stringWithFormat:@"%@:%@", username, password]]] forHTTPHeaderField:@"Authorization"];
