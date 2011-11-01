@@ -8,13 +8,9 @@
 
 #import "NDService.h"
 
-#import "AFHTTPClient.h"
-#import "AFJSONRequestOperation.h"
-
 @implementation NDService
 
 @synthesize serverUrl;
-@synthesize client;
 @synthesize sessionId;
 @synthesize userAgent;
 @synthesize defaultURLParameters;
@@ -25,8 +21,6 @@
     self = [self init];
     if (self) {
         serverUrl = [newServerUrl retain];
-        self.client = [[[AFHTTPClient alloc] initWithBaseURL:newServerUrl] autorelease];
-        [self.client registerHTTPOperationClass:[AFJSONRequestOperation class]];
         self.userAgent = newUserAgent;
     }
     
@@ -48,7 +42,8 @@
 - (void)dealloc
 {
     self.sessionId = nil;
-    self.client = nil;
+    [serverUrl release];
+    self.userAgent = nil;
     self.defaultURLParameters = nil;
     
     [super dealloc];

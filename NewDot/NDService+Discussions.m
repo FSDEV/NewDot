@@ -38,7 +38,8 @@
                              onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL fs_URLWithString:@"/discussions/systemtags" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
-    NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
         if (asplosion||[_resp statusCode]!=200) {

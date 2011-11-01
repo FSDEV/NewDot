@@ -8,11 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class AFHTTPClient;
-
 typedef void(^NDSuccessBlock)(NSHTTPURLResponse* resp, id response, NSData* payload);
 typedef void(^NDFailureBlock)(NSHTTPURLResponse* resp, NSData* payload, NSError* error);
-typedef void(^NDParsedFailureBlock)(NSInteger code, NSHTTPURLResponse* xhr, NSError* error); // deprecate me!
 
 enum NDRequestMethod {
     GET,
@@ -50,11 +47,6 @@ enum NDRequestMethod {
  * Set the receiver's `User-Agent` header; useful for disambiguating between multiple clients running on the same API key. If set to `nil`, then it is actually set to `NewDot/x.x`.
  */
 @property (readwrite, retain) NSString* userAgent;
-
-/**
- * The receiver's AFNetworking client. Please do not use this to manually run un-implemented requests. Please fork NewDot on Github, then make a pull-request when you're done. When you do this, we can then take over supporting that portion of the code-base for you - for free!
- */
-@property (readwrite, retain) AFHTTPClient* client;
 
 /**
  * These parameters are appeneded to every request URL; by default, only `dataFormat=application/json` will be in here.
