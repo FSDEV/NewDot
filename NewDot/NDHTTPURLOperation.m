@@ -65,6 +65,7 @@ enum NDHTTPURLOperationState {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         networkReqThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        [networkReqThread setName:@"net.fsdev.NewDot-Web-Thread"];
         [networkReqThread start];
     });
     
