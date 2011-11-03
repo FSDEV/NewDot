@@ -35,10 +35,11 @@ Do not add the NewDot project to your Xcode project workspace. Instead, open the
 * NDService+Discussions
 * NDService+Reservation
 * NDService+Implementation
+* NDHTTPURLOperation
 * NSDictionary+Merge
 * NSArray+Chunky
 * NSString+LastWord
-* NSData+StringValue (not actually required, but calling `fs_UTF8String` on `NSData` during debugging can be helpful)
+* NSData+StringValue (not actually required, but calling `stringValue` on `NSData` during debugging can be helpful)
 * NSURL+QueryStringConstructor
 * NSString+Base64
 * JSONKit
