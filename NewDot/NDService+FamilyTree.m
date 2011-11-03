@@ -9,7 +9,10 @@
 #import "NDService+FamilyTree.h"
 #import "NDService+Implementation.h"
 
+#import "NDHTTPURLOperation.h"
+
 #import "JSONKit.h"
+
 #import "NSDictionary+Merge.h"
 #import "NSString+LastWord.h"
 #import "NSURL+QueryStringConstructor.h"
@@ -53,44 +56,80 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
 
 @implementation NDService (FamilyTree)
 
-- (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success
-                            onFailure:(NDFailureBlock)failure
+- (NSArray*)familyTreeLocales
+{
+    static NSArray* locales;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        locales = [[NSArray alloc] initWithObjects:@"ar", @"be", @"bg", @"ca", @"cs", @"da", @"de", @"el", @"en", @"es", @"et", @"fi", @"fr", @"ga", @"hr", @"hu", @"in", @"is", @"it", @"iw", @"ja", @"ko", @"lt", @"lv", @"mk", @"ms", @"mt", @"nl", @"no", @"pl", @"pt", @"ro", @"ru", @"sk", @"sl", @"sq", @"sr", @"sv", @"th", @"tr", @"uk", @"vi", @"zh", nil];
+    });
+    return locales;
+}
+
+#pragma mark Properties
+
+- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL URLWithString:@"/familytree/v2/properties" relativeToURL:self.serverUrl queryParameters:[self defaultURLParameters]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
-    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
-        if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure(_resp, payload, asplosion);
+    
+    NDHTTPURLOperation* oper =
+    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+        if (asplosion||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, asplosion);
         } else {
             if (success) {
                 NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
                 id _payload = [[JSONDecoder decoder] objectWithData:payload];
                 for (id kvpair in [_payload valueForKey:@"properties"])
                     [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
-                success(_resp, [dict autorelease], payload);
+                success(resp, [dict autorelease], payload);
             }
         }
     }];
+    
+    return oper;
+}
+
+- (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success
+                            onFailure:(NDFailureBlock)failure
+{
+    [self.operationQueue addOperation:[self familyTreeOperationPropertiesOnSuccess:success
+                                                                         onFailure:failure]];
+}
+
+#pragma mark Profile
+
+- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+{
+    NSURL* url = [NSURL URLWithString:@"/familytree/v2/user" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    NDHTTPURLOperation* oper =
+    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+        if (asplosion||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, asplosion);
+        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+    }];
+    
+    return oper;
 }
 
 - (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success
                              onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:@"/familytree/v2/user" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
-    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
-    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
-        if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure(_resp, payload, asplosion);
-        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
-    }];
+    [self.operationQueue addOperation:[self familyTreeOperationUserProfileOnSuccess:success
+                                                                          onFailure:failure]];
 }
 
-- (void)familyTreeReadPersons:(NSArray*)people
-               withParameters:(NSDictionary*)parameters
-                    onSuccess:(NDSuccessBlock)success
-                    onFailure:(NDFailureBlock)failure
+#pragma mark Read Persons
+
+- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+                                       withParameters:(NSDictionary*)parameters
+                                            onSuccess:(NDSuccessBlock)success
+                                            onFailure:(NDFailureBlock)failure
 {
     NSDictionary* validKeys = [self readPersonsValidKeys];
     NSArray* keys = [validKeys allKeys];
@@ -102,36 +141,54 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
     }];
     NSURL* url = [NSURL URLWithString:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person" relativeToURL:self.serverUrl queryParameters:[[[self copyOfDefaultURLParametersWithSessionId] autorelease] dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
-    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
-        if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure(_resp, payload, asplosion);
-        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+    
+    NDHTTPURLOperation* oper =
+    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+        if (asplosion||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, asplosion);
+        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
     }];
+    
+    return oper;
+}
+
+- (void)familyTreeReadPersons:(NSArray*)people
+               withParameters:(NSDictionary*)parameters
+                    onSuccess:(NDSuccessBlock)success
+                    onFailure:(NDFailureBlock)failure
+{
+    [self.operationQueue addOperation:[self familyTreeOperationReadPersons:people
+                                                            withParameters:parameters
+                                                                 onSuccess:success
+                                                                 onFailure:failure]];
+}
+
+#pragma mark Discussions For Person
+
+- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
+                                                     onSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+{
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    NDHTTPURLOperation* oper =
+    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+        if (asplosion||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, asplosion);
+        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+    }];
+    
+    return oper;
 }
 
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId
                              onSuccess:(NDSuccessBlock)success
                              onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
-    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
-    [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
-        NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
-        if (asplosion||[_resp statusCode]!=200) {
-            if (failure) failure(_resp, payload, asplosion);
-        } else if (success) success(_resp, [[JSONDecoder decoder] objectWithData:payload], payload);
-    }];
-}
-
-- (NSArray*)familyTreeLocales
-{
-    static NSArray* locales;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        locales = [[NSArray alloc] initWithObjects:@"ar", @"be", @"bg", @"ca", @"cs", @"da", @"de", @"el", @"en", @"es", @"et", @"fi", @"fr", @"ga", @"hr", @"hu", @"in", @"is", @"it", @"iw", @"ja", @"ko", @"lt", @"lv", @"mk", @"ms", @"mt", @"nl", @"no", @"pl", @"pt", @"ro", @"ru", @"sk", @"sl", @"sq", @"sr", @"sv", @"th", @"tr", @"uk", @"vi", @"zh", nil];
-    });
-    return locales;
+    [self.operationQueue addOperation:[self familyTreeOperationDiscussionsForPerson:personId
+                                                                          onSuccess:success
+                                                                          onFailure:failure]];
 }
 
 #pragma mark FamilyTree+Private

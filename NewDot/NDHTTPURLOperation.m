@@ -83,7 +83,9 @@ enum NDHTTPURLOperationState {
 
 - (void)finish
 {
+    [self willChangeValueForKey:@"isFinished"];
     self.state = finished;
+    [self didChangeValueForKey:@"isFinished"];
 }
 
 - (void)operationDidStart
@@ -151,8 +153,8 @@ didReceiveResponse:(NSURLResponse *)resp
     self.dataAccumulator = [NSMutableData dataWithCapacity:capacity];
 }
 
-- (void)connnection:(NSURLConnection*)__unused conn
-     didReceiveData:(NSData*)data
+- (void)connection:(NSURLConnection*)__unused conn
+    didReceiveData:(NSData*)data
 {
     [self.dataAccumulator appendData:data];
 }
