@@ -10,14 +10,14 @@
 
 @implementation NSDictionary (Merge)
 
-- (NSDictionary*)fs_dictionaryByMergingDictionary:(NSDictionary*)aDict
+- (NSDictionary*)dictionaryByMergingDictionary:(NSDictionary*)aDict
 {
     NSMutableDictionary * mutableSelf = [self mutableCopy];
     
     for (id key in aDict)
         [mutableSelf setObject:[aDict objectForKey:key] forKey:key];
     
-    return [NSDictionary dictionaryWithDictionary:mutableSelf];
+    return [NSDictionary dictionaryWithDictionary:[mutableSelf autorelease]];
 }
 
 @end

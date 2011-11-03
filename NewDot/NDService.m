@@ -14,6 +14,7 @@
 @synthesize sessionId;
 @synthesize userAgent;
 @synthesize defaultURLParameters;
+@synthesize operationQueue;
 
 - (id)initWithBaseURL:(NSURL*)newServerUrl
             userAgent:(NSString*)newUserAgent
@@ -34,6 +35,8 @@
     self = [super init];
     if (self) {
         self.defaultURLParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"dataFormat", nil];
+        self.operationQueue = [[[NSOperationQueue alloc] init] autorelease];
+        self.operationQueue.maxConcurrentOperationCount = 4;
     }
     
     return self;

@@ -53,6 +53,8 @@ enum NDRequestMethod {
  */
 @property (readwrite, retain) NSMutableDictionary* defaultURLParameters;
 
+@property (readwrite, retain) NSOperationQueue* operationQueue;
+
 /**
  * Make a new NDService object bound to the given base URL, with the given `User-Agent`.
  *

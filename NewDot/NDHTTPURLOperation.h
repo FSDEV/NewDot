@@ -11,7 +11,12 @@
 @interface NDHTTPURLOperation : NSOperation
 
 @property (readonly, retain) NSURLRequest* request;
-@property (readonly, retain) NSURLResponse* response;
+@property (readwrite, retain) NSHTTPURLResponse* response;
+@property (readwrite, retain) NSMutableData* payload;
+@property (readwrite, retain) NSError * error;
+
++ (NDHTTPURLOperation*)HTTPURLOperationWithRequest:(NSURLRequest*)req
+                                   completionBlock:(void(^)(NSHTTPURLResponse* resp, NSData* payload, NSError* error))completion;
 
 - (id)initWithRequest:(NSURLRequest*)_request;
 

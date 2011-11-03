@@ -14,7 +14,7 @@
 {
     NSMutableDictionary* toReturn = [self.defaultURLParameters mutableCopy];
     [toReturn setObject:self.sessionId forKey:@"sessionId"];
-    return [toReturn autorelease];
+    return toReturn;
 }
 
 - (NSMutableURLRequest*)standardRequestForURL:(NSURL*)url HTTPMethod:(NSString*)method

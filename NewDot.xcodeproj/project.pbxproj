@@ -219,10 +219,10 @@
 				DAE3789514311AF000F4003C /* NDService+Reservation.m */,
 				DA020B32145F4222008DA3AE /* NDService+Implementation.h */,
 				DA020B33145F4222008DA3AE /* NDService+Implementation.m */,
-				DAB030BD143226BF00E2A160 /* Categories */,
-				DAAF5E3B142D0C1A00878D16 /* Supporting Files */,
 				DAAB86F6145F2EDA00794B4A /* NDHTTPURLOperation.h */,
 				DAAB86F7145F2EDA00794B4A /* NDHTTPURLOperation.m */,
+				DAB030BD143226BF00E2A160 /* Categories */,
+				DAAF5E3B142D0C1A00878D16 /* Supporting Files */,
 			);
 			path = NewDot;
 			sourceTree = "<group>";

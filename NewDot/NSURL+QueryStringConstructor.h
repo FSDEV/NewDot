@@ -10,9 +10,9 @@
 
 @interface NSURL (QueryStringConstructor)
 
-+ (id)fs_URLWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params;
-+ (id)fs_URLWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams;
-- (id)fs_initWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params;
-- (id)fs_initWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams;
++ (id)URLWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params;
++ (id)URLWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams;
+- (id)initWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params;
+- (id)initWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams;
 
 @end

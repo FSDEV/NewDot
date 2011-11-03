@@ -10,22 +10,22 @@
 
 @implementation NSURL (QueryStringConstructor)
 
-+ (id)fs_URLWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params
++ (id)URLWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params
 {
-    return [[[NSURL alloc] fs_initWithString:URLString relativeToURL:baseURL queryParameters:params] autorelease];
+    return [[[NSURL alloc] initWithString:URLString relativeToURL:baseURL queryParameters:params] autorelease];
 }
 
-+ (id)fs_URLWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams
++ (id)URLWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams
 {
-    return [[[NSURL alloc] fs_initWithString:URLString relativeToURL:baseURL queryParameters:params tailParams:tailParams] autorelease];
+    return [[[NSURL alloc] initWithString:URLString relativeToURL:baseURL queryParameters:params tailParams:tailParams] autorelease];
 }
 
-- (id)fs_initWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params
+- (id)initWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params
 {
-    return [self fs_initWithString:URLString relativeToURL:baseURL queryParameters:params tailParams:nil];
+    return [self initWithString:URLString relativeToURL:baseURL queryParameters:params tailParams:nil];
 }
 
-- (id)fs_initWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams
+- (id)initWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams
 {
     NSMutableString* _URLString = [[NSMutableString alloc] initWithString:URLString];
     if (params&&[params count]>0) {

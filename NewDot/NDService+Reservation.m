@@ -39,7 +39,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
 - (void)reservationPropertiesOnSuccess:(NDSuccessBlock)success
                              onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL fs_URLWithString:@"/reservation/v1/properties" relativeToURL:self.serverUrl queryParameters:self.defaultURLParameters];
+    NSURL* url = [NSURL URLWithString:@"/reservation/v1/properties" relativeToURL:self.serverUrl queryParameters:self.defaultURLParameters];
     NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
@@ -50,7 +50,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
             NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
             for (id kvpair in [_payload valueForKey:@"properties"])
                 [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]];
-            success(_resp, dict, payload);
+            success(_resp, [dict autorelease], payload);
         }
     }];
 }
@@ -59,7 +59,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                      onSuccess:(NDSuccessBlock)success
                      onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL fs_URLWithString:[NSString stringWithFormat:@"/reservation/v1/list/%@", userId] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/reservation/v1/list/%@", userId] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
     NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
@@ -87,7 +87,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                      onSuccess:(NDSuccessBlock)success
                      onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL fs_URLWithString:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
     NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [NSURLConnection sendAsynchronousRequest:req queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse* resp, NSData* payload, NSError* asplosion) {
         NSHTTPURLResponse* _resp = (NSHTTPURLResponse*)resp;
