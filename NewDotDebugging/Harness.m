@@ -41,14 +41,4 @@
     return self;
 }
 
-- (void)dealloc
-{
-    self.username = nil;
-    self.password = nil;
-    self.serverLocation = nil;
-    self.apiKey = nil;
-    
-    [super dealloc];
-}
-
 @end

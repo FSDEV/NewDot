@@ -44,10 +44,10 @@
     self.serverLocation.text = [d stringForKey:@"serverLocation"];
     self.apiKey.text = [d stringForKey:@"apiKey"];
     
-    self.identityTests = [[[TestIdentity alloc] init] autorelease];
-    self.familyTreeTests = [[[TestFamilyTree alloc] init] autorelease];
-    self.discussionsTests = [[[TestDiscussions alloc] init] autorelease];
-    self.reservationTests = [[[TestReservation alloc] init] autorelease];
+    self.identityTests = [[TestIdentity alloc] init];
+    self.familyTreeTests = [[TestFamilyTree alloc] init];
+    self.discussionsTests = [[TestDiscussions alloc] init];
+    self.reservationTests = [[TestReservation alloc] init];
     
     return YES;
 }
@@ -150,24 +150,6 @@
         [textField resignFirstResponder];
     
     return YES;
-}
-
-#pragma mark NSObject
-
-- (void)dealloc
-{
-    [_window release];
-    
-    self.identityTests = nil;
-    self.familyTreeTests = nil;
-    self.identityTests = nil;
-
-    self.username = nil;
-    self.password = nil;
-    self.serverLocation = nil;
-    self.apiKey = nil;
-    
-    [super dealloc];
 }
 
 @end

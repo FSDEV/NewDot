@@ -16,7 +16,6 @@
 		DA110803143F824600DFCC10 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DA110801143F824600DFCC10 /* LoggerClient.m */; };
 		DA110806143F827700DFCC10 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA110805143F827700DFCC10 /* CFNetwork.framework */; };
 		DA110808143F828500DFCC10 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA110807143F828500DFCC10 /* SystemConfiguration.framework */; };
-		DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
 		DA71B7D3143E3DBC00E9EE94 /* NDService+Discussions.h in Headers */ = {isa = PBXBuildFile; fileRef = DA71B7D1143E3DBC00E9EE94 /* NDService+Discussions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA71B7D4143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */; };
 		DA71B7D5143E3DBC00E9EE94 /* NDService+Discussions.m in Sources */ = {isa = PBXBuildFile; fileRef = DA71B7D2143E3DBC00E9EE94 /* NDService+Discussions.m */; };
@@ -39,7 +38,6 @@
 		DAAF5E85142D136C00878D16 /* NDService+Identity.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E83142D136C00878D16 /* NDService+Identity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E84142D136C00878D16 /* NDService+Identity.m */; };
 		DAAF5E90142D24B800878D16 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DAAF5E8E142D24B800878D16 /* JSONKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5E8F142D24B800878D16 /* JSONKit.m */; };
 		DAAF5E9A142D2CB200878D16 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAAF5E38142D0C1A00878D16 /* Foundation.framework */; };
 		DAAF5EA1142D2CB200878D16 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAAF5E9F142D2CB200878D16 /* InfoPlist.strings */; };
 		DAAF5EA3142D2CB200878D16 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAAF5EA2142D2CB200878D16 /* main.m */; };
@@ -433,7 +431,6 @@
 			files = (
 				DAAF5E82142D109300878D16 /* NDService.m in Sources */,
 				DAAF5E86142D136C00878D16 /* NDService+Identity.m in Sources */,
-				DAAF5E91142D24B800878D16 /* JSONKit.m in Sources */,
 				DAE3789714311AF000F4003C /* NDService+Reservation.m in Sources */,
 				DAE378A21431247700F4003C /* NDService+FamilyTree.m in Sources */,
 				DAB030AA1432218900E2A160 /* NSDictionary+Merge.m in Sources */,
@@ -458,7 +455,6 @@
 				DAAF5EB2142D2CB200878D16 /* NewDotDebuggingAppDelegate_iPad.m in Sources */,
 				DAAF5EBB142D2D5D00878D16 /* NDService.m in Sources */,
 				DAAF5EBC142D2D5F00878D16 /* NDService+Identity.m in Sources */,
-				DA5079F5142D2E3300E6AF2E /* JSONKit.m in Sources */,
 				DAE3788F1430D20A00F4003C /* TestIdentity.m in Sources */,
 				DAE3789814311AF000F4003C /* NDService+Reservation.m in Sources */,
 				DAE3789B1431237400F4003C /* TestReservation.m in Sources */,
@@ -514,8 +510,11 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -524,7 +523,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -538,10 +537,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",

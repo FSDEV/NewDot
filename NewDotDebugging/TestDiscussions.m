@@ -156,7 +156,7 @@
 {
     [super testWithUsername:u password:p serverLocation:s apiKey:a];
     
-    self.service = [[[NDService alloc] initWithBaseURL:[NSURL URLWithString:self.serverLocation] userAgent:nil] autorelease];
+    self.service = [[NDService alloc] initWithBaseURL:[NSURL URLWithString:self.serverLocation] userAgent:nil];
     LOG_DISCUSSIONS(0, @"Testing Discussions Module");
     [self login];
 }
@@ -171,14 +171,6 @@
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    self.service = nil;
-    self.discussionIds = nil;
-    
-    [super dealloc];
 }
 
 @end

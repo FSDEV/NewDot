@@ -119,8 +119,8 @@
     [super testWithUsername:u password:p serverLocation:s apiKey:a];
     
     NSURL* baseURL = [NSURL URLWithString:s];
-    self.winTest = [[[NDService alloc] initWithBaseURL:baseURL userAgent:@"NewDot/0.2"] autorelease];
-    self.failTest = [[[NDService alloc] initWithBaseURL:baseURL userAgent:@"NewDot/0.2"] autorelease];
+    self.winTest = [[NDService alloc] initWithBaseURL:baseURL userAgent:@"NewDot/0.2"];
+    self.failTest = [[NDService alloc] initWithBaseURL:baseURL userAgent:@"NewDot/0.2"];
     
     LOG_IDENTITY(0,@"Testing the Identity Module");
     [self testLoginFailure];
@@ -137,14 +137,6 @@
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    self.winTest = nil;
-    self.failTest = nil;
-    
-    [super dealloc];
 }
 
 @end

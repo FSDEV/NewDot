@@ -169,7 +169,7 @@
         collectedPersonIds = [personIds copy];
     }
     
-    return [collectedPersonIds autorelease];
+    return collectedPersonIds;
 }
 
 #pragma mark Harness
@@ -178,7 +178,7 @@
 {
     [super testWithUsername:u password:p serverLocation:s apiKey:a];
     
-    self.service = [[[NDService alloc] initWithBaseURL:[NSURL URLWithString:self.serverLocation] userAgent:nil] autorelease];
+    self.service = [[NDService alloc] initWithBaseURL:[NSURL URLWithString:self.serverLocation] userAgent:nil];
     
     LOG_RESERVATION(0, @"Testing the Reservation Module");
     [self login];
@@ -194,13 +194,6 @@
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    self.service = nil;
-    
-    [super dealloc];
 }
 
 @end
