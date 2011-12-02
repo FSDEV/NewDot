@@ -11,8 +11,6 @@
 
 #import "NDHTTPURLOperation.h"
 
-#import "JSONKit.h"
-
 #import "NSURL+QueryStringConstructor.h"
 
 const struct NDReservationType NDReservationType = {
@@ -51,11 +49,13 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
-            id _payload = [[JSONDecoder decoder] objectWithData:payload];
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (err&&failure) failure(resp, payload, err);
             NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
             for (id kvpair in [_payload valueForKey:@"properties"])
                 [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]];
-            success(resp, [dict autorelease], payload);
+            success(resp, dict, payload);
         }
     }];
     
@@ -75,7 +75,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                                                         onSuccess:(NDSuccessBlock)success
                                                         onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/reservation/v1/list/%@", userId] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/reservation/v1/list/%@", userId] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     NDHTTPURLOperation* oper =
@@ -83,7 +83,9 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
-            id _payload = [[JSONDecoder decoder] objectWithData:payload];
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (err&&failure) failure(resp, payload, err);
             id fixedUpOrdinances = nil;
             @autoreleasepool {
                 NSMutableArray* ordinances = [NSMutableArray array];
@@ -95,7 +97,7 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                 }
                 fixedUpOrdinances = [[NSArray alloc] initWithArray:ordinances];
             }
-            success(resp, [fixedUpOrdinances autorelease], payload);
+            success(resp, fixedUpOrdinances, payload);
         }
     }];
     
@@ -117,14 +119,19 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
                                              onSuccess:(NDSuccessBlock)success
                                              onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/reservation/v1/person/%@", [people componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;

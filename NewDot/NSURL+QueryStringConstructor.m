@@ -12,12 +12,12 @@
 
 + (id)URLWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params
 {
-    return [[[NSURL alloc] initWithString:URLString relativeToURL:baseURL queryParameters:params] autorelease];
+    return [[NSURL alloc] initWithString:URLString relativeToURL:baseURL queryParameters:params];
 }
 
 + (id)URLWithString:(NSString *)URLString relativeToURL:(NSURL *)baseURL queryParameters:(NSDictionary *)params tailParams:(NSString*)tailParams
 {
-    return [[[NSURL alloc] initWithString:URLString relativeToURL:baseURL queryParameters:params tailParams:tailParams] autorelease];
+    return [[NSURL alloc] initWithString:URLString relativeToURL:baseURL queryParameters:params tailParams:tailParams];
 }
 
 - (id)initWithString:(NSString*)URLString relativeToURL:(NSURL*)baseURL queryParameters:(NSDictionary*)params
@@ -36,7 +36,7 @@
     }
     if (tailParams) [_URLString appendString:tailParams];
     
-    return [self initWithString:[_URLString autorelease] relativeToURL:baseURL];
+    return [self initWithString:_URLString relativeToURL:baseURL];
 }
 
 @end

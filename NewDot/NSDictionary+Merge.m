@@ -17,7 +17,7 @@
     for (id key in aDict)
         [mutableSelf setObject:[aDict objectForKey:key] forKey:key];
     
-    return [NSDictionary dictionaryWithDictionary:[mutableSelf autorelease]];
+    return [mutableSelf copy];
 }
 
 @end

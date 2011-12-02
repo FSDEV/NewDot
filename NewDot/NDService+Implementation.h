@@ -13,4 +13,5 @@
 - (NSMutableDictionary*)copyOfDefaultURLParametersWithSessionId;
 - (NSMutableURLRequest*)standardRequestForURL:(NSURL*)url HTTPMethod:(NSString*)method;
 
+
 @end

@@ -22,7 +22,7 @@
     NSMutableURLRequest* req = [[NSMutableURLRequest alloc] initWithURL:url];
     [req setHTTPMethod:method];
     [req addValue:self.userAgent forHTTPHeaderField:@"User-Agent"];
-    return [req autorelease];
+    return req;
 }
 
 @end

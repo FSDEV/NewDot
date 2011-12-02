@@ -36,24 +36,24 @@ enum NDRequestMethod {
 /**
  * The base URL prefixed to all API requests.
  */
-@property (readonly) NSURL* serverUrl;
+@property (readonly, strong) NSURL* serverUrl;
 
 /**
  * The session ID for the current NDService; nil if the receiver is not logged in.
  */
-@property (readwrite, retain) NSString* sessionId;
+@property (readwrite, strong) NSString* sessionId;
 
 /**
  * Set the receiver's `User-Agent` header; useful for disambiguating between multiple clients running on the same API key. If set to `nil`, then it is actually set to `NewDot/x.x`.
  */
-@property (readwrite, retain) NSString* userAgent;
+@property (readwrite, strong) NSString* userAgent;
 
 /**
  * These parameters are appeneded to every request URL; by default, only `dataFormat=application/json` will be in here.
  */
-@property (readwrite, retain) NSMutableDictionary* defaultURLParameters;
+@property (readwrite, strong) NSMutableDictionary* defaultURLParameters;
 
-@property (readwrite, retain) NSOperationQueue* operationQueue;
+@property (readwrite, strong) NSOperationQueue* operationQueue;
 
 /**
  * Make a new NDService object bound to the given base URL, with the given `User-Agent`.

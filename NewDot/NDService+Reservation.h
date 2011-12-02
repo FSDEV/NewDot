@@ -11,25 +11,25 @@
 @class NDHTTPURLOperation;
 
 extern const struct NDReservationType {
-    NSString* individual;
-    NSString* sealingToParents;
-    NSString* sealingToSpouse;
-} NDReservationType;
+    __unsafe_unretained NSString* individual;
+    __unsafe_unretained NSString* sealingToParents;
+    __unsafe_unretained NSString* sealingToSpouse;
+} NDReservationType; // NSString literals do not need memory management
 
 extern const struct NDOrdinanceStatus {
-    NSString* notNeeded;
-    NSString* reserved;
-    NSString* ready;
-    NSString* notReady;
-    NSString* completed;
-    NSString* notAvailable;
-    NSString* needMoreInformation;
-    NSString* inProgress;
-    NSString* onHold;
-    NSString* cancelled;
-    NSString* deleted;
-    NSString* invalid;
-} NDOrdinanceStatus;
+    __unsafe_unretained NSString* notNeeded;
+    __unsafe_unretained NSString* reserved;
+    __unsafe_unretained NSString* ready;
+    __unsafe_unretained NSString* notReady;
+    __unsafe_unretained NSString* completed;
+    __unsafe_unretained NSString* notAvailable;
+    __unsafe_unretained NSString* needMoreInformation;
+    __unsafe_unretained NSString* inProgress;
+    __unsafe_unretained NSString* onHold;
+    __unsafe_unretained NSString* cancelled;
+    __unsafe_unretained NSString* deleted;
+    __unsafe_unretained NSString* invalid;
+} NDOrdinanceStatus; // NSString literals do not need memory management
 
 @interface NDService (Reservation)
 

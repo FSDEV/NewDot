@@ -11,8 +11,6 @@
 
 #import "NDHTTPURLOperation.h"
 
-#import "JSONKit.h"
-
 #import "NSDictionary+Merge.h"
 #import "NSURL+QueryStringConstructor.h"
 
@@ -32,11 +30,13 @@
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
-            id _payload = [[JSONDecoder decoder] objectWithData:payload];
+            NSError* err;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (err&&failure) failure(resp, payload, err);
             NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
             for (id kvpair in [_payload valueForKey:@"properties"])
                 [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]];
-            success(resp, [dict autorelease], payload);
+            success(resp, dict, payload);
         }
     }];
     
@@ -55,7 +55,7 @@
 - (NDHTTPURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
                                                      onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:@"/discussions/systemtags" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSURL* url = [NSURL URLWithString:@"/discussions/systemtags" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
@@ -63,7 +63,12 @@
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;
@@ -85,14 +90,19 @@
     NSMutableArray* paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
     for (id tag in tags)
         [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",tag]];
-    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease] tailParams:[paramTags componentsJoinedByString:@"&"]];
+    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId] tailParams:[paramTags componentsJoinedByString:@"&"]];
     NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success){
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;
@@ -114,7 +124,7 @@
                                                     onSuccess:(NDSuccessBlock)success
                                                     onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[[[self copyOfDefaultURLParametersWithSessionId] autorelease] dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:[ids componentsJoinedByString:@","] forKey:@"discussion"]]];;
+    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:[ids componentsJoinedByString:@","] forKey:@"discussion"]]];;
     NSMutableURLRequest* req = nil;
     switch (method) {
         case POST:
@@ -134,7 +144,12 @@
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;

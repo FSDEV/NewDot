@@ -14,38 +14,38 @@
  * Set of values to help you construct parameter dictionaries.
  */
 extern const struct NDFamilyTreeReadPersonsRequestParameters {
-    NSString* names;               // [none, *summary, all]
-    NSString* genders;             // [none, *summary, all]
-    NSString* events;              // [none, *summary, standard, all]
-    NSString* characteristics;     // [*none, all]
-    NSString* exists;              // [*none, all]
-    NSString* values;              // [*summary, all]
-    NSString* ordinances;          // [*none, all]
-    NSString* assertions;          // [none, *all] (limited by other parameters)
-    NSString* families;            // [*none, summary, all]
-    NSString* children;            // [*none, all]
-    NSString* parents;             // [*none, summary, all]
-    NSString* personas;            // [all, *none, mine]
-    NSString* changes;             // [all, *none] DO NOT USE TO ROLL BACK CHANGES!
-    NSString* properties;          // [*none, summary, all]
-    NSString* identifiers;         // [*none, all]
-    NSString* dispositions;        // [all, *affirming, disputing]
-    NSString* contributors;        // [all, *none]
-    NSString* locale;              // see familyTreeLocales
-} NDFamilyTreeReadPersonsRequestParameters;
+    __unsafe_unretained NSString* names;               // [none, *summary, all]
+    __unsafe_unretained NSString* genders;             // [none, *summary, all]
+    __unsafe_unretained NSString* events;              // [none, *summary, standard, all]
+    __unsafe_unretained NSString* characteristics;     // [*none, all]
+    __unsafe_unretained NSString* exists;              // [*none, all]
+    __unsafe_unretained NSString* values;              // [*summary, all]
+    __unsafe_unretained NSString* ordinances;          // [*none, all]
+    __unsafe_unretained NSString* assertions;          // [none, *all] (limited by other parameters)
+    __unsafe_unretained NSString* families;            // [*none, summary, all]
+    __unsafe_unretained NSString* children;            // [*none, all]
+    __unsafe_unretained NSString* parents;             // [*none, summary, all]
+    __unsafe_unretained NSString* personas;            // [all, *none, mine]
+    __unsafe_unretained NSString* changes;             // [all, *none] DO NOT USE TO ROLL BACK CHANGES!
+    __unsafe_unretained NSString* properties;          // [*none, summary, all]
+    __unsafe_unretained NSString* identifiers;         // [*none, all]
+    __unsafe_unretained NSString* dispositions;        // [all, *affirming, disputing]
+    __unsafe_unretained NSString* contributors;        // [all, *none]
+    __unsafe_unretained NSString* locale;              // see familyTreeLocales
+} NDFamilyTreeReadPersonsRequestParameters; // NSString literals do not need memory management
 
 /**
  * A set of keys to help you construct parameter dictionaries.
  */
 extern const struct NDFamilyTreeReadPersonsRequestKeys {
-    NSString* none;
-    NSString* summary;
-    NSString* all;
-    NSString* standard;
-    NSString* mine;
-    NSString* affirming;
-    NSString* disputing;
-} NDFamilyTreeReadPersonsRequestKeys;
+    __unsafe_unretained NSString* none;
+    __unsafe_unretained NSString* summary;
+    __unsafe_unretained NSString* all;
+    __unsafe_unretained NSString* standard;
+    __unsafe_unretained NSString* mine;
+    __unsafe_unretained NSString* affirming;
+    __unsafe_unretained NSString* disputing;
+} NDFamilyTreeReadPersonsRequestKeys; // NSString literals do not need memory management
 
 @interface NDService (FamilyTree)
 

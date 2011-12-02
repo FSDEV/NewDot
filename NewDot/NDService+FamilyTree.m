@@ -11,8 +11,6 @@
 
 #import "NDHTTPURLOperation.h"
 
-#import "JSONKit.h"
-
 #import "NSDictionary+Merge.h"
 #import "NSString+LastWord.h"
 #import "NSURL+QueryStringConstructor.h"
@@ -80,11 +78,13 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
             if (failure) failure(resp, payload, asplosion);
         } else {
             if (success) {
+                NSError* err=nil;
+                id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+                if (err&&failure) failure(resp, payload, err);
                 NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-                id _payload = [[JSONDecoder decoder] objectWithData:payload];
                 for (id kvpair in [_payload valueForKey:@"properties"])
                     [dict setObject:[kvpair valueForKey:@"value"] forKey:[kvpair valueForKey:@"name"]];
-                success(resp, [dict autorelease], payload);
+                success(resp, dict, payload);
             }
         }
     }];
@@ -104,14 +104,19 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
 - (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
                                                      onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:@"/familytree/v2/user" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSURL* url = [NSURL URLWithString:@"/familytree/v2/user" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;
@@ -139,14 +144,19 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
         else if (![[validKeys objectForKey:key] containsObject:obj])
             [NSException raise:NSInternalInconsistencyException format:@"Value %@ is not valid for parameter %@", obj, key];
     }];
-    NSURL* url = [NSURL URLWithString:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person" relativeToURL:self.serverUrl queryParameters:[[[self copyOfDefaultURLParametersWithSessionId] autorelease] dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]];
+    NSURL* url = [NSURL URLWithString:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;
@@ -169,14 +179,19 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                                                      onSuccess:(NDSuccessBlock)success
                                                      onFailure:(NDFailureBlock)failure
 {
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId] relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] autorelease]];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
-        } else if (success) success(resp, [[JSONDecoder decoder] objectWithData:payload], payload);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
     }];
     
     return oper;

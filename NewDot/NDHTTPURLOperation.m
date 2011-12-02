@@ -40,13 +40,14 @@ enum NDHTTPURLOperationState {
                                    completionBlock:(void(^)(NSHTTPURLResponse* resp, NSData* payload, NSError* error))completion
 {
     NDHTTPURLOperation* operation = [[self alloc] initWithRequest:req];
+    __weak NDHTTPURLOperation* _oper = operation;
     [operation setCompletionBlock:^{
-        if ([operation isCancelled])
+        if ([_oper isCancelled])
             return;
         
-        completion(operation.response, operation.payload, operation.error);
+        completion(_oper.response, _oper.payload, _oper.error);
     }];
-    return [operation autorelease];
+    return operation;
 }
 
 + (void)networkRequestThreadEntryPoint:(id)__unused object
@@ -76,7 +77,7 @@ enum NDHTTPURLOperationState {
 {
     self = [super init];
     if (self) {
-        request = [_request retain];
+        request = _request;
         self.runLoopModes = [NSSet setWithObject:NSRunLoopCommonModes];
     }
     return self;
@@ -96,7 +97,7 @@ enum NDHTTPURLOperationState {
         return;
     }
     
-    self.connection = [[[NSURLConnection alloc] initWithRequest:self.request delegate:self startImmediately:NO] autorelease];
+    self.connection = [[NSURLConnection alloc] initWithRequest:self.request delegate:self startImmediately:NO];
     
     NSRunLoop* runLoop = [NSRunLoop currentRunLoop];
     for (NSString* runLoopMode in self.runLoopModes) {
@@ -163,7 +164,7 @@ didReceiveResponse:(NSURLResponse *)resp
 - (void)connectionDidFinishLoading:(NSURLConnection*)__unused conn
 {
     self.payload = [NSData dataWithData:self.dataAccumulator];
-    [dataAccumulator release], dataAccumulator = nil;
+    dataAccumulator = nil;
     
     [self finish];
 }
@@ -176,22 +177,6 @@ didReceiveResponse:(NSURLResponse *)resp
     self.dataAccumulator = nil;
     
     [self finish];
-}
-
-#pragma mark NSObject
-
-- (void)dealloc
-{
-    [request release];
-    [response release];
-    [payload release];
-    [error release];
-    
-    [connection release];
-    [runLoopModes release];
-    [dataAccumulator release];
-    
-    [super dealloc];
 }
 
 @end

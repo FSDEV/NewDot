@@ -21,7 +21,7 @@
 {
     self = [self init];
     if (self) {
-        serverUrl = [newServerUrl retain];
+        serverUrl = newServerUrl;
         self.userAgent = newUserAgent;
     }
     
@@ -35,21 +35,11 @@
     self = [super init];
     if (self) {
         self.defaultURLParameters = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"application/json", @"dataFormat", nil];
-        self.operationQueue = [[[NSOperationQueue alloc] init] autorelease];
+        self.operationQueue = [[NSOperationQueue alloc] init];
         self.operationQueue.maxConcurrentOperationCount = 4;
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    self.sessionId = nil;
-    [serverUrl release];
-    self.userAgent = nil;
-    self.defaultURLParameters = nil;
-    
-    [super dealloc];
 }
 
 @end

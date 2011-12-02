@@ -15,7 +15,7 @@
     /* Thanks @sethwillits! (https://gist.github.com/1157820, https://twitter.com/sethwillits/status/104641659681255424) */
     NSUInteger numFullChunks = (self.count / size);
 	NSUInteger remainder = (self.count % size);
-	NSArray** chunks = malloc(sizeof(NSArray*) * (numFullChunks + 1));
+	__unsafe_unretained NSArray** chunks = (__unsafe_unretained NSArray**)malloc(sizeof(NSArray*) * (numFullChunks + 1));
 	NSArray* result = nil;
     
 	for (NSUInteger i = 0; i < numFullChunks; i++) {
