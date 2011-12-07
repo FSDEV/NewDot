@@ -23,7 +23,8 @@
                                                      onFailure:(NDFailureBlock)failure
 {
     NSURL* url = [NSURL URLWithString:@"/discussions/properties" relativeToURL:self.serverUrl queryParameters:[self defaultURLParameters]];
-    NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    [req addValue:@"application/json" forHTTPHeaderField:@"Accept"]; // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -32,11 +33,12 @@
         } else if (success) {
             NSError* err;
             id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
-            if (err&&failure) failure(resp, payload, err);
+             // COMMENTED OUT BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
+/*          if (err&&failure) failure(resp, payload, err); // FAMILYSEARCH ISN'T FREAKING CONSISTENT
             NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
             for (id kvpair in [_payload valueForKey:@"properties"])
-                [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]];
-            success(resp, dict, payload);
+                [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]]; */
+            success(resp, _payload, payload);
         }
     }];
     
@@ -57,7 +59,7 @@
 {
     NSURL* url = [NSURL URLWithString:@"/discussions/systemtags" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
-    [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -88,10 +90,12 @@
                                                            onFailure:(NDFailureBlock)failure
 {
     NSMutableArray* paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
+    NSString* allTags = [tags componentsJoinedByString:@","];
     for (id tag in tags)
-        [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",tag]];
-    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId] tailParams:[paramTags componentsJoinedByString:@"&"]];
-    NSURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+        [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",[tag stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId] tailParams:[NSString stringWithFormat:@"systemTag=%@", allTags]];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -139,6 +143,7 @@
             [NSException raise:@"net.fsdev.newdot.unrecognised-method" format:@"I can't really do squat with this, bub."];
             break;
     }
+    [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
