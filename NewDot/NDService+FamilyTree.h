@@ -37,7 +37,7 @@ extern const struct NDFamilyTreeReadPersonsRequestParameters {
 /**
  * A set of keys to help you construct parameter dictionaries.
  */
-extern const struct NDFamilyTreeReadPersonsRequestKeys {
+extern const struct NDFamilyTreeReadPersonsRequestValues {
     __unsafe_unretained NSString* none;
     __unsafe_unretained NSString* summary;
     __unsafe_unretained NSString* all;
@@ -45,7 +45,7 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
     __unsafe_unretained NSString* mine;
     __unsafe_unretained NSString* affirming;
     __unsafe_unretained NSString* disputing;
-} NDFamilyTreeReadPersonsRequestKeys; // NSString literals do not need memory management
+} NDFamilyTreeReadPersonsRequestValues; // NSString literals do not need memory management
 
 @interface NDService (FamilyTree)
 
@@ -76,7 +76,7 @@ extern const struct NDFamilyTreeReadPersonsRequestKeys {
  * Read up to `person.max.ids` records from the API. Throws an `NSInternalInconsistencyException` in the event that a parameter is using a key that the API does not support.
  *
  * @param people If `nil`, then it returns the current user's person record.
- * @param parameters See `NDFamilyTreeReadPersonsRequestParameters` and `NDFamilyTreeReadPersonsRequestKeys`; may be nil.
+ * @param parameters See `NDFamilyTreeReadPersonsRequestParameters` and `NDFamilyTreeReadPersonsRequestValues`; may be nil.
  */
 - (void)familyTreeReadPersons:(NSArray*)people
                withParameters:(NSDictionary*)parameters

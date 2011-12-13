@@ -36,7 +36,7 @@ const struct NDFamilyTreeReadPersonsRequestParameters NDFamilyTreeReadPersonsReq
     .locale             = @"locale"
 };
 
-const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKeys = {
+const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequestValues = {
     .none           = @"none",
     .summary        = @"summary",
     .all            = @"all",
@@ -213,7 +213,7 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
     static NSArray* noneSummaryAllKeys;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        noneSummaryAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.summary, NDFamilyTreeReadPersonsRequestKeys.all, nil];
+        noneSummaryAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.summary, NDFamilyTreeReadPersonsRequestValues.all, nil];
     });
     return noneSummaryAllKeys;
 }
@@ -223,7 +223,7 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
     static NSArray* noneAllKeys;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        noneAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.all, nil];
+        noneAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.all, nil];
     });
     return noneAllKeys;
 }
@@ -236,7 +236,7 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
         validKeys = [[NSDictionary alloc] initWithObjectsAndKeys:
                      [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.names,
                      [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.genders,
-                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.summary, NDFamilyTreeReadPersonsRequestKeys.standard, NDFamilyTreeReadPersonsRequestKeys.all, nil], NDFamilyTreeReadPersonsRequestParameters.events,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.summary, NDFamilyTreeReadPersonsRequestValues.standard, NDFamilyTreeReadPersonsRequestValues.all, nil], NDFamilyTreeReadPersonsRequestParameters.events,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.characteristics,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.exists,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.values,
@@ -245,11 +245,11 @@ const struct NDFamilyTreeReadPersonsRequestKeys NDFamilyTreeReadPersonsRequestKe
                      [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.families,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.children,
                      [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.parents,
-                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestKeys.none, NDFamilyTreeReadPersonsRequestKeys.all, NDFamilyTreeReadPersonsRequestKeys.mine, nil], NDFamilyTreeReadPersonsRequestParameters.personas,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.all, NDFamilyTreeReadPersonsRequestValues.mine, nil], NDFamilyTreeReadPersonsRequestParameters.personas,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.changes,
                      [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.properties,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.identifiers,
-                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestKeys.all, NDFamilyTreeReadPersonsRequestKeys.affirming, NDFamilyTreeReadPersonsRequestKeys.disputing, nil], NDFamilyTreeReadPersonsRequestParameters.dispositions,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestValues.all, NDFamilyTreeReadPersonsRequestValues.affirming, NDFamilyTreeReadPersonsRequestValues.disputing, nil], NDFamilyTreeReadPersonsRequestParameters.dispositions,
                      [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.contributors,
                      [self familyTreeLocales], NDFamilyTreeReadPersonsRequestParameters.locale,
                      nil];
