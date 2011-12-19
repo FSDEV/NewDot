@@ -90,10 +90,13 @@
                                                            onFailure:(NDFailureBlock)failure
 {
     NSMutableArray* paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
-    NSString* allTags = [tags componentsJoinedByString:@","];
+//    NSString* allTags = [tags componentsJoinedByString:@","];
     for (id tag in tags)
         [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",[tag stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId] tailParams:[NSString stringWithFormat:@"systemTag=%@", allTags]];
+    NSString* allTags = [paramTags componentsJoinedByString:@"&"];
+    NSMutableDictionary* params = [self copyOfDefaultURLParametersWithSessionId];
+    [params setObject:@"FamilyTree" forKey:@"productKey"];
+    NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:params tailParams:allTags];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
