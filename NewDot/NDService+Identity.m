@@ -34,7 +34,10 @@
     //    [req addValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
     NDHTTPURLOperation* oper = 
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    [NDHTTPURLOperation HTTPURLOperationWithRequest:req
+                                    completionBlock:^(NSHTTPURLResponse* resp,
+                                                      NSData* payload,
+                                                      NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else {

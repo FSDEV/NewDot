@@ -22,6 +22,8 @@ enum NDHTTPURLOperationState {
 @property (readwrite, retain) NSSet* runLoopModes;
 @property (readwrite, retain) NSMutableData* dataAccumulator;
 
+- (void)finish;
+
 @end
 
 @implementation NDHTTPURLOperation
@@ -35,18 +37,14 @@ enum NDHTTPURLOperationState {
 @synthesize connection;
 @synthesize runLoopModes;
 @synthesize dataAccumulator;
+@synthesize onFinish;
 
 + (NDHTTPURLOperation*)HTTPURLOperationWithRequest:(NSURLRequest*)req
                                    completionBlock:(void(^)(NSHTTPURLResponse* resp, NSData* payload, NSError* error))completion
 {
     NDHTTPURLOperation* operation = [[self alloc] initWithRequest:req];
-    __weak NDHTTPURLOperation* _oper = operation;
-    [operation setCompletionBlock:^{
-        if ([_oper isCancelled])
-            return;
-        
-        completion(_oper.response, _oper.payload, _oper.error);
-    }];
+//    __weak NDHTTPURLOperation* _oper = operation;
+    operation.onFinish = completion;
     return operation;
 }
 
@@ -87,6 +85,7 @@ enum NDHTTPURLOperationState {
 {
     [self willChangeValueForKey:@"isFinished"];
     self.state = finished;
+    self.onFinish(self.response, self.payload, self.error);
     [self didChangeValueForKey:@"isFinished"];
 }
 
@@ -107,16 +106,21 @@ enum NDHTTPURLOperationState {
     [self.connection start];
 }
 
-#pragma mark NSOperation
-
-- (void)start
+- (void)startOnThread:(NSThread*)thread
 {
     if (![self isReady])
         return;
     
     self.state = executing;
     
-    [self performSelector:@selector(operationDidStart) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:YES modes:[self.runLoopModes allObjects]];
+    [self performSelector:@selector(operationDidStart) onThread:thread withObject:nil waitUntilDone:YES modes:[self.runLoopModes allObjects]];
+}
+
+#pragma mark NSOperation
+
+- (void)start
+{
+    [self startOnThread:[[self class] networkRequestThread]];
 }
 
 - (BOOL)isConcurrent

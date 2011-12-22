@@ -14,10 +14,12 @@
 @property (readwrite, retain) NSHTTPURLResponse* response;
 @property (readwrite, retain) NSMutableData* payload;
 @property (readwrite, retain) NSError * error;
+@property (readwrite, copy) void(^onFinish)(NSHTTPURLResponse* resp, NSData* payload, NSError* error);
 
 + (NDHTTPURLOperation*)HTTPURLOperationWithRequest:(NSURLRequest*)req
                                    completionBlock:(void(^)(NSHTTPURLResponse* resp, NSData* payload, NSError* error))completion;
 
 - (id)initWithRequest:(NSURLRequest*)_request;
+- (void)startOnThread:(NSThread*)thread;
 
 @end
