@@ -66,11 +66,19 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
 
 #pragma mark Properties
 
-- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)familyTreeRequestProperties
 {
     NSURL* url = [NSURL URLWithString:@"/familytree/v2/properties" relativeToURL:self.serverUrl queryParameters:[self defaultURLParameters]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
+                                             withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self familyTreeRequestProperties];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -87,25 +95,40 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
                 success(resp, dict, payload);
             }
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
+{
+    return [self familyTreeOperationPropertiesOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success
                             onFailure:(NDFailureBlock)failure
 {
     [self.operationQueue addOperation:[self familyTreeOperationPropertiesOnSuccess:success
-                                                                         onFailure:failure]];
+                                                                         onFailure:failure
+                                                                  withTargetThread:nil]];
 }
 
 #pragma mark Profile
 
-- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)familyTreeRequestProfile
 {
     NSURL* url = [NSURL URLWithString:@"/familytree/v2/user" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+                                              withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self familyTreeRequestProfile];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -117,24 +140,29 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+{
+    return [self familyTreeOperationUserProfileOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success
                              onFailure:(NDFailureBlock)failure
 {
     [self.operationQueue addOperation:[self familyTreeOperationUserProfileOnSuccess:success
-                                                                          onFailure:failure]];
+                                                                          onFailure:failure
+                                                                   withTargetThread:nil]];
 }
 
 #pragma mark Read Persons
 
-- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
-                                       withParameters:(NSDictionary*)parameters
-                                            onSuccess:(NDSuccessBlock)success
-                                            onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)familyTreeRequestPersons:(NSArray*)people
+                           withParameters:(NSDictionary*)parameters
 {
     NSDictionary* validKeys = [self readPersonsValidKeys];
     NSArray* keys = [validKeys allKeys];
@@ -147,6 +175,17 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     NSURL* url = [NSURL URLWithString:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
+    return req;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+                                       withParameters:(NSDictionary*)parameters
+                                            onSuccess:(NDSuccessBlock)success
+                                            onFailure:(NDFailureBlock)failure
+                                     withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self familyTreeRequestPersons:people withParameters:parameters];
+    
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
@@ -157,9 +196,17 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+                                       withParameters:(NSDictionary*)parameters
+                                            onSuccess:(NDSuccessBlock)success
+                                            onFailure:(NDFailureBlock)failure
+{
+    return [self familyTreeOperationReadPersons:people withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)familyTreeReadPersons:(NSArray*)people
@@ -170,17 +217,26 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     [self.operationQueue addOperation:[self familyTreeOperationReadPersons:people
                                                             withParameters:parameters
                                                                  onSuccess:success
-                                                                 onFailure:failure]];
+                                                                 onFailure:failure
+                                                          withTargetThread:nil]];
 }
 
 #pragma mark Discussions For Person
 
-- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
-                                                     onSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)familyTreeRequestDiscussionsForPerson:(NSString*)personId
 {
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/discussion", personId] relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
+                                                     onSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+                                              withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self familyTreeRequestDiscussionsForPerson:personId];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -192,9 +248,16 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
+                                                     onSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+{
+    return [self familyTreeOperationDiscussionsForPerson:personId onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId
@@ -203,7 +266,8 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
 {
     [self.operationQueue addOperation:[self familyTreeOperationDiscussionsForPerson:personId
                                                                           onSuccess:success
-                                                                          onFailure:failure]];
+                                                                          onFailure:failure
+                                                                   withTargetThread:nil]];
 }
 
 #pragma mark FamilyTree+Private

@@ -19,13 +19,21 @@
 
 #pragma mark Properties
 
-- (NDHTTPURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)discussionsRequestProperties
 {
     NSURL* url = [NSURL URLWithString:@"/discussions/properties" relativeToURL:self.serverUrl queryParameters:[self defaultURLParameters]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:@"application/json" forHTTPHeaderField:@"Accept"]; // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
+    return req;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+                                              withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self discussionsRequestProperties];
+
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
@@ -40,26 +48,41 @@
                 [dict setObject:[kvpair objectForKey:@"value"] forKey:[kvpair objectForKey:@"name"]]; */
             success(resp, _payload, payload);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+{
+    return [self discussionsOperationPropertiesOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)discussionsPropertiesOnSuccess:(NDSuccessBlock)success
                              onFailure:(NDFailureBlock)failure
 {
     [self.operationQueue addOperation:[self discussionsOperationPropertiesOnSuccess:success
-                                                                          onFailure:failure]];
+                                                                          onFailure:failure
+                                                                   withTargetThread:nil]];
 }
 
 #pragma mark System Tags
 
-- (NDHTTPURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)discussionsRequestSystemTags
 {
     NSURL* url = [NSURL URLWithString:@"/discussions/systemtags" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+                                              withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self discussionsRequestSystemTags];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -71,26 +94,31 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
+                                                     onFailure:(NDFailureBlock)failure
+{
+    return [self discussionsOperationSystemTagsOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)discussionsSystemTagsOnSuccess:(NDSuccessBlock)success
                              onFailure:(NDFailureBlock)failure
 {
     [self.operationQueue addOperation:[self discussionsOperationSystemTagsOnSuccess:success
-                                                                          onFailure:failure]];
+                                                                          onFailure:failure
+                                                                   withTargetThread:nil]];
 }
 
 #pragma mark Discussions from System Tags
 
-- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
-                                                           onSuccess:(NDSuccessBlock)success
-                                                           onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)discussionsRequestDiscussionsWithSystemTags:(NSArray*)tags
 {
     NSMutableArray* paramTags = [NSMutableArray arrayWithCapacity:[tags count]];
-//    NSString* allTags = [tags componentsJoinedByString:@","];
+    //    NSString* allTags = [tags componentsJoinedByString:@","];
     for (id tag in tags)
         [paramTags addObject:[NSString stringWithFormat:@"systemTag=%@",[tag stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSString* allTags = [paramTags componentsJoinedByString:@"&"];
@@ -99,6 +127,16 @@
     NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:params tailParams:allTags];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
+                                                           onSuccess:(NDSuccessBlock)success
+                                                           onFailure:(NDFailureBlock)failure
+                                                    withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self discussionsRequestDiscussionsWithSystemTags:tags];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -110,9 +148,16 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
+                                                           onSuccess:(NDSuccessBlock)success
+                                                           onFailure:(NDFailureBlock)failure
+{
+    return [self discussionsOperationDiscussionsWithSystemTags:tags onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)discussionsWithSystemTags:(NSArray*)tags
@@ -121,15 +166,14 @@
 {
     [self.operationQueue addOperation:[self discussionsOperationDiscussionsWithSystemTags:tags
                                                                                 onSuccess:success
-                                                                                onFailure:failure]];
+                                                                                onFailure:failure
+                                                                         withTargetThread:nil]];
 }
 
 #pragma mark Discussions with IDs
 
-- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
-                                                       method:(enum NDRequestMethod)method
-                                                    onSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)discussionsRequestDiscussionsWithIds:(NSArray*)ids
+                                               method:(enum NDRequestMethod)method
 {
     NSURL* url = [NSURL URLWithString:@"/discussions/discussions" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] dictionaryByMergingDictionary:[NSDictionary dictionaryWithObject:[ids componentsJoinedByString:@","] forKey:@"discussion"]]];;
     NSMutableURLRequest* req = nil;
@@ -148,6 +192,17 @@
     }
     [req addValue:@"application/json" forHTTPHeaderField:@"Accept"];  // BECAUSE FAMILYSEARCH ISN'T CONSISTENT ACROSS MODULES
     
+    return req;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
+                                                       method:(enum NDRequestMethod)method
+                                                    onSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
+                                             withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self discussionsRequestDiscussionsWithIds:ids method:method];
+    
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
@@ -158,9 +213,17 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
+                                                       method:(enum NDRequestMethod)method
+                                                    onSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
+{
+    return [self discussionsOperationDiscussionsWithIds:ids method:method onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)discussionsWithIds:(NSArray*)ids
@@ -171,7 +234,8 @@
     [self.operationQueue addOperation:[self discussionsOperationDiscussionsWithIds:ids
                                                                             method:method
                                                                          onSuccess:success
-                                                                         onFailure:failure]];
+                                                                         onFailure:failure
+                                                                  withTargetThread:nil]];
 }
 
 @end

@@ -30,6 +30,13 @@ enum NDRequestMethod {
  * Results are provided to you via re-entrant blocks.
  *
  * Every module is provided as its own category on this interface; to use those requests, import the category.
+ *
+ * For every web call there are usually four request methods you can utilize:
+ *
+ * - `request`, which returns an `NSURLRequest*`. You can fire this off and it will perform the desired request.
+ * - `operation...withTargetThread`, which returns an `NDHTTPURLOperation` that will fire the web request and callbacks on the indicated `NSThread`.
+ * - `operation`, which returns an `NDHTTPURLOperation` that will fire the web request and callbacks on the default worker thread (the `networkRequestThread` of the `NDHTTPURLOperation` class)
+ * - And finally the verb method, which creates the `NDHTTPURLOperation` using the `NSURLRequest` and puts it into an operation queue for you. If you don't need to perform any dependency work or use a special thread (to avoid threadlocks) then this is the easiest method to use.
  */
 @interface NDService : NSObject
 

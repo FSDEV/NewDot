@@ -22,6 +22,7 @@ enum NDHTTPURLOperationState {
 @property (readwrite, retain) NSSet* runLoopModes;
 @property (readwrite, retain) NSMutableData* dataAccumulator;
 
++ (NSThread*)networkRequestThread;
 - (void)finish;
 
 @end
@@ -38,13 +39,28 @@ enum NDHTTPURLOperationState {
 @synthesize runLoopModes;
 @synthesize dataAccumulator;
 @synthesize onFinish;
+@synthesize targetThread;
 
 + (NDHTTPURLOperation*)HTTPURLOperationWithRequest:(NSURLRequest*)req
                                    completionBlock:(void(^)(NSHTTPURLResponse* resp, NSData* payload, NSError* error))completion
 {
     NDHTTPURLOperation* operation = [[self alloc] initWithRequest:req];
-//    __weak NDHTTPURLOperation* _oper = operation;
     operation.onFinish = completion;
+    operation.targetThread = [self networkRequestThread];
+    return operation;
+}
+
++ (NDHTTPURLOperation*)HTTPURLOperationWithRequest:(NSURLRequest*)req
+                                   completionBlock:(void(^)(NSHTTPURLResponse* resp, NSData* payload, NSError* error))completion
+                                          onThread:(NSThread*)thread
+{
+    NDHTTPURLOperation* operation = [[self alloc] initWithRequest:req];
+    operation.onFinish = completion;
+    if (thread)
+        operation.targetThread = thread;
+    else
+        operation.targetThread = [self networkRequestThread];
+    
     return operation;
 }
 
@@ -120,7 +136,12 @@ enum NDHTTPURLOperationState {
 
 - (void)start
 {
-    [self startOnThread:[[self class] networkRequestThread]];
+    if (![self isReady])
+        return;
+    
+    self.state = executing;
+    
+    [self performSelector:@selector(operationDidStart) onThread:self.targetThread withObject:nil waitUntilDone:YES modes:[self.runLoopModes allObjects]];
 }
 
 - (BOOL)isConcurrent

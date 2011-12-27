@@ -33,35 +33,28 @@ extern const struct NDOrdinanceStatus {
 
 @interface NDService (Reservation)
 
-- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure;
-
 /**
  * Request to get the properties associated with the Ordinance Reservation Module.
  */
-- (void)reservationPropertiesOnSuccess:(NDSuccessBlock)success
-                             onFailure:(NDFailureBlock)failure;
-
-- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId
-                                                        onSuccess:(NDSuccessBlock)success
-                                                        onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)reservationRequestProperties;
+- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)reservationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * List of all reserved ordinances for a given user.
  */
-- (void)reservationListForUser:(NSString*)userId
-                     onSuccess:(NDSuccessBlock)success
-                     onFailure:(NDFailureBlock)failure;
-
-- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people
-                                             onSuccess:(NDSuccessBlock)success
-                                             onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)reservationRequestReservationListForUser:(NSString*)userId;
+- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)reservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Read detailed ordinance reservation information from the Reservation system about the given records.
  */
-- (void)reservationReadPersons:(NSArray*)people
-                     onSuccess:(NDSuccessBlock)success
-                     onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)reservationRequestReadPersons:(NSArray*)people;
+- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)reservationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 @end

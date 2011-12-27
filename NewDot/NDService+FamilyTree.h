@@ -49,28 +49,21 @@ extern const struct NDFamilyTreeReadPersonsRequestValues {
 
 @interface NDService (FamilyTree)
 
-- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure;
-
 /**
  * Some relevant properties related to working with the FamilyTree module of FamilySearch.
  */
-- (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success
-                            onFailure:(NDFailureBlock)failure;
-
-- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)familyTreeRequestProperties;
+- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Read the user profile of the currently logged-in user; for instance, this data includes the record ID of this user.
  */
-- (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success
-                             onFailure:(NDFailureBlock)failure;
-
-- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
-                                       withParameters:(NSDictionary*)parameters
-                                            onSuccess:(NDSuccessBlock)success
-                                            onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)familyTreeRequestProfile;
+- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Read up to `person.max.ids` records from the API. Throws an `NSInternalInconsistencyException` in the event that a parameter is using a key that the API does not support.
@@ -78,18 +71,15 @@ extern const struct NDFamilyTreeReadPersonsRequestValues {
  * @param people If `nil`, then it returns the current user's person record.
  * @param parameters See `NDFamilyTreeReadPersonsRequestParameters` and `NDFamilyTreeReadPersonsRequestValues`; may be nil.
  */
-- (void)familyTreeReadPersons:(NSArray*)people
-               withParameters:(NSDictionary*)parameters
-                    onSuccess:(NDSuccessBlock)success
-                    onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)familyTreeRequestPersons:(NSArray*)people withParameters:(NSDictionary*)parameters;
+- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
-- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
-                                                     onSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure;
-
-- (void)familyTreeDiscussionsForPerson:(NSString*)personId
-                             onSuccess:(NDSuccessBlock)success
-                             onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)familyTreeRequestDiscussionsForPerson:(NSString*)personId;
+- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Locales! Note that this may migrate to a less specialized category in the future.

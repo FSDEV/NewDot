@@ -19,11 +19,9 @@
 
 #pragma mark Session Create
 
-- (NDHTTPURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
-                                                withPassword:(NSString*)password
-                                                      apiKey:(NSString*)apiKey
-                                                   onSuccess:(NDSuccessBlock)success
-                                                   onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)identityRequestCreateSessionForUser:(NSString*)username
+                                        withPassword:(NSString*)password
+                                              apiKey:(NSString*)apiKey
 {
     NSMutableDictionary* urlParameters = [self.defaultURLParameters mutableCopy];
     [urlParameters setObject:apiKey forKey:@"key"];
@@ -32,6 +30,18 @@
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     [req addValue:[NSString stringWithFormat:@"Basic %@", [NSString fs_encodeBase64WithString:[NSString stringWithFormat:@"%@:%@", username, password]]] forHTTPHeaderField:@"Authorization"];
     //    [req addValue:@"application/x-www-form-urlencoded; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
+                                                withPassword:(NSString*)password
+                                                      apiKey:(NSString*)apiKey
+                                                   onSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+                                            withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self identityRequestCreateSessionForUser:username withPassword:password apiKey:apiKey];
     
     NDHTTPURLOperation* oper = 
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req
@@ -47,9 +57,18 @@
             self.sessionId = [_payload valueForKeyPath:@"session.id"];
             if (success) success(resp, _payload, payload);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
+                                                withPassword:(NSString*)password
+                                                      apiKey:(NSString*)apiKey
+                                                   onSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+{
+    return [self identityOperationCreateSessionForUser:username withPassword:password apiKey:apiKey onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)identityCreateSessionForUser:(NSString*)username
@@ -62,17 +81,26 @@
                                                                        withPassword:password
                                                                              apiKey:apiKey
                                                                           onSuccess:success
-                                                                          onFailure:failure]];
+                                                                          onFailure:failure
+                                                                   withTargetThread:nil]];
 }
 
 #pragma mark Session Read
 
-- (NDHTTPURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
-                                               onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)identityRequestSession
 {
     NSDictionary* params = [self copyOfDefaultURLParametersWithSessionId];
     NSURL* url = [NSURL URLWithString:@"/identity/v2/session/" relativeToURL:self.serverUrl queryParameters:params];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
+                                               onFailure:(NDFailureBlock)failure
+                                        withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self identityRequestSession];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -84,25 +112,41 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
+                                               onFailure:(NDFailureBlock)failure
+{
+    return [self identityOperationSessionOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)identitySessionOnSuccess:(NDSuccessBlock)success
                        onFailure:(NDFailureBlock)failure
 {
     [[self operationQueue] addOperation:[self identityOperationSessionOnSuccess:success
-                                                                      onFailure:failure]];
+                                                                      onFailure:failure
+                                                               withTargetThread:nil]];
 }
 
 #pragma mark User Profile
 
-- (NDHTTPURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                   onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)identityRequestUserProfile
 {
     NSURL* url = [NSURL URLWithString:@"/identity/v2/user" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+                                            withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self identityRequestUserProfile];
+    
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
@@ -113,9 +157,15 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+{
+    return [self identityOperationUserProfileOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)identityUserProfileOnSuccess:(NDSuccessBlock)success
@@ -127,11 +177,19 @@
 
 #pragma mark User Permissions
 
-- (NDHTTPURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
-                                                       onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)identityRequestUserPermissions
 {
     NSURL* url = [NSURL URLWithString:@"/identity/v2/permission" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
+                                                       onFailure:(NDFailureBlock)failure
+                                                withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self identityRequestUserPermissions];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -143,9 +201,15 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
+                                                       onFailure:(NDFailureBlock)failure
+{
+    return [self identityOperationUserProfileOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)identityUserPermissionsOnSuccess:(NDSuccessBlock)success
@@ -157,11 +221,19 @@
 
 #pragma mark Destroy Session
 
-- (NDHTTPURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
-                                                      onFailure:(NDFailureBlock)failure
+- (NSURLRequest*)identityRequestDestroySession
 {
     NSURL* url = [NSURL URLWithString:@"/identity/v2/logout" relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (NDHTTPURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
+                                                      onFailure:(NDFailureBlock)failure
+                                               withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self identityRequestDestroySession];
     
     NDHTTPURLOperation* oper =
     [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -174,16 +246,23 @@
             if (!err) success(resp, _payload, payload);
             else if (failure) failure(resp, payload, err);
         }
-    }];
+    } onThread:thread];
     
     return oper;
+}
+
+- (NDHTTPURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
+                                                      onFailure:(NDFailureBlock)failure
+{
+    return [self identityOperationDestroySessionOnSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)identityDestroySessionOnSuccess:(NDSuccessBlock)success
                               onFailure:(NDFailureBlock)failure
 {
     [[self operationQueue] addOperation:[self identityOperationDestroySessionOnSuccess:success
-                                                                             onFailure:failure]];
+                                                                             onFailure:failure
+                                                                      withTargetThread:nil]];
 }
 
 @end
