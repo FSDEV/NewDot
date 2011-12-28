@@ -29,20 +29,20 @@ Do not add the NewDot project to your Xcode project workspace. Instead, open the
 
 *Headers and Implementation* (Grab both the `.h` and `.m` file of these)
 
-* NDService
-* NDService+Identity
-* NDService+FamilyTree
-* NDService+Discussions
-* NDService+Reservation
-* NDService+Implementation
-* NDHTTPURLOperation
-* NSDictionary+Merge
-* NSArray+Chunky
-* NSString+LastWord
-* NSData+StringValue (not actually required, but calling `stringValue` on `NSData` during debugging can be helpful)
-* NSURL+QueryStringConstructor
-* NSString+Base64
-* JSONKit
+* `NDService`
+* `NDService+Identity`
+* `NDService+FamilyTree`
+* `NDService+Discussions`
+* `NDService+Reservation`
+* `NDService+Implementation`
+* `FSURLOperation` (in `vendor/FSURLOperation`)
+* `NSDictionary+Merge`
+* `NSArray+Chunky`
+* `NSString+LastWord`
+* `NSData+StringValue` (not actually required, but calling `stringValue` on `NSData` during debugging can be helpful)
+* `NSURL+QueryStringConstructor`
+* `NSString+Base64`
+* `JSONKit`
 
 From there you should be good to go. Be warned that your code may break when you update if I add new files (in which case you'll have to drag them into your project) or if I remove files (in which case you'll get red files in Xcode - just delete them and you should be good).
 
