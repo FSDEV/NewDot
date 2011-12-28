@@ -9,7 +9,7 @@
 #import "NDService+FamilyTree.h"
 #import "NDService+Implementation.h"
 
-#import "NDHTTPURLOperation.h"
+#import "FSURLOperation.h"
 
 #import "NSDictionary+Merge.h"
 #import "NSString+LastWord.h"
@@ -74,14 +74,14 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return req;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure
-                                             withTargetThread:(NSThread*)thread
+- (FSURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                onFailure:(NDFailureBlock)failure
+                                         withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self familyTreeRequestProperties];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else {
@@ -100,8 +100,8 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return oper;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                onFailure:(NDFailureBlock)failure
 {
     return [self familyTreeOperationPropertiesOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -124,14 +124,14 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return req;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
-                                              withTargetThread:(NSThread*)thread
+- (FSURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
+                                          withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self familyTreeRequestProfile];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -145,8 +145,8 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return oper;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
 {
     return [self familyTreeOperationUserProfileOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -178,16 +178,16 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return req;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
-                                       withParameters:(NSDictionary*)parameters
-                                            onSuccess:(NDSuccessBlock)success
-                                            onFailure:(NDFailureBlock)failure
-                                     withTargetThread:(NSThread*)thread
+- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+                                   withParameters:(NSDictionary*)parameters
+                                        onSuccess:(NDSuccessBlock)success
+                                        onFailure:(NDFailureBlock)failure
+                                 withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self familyTreeRequestPersons:people withParameters:parameters];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -201,10 +201,10 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return oper;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
-                                       withParameters:(NSDictionary*)parameters
-                                            onSuccess:(NDSuccessBlock)success
-                                            onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+                                   withParameters:(NSDictionary*)parameters
+                                        onSuccess:(NDSuccessBlock)success
+                                        onFailure:(NDFailureBlock)failure
 {
     return [self familyTreeOperationReadPersons:people withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -231,15 +231,15 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return req;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
-                                                     onSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
-                                              withTargetThread:(NSThread*)thread
+- (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
+                                                 onSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
+                                          withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self familyTreeRequestDiscussionsForPerson:personId];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -253,9 +253,9 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     return oper;
 }
 
-- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
-                                                     onSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId
+                                                 onSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
 {
     return [self familyTreeOperationDiscussionsForPerson:personId onSuccess:success onFailure:failure withTargetThread:nil];
 }

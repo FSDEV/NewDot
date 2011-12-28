@@ -9,7 +9,7 @@
 #import "NDService+Identity.h"
 #import "NDService+Implementation.h"
 
-#import "NDHTTPURLOperation.h"
+#import "FSURLOperation.h"
 
 #import "NSString+LastWord.h"
 #import "NSURL+QueryStringConstructor.h"
@@ -34,20 +34,17 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
-                                                withPassword:(NSString*)password
-                                                      apiKey:(NSString*)apiKey
-                                                   onSuccess:(NDSuccessBlock)success
-                                                   onFailure:(NDFailureBlock)failure
-                                            withTargetThread:(NSThread*)thread
+- (FSURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
+                                            withPassword:(NSString*)password
+                                                  apiKey:(NSString*)apiKey
+                                               onSuccess:(NDSuccessBlock)success
+                                               onFailure:(NDFailureBlock)failure
+                                        withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self identityRequestCreateSessionForUser:username withPassword:password apiKey:apiKey];
     
-    NDHTTPURLOperation* oper = 
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req
-                                    completionBlock:^(NSHTTPURLResponse* resp,
-                                                      NSData* payload,
-                                                      NSError* asplosion) {
+    FSURLOperation* oper = 
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else {
@@ -62,11 +59,11 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
-                                                withPassword:(NSString*)password
-                                                      apiKey:(NSString*)apiKey
-                                                   onSuccess:(NDSuccessBlock)success
-                                                   onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)identityOperationCreateSessionForUser:(NSString*)username
+                                            withPassword:(NSString*)password
+                                                  apiKey:(NSString*)apiKey
+                                               onSuccess:(NDSuccessBlock)success
+                                               onFailure:(NDFailureBlock)failure
 {
     return [self identityOperationCreateSessionForUser:username withPassword:password apiKey:apiKey onSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -96,14 +93,14 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
-                                               onFailure:(NDFailureBlock)failure
-                                        withTargetThread:(NSThread*)thread
+- (FSURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
+                                           onFailure:(NDFailureBlock)failure
+                                    withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self identityRequestSession];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -117,8 +114,8 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
-                                               onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)identityOperationSessionOnSuccess:(NDSuccessBlock)success
+                                           onFailure:(NDFailureBlock)failure
 {
     return [self identityOperationSessionOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -141,14 +138,14 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                   onFailure:(NDFailureBlock)failure
-                                            withTargetThread:(NSThread*)thread
+- (FSURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                               onFailure:(NDFailureBlock)failure
+                                        withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self identityRequestUserProfile];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -162,8 +159,8 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
-                                                   onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)identityOperationUserProfileOnSuccess:(NDSuccessBlock)success
+                                               onFailure:(NDFailureBlock)failure
 {
     return [self identityOperationUserProfileOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -185,14 +182,14 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
-                                                       onFailure:(NDFailureBlock)failure
-                                                withTargetThread:(NSThread*)thread
+- (FSURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+                                            withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self identityRequestUserPermissions];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -206,8 +203,8 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
-                                                       onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)identityOperationUserPermissionsOnSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
 {
     return [self identityOperationUserProfileOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -229,14 +226,14 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
-                                                      onFailure:(NDFailureBlock)failure
-                                               withTargetThread:(NSThread*)thread
+- (FSURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
+                                                  onFailure:(NDFailureBlock)failure
+                                           withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self identityRequestDestroySession];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -251,8 +248,8 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
-                                                      onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)identityOperationDestroySessionOnSuccess:(NDSuccessBlock)success
+                                                  onFailure:(NDFailureBlock)failure
 {
     return [self identityOperationDestroySessionOnSuccess:success onFailure:failure withTargetThread:nil];
 }

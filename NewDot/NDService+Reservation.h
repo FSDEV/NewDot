@@ -8,7 +8,7 @@
 
 #import "NDService.h"
 
-@class NDHTTPURLOperation;
+@class FSURLOperation;
 
 extern const struct NDReservationType {
     __unsafe_unretained NSString* individual;
@@ -37,24 +37,24 @@ extern const struct NDOrdinanceStatus {
  * Request to get the properties associated with the Ordinance Reservation Module.
  */
 - (NSURLRequest*)reservationRequestProperties;
-- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)reservationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * List of all reserved ordinances for a given user.
  */
 - (NSURLRequest*)reservationRequestReservationListForUser:(NSString*)userId;
-- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)reservationOperationReservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)reservationOperationReservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)reservationListForUser:(NSString*)userId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Read detailed ordinance reservation information from the Reservation system about the given records.
  */
 - (NSURLRequest*)reservationRequestReadPersons:(NSArray*)people;
-- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)reservationOperationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)reservationOperationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)reservationReadPersons:(NSArray*)people onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 @end

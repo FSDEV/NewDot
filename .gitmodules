@@ -4,3 +4,6 @@
 [submodule "vendor/NSLogger"]
 	path = vendor/NSLogger
 	url = https://github.com/fpillet/NSLogger.git
+[submodule "vendor/FSURLOperation"]
+	path = vendor/FSURLOperation
+	url = git@github.com:NSError/URLOperation.git

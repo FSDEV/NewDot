@@ -9,7 +9,7 @@
 #import "NDService+Discussions.h"
 #import "NDService+Implementation.h"
 
-#import "NDHTTPURLOperation.h"
+#import "FSURLOperation.h"
 
 #import "NSDictionary+Merge.h"
 #import "NSURL+QueryStringConstructor.h"
@@ -28,14 +28,14 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
-                                              withTargetThread:(NSThread*)thread
+- (FSURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
+                                          withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self discussionsRequestProperties];
 
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -53,8 +53,8 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)discussionsOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
 {
     return [self discussionsOperationPropertiesOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -78,14 +78,14 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
-                                              withTargetThread:(NSThread*)thread
+- (FSURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
+                                          withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self discussionsRequestSystemTags];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -99,8 +99,8 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)discussionsOperationSystemTagsOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
 {
     return [self discussionsOperationSystemTagsOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -131,15 +131,15 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
-                                                           onSuccess:(NDSuccessBlock)success
-                                                           onFailure:(NDFailureBlock)failure
-                                                    withTargetThread:(NSThread*)thread
+- (FSURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
+                                                       onSuccess:(NDSuccessBlock)success
+                                                       onFailure:(NDFailureBlock)failure
+                                                withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self discussionsRequestDiscussionsWithSystemTags:tags];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success){
@@ -153,9 +153,9 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
-                                                           onSuccess:(NDSuccessBlock)success
-                                                           onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)discussionsOperationDiscussionsWithSystemTags:(NSArray*)tags
+                                                       onSuccess:(NDSuccessBlock)success
+                                                       onFailure:(NDFailureBlock)failure
 {
     return [self discussionsOperationDiscussionsWithSystemTags:tags onSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -195,16 +195,16 @@
     return req;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
-                                                       method:(enum NDRequestMethod)method
-                                                    onSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure
-                                             withTargetThread:(NSThread*)thread
+- (FSURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
+                                                   method:(enum NDRequestMethod)method
+                                                onSuccess:(NDSuccessBlock)success
+                                                onFailure:(NDFailureBlock)failure
+                                         withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self discussionsRequestDiscussionsWithIds:ids method:method];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -218,10 +218,10 @@
     return oper;
 }
 
-- (NDHTTPURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
-                                                       method:(enum NDRequestMethod)method
-                                                    onSuccess:(NDSuccessBlock)success
-                                                    onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)discussionsOperationDiscussionsWithIds:(NSArray*)ids
+                                                   method:(enum NDRequestMethod)method
+                                                onSuccess:(NDSuccessBlock)success
+                                                onFailure:(NDFailureBlock)failure
 {
     return [self discussionsOperationDiscussionsWithIds:ids method:method onSuccess:success onFailure:failure withTargetThread:nil];
 }

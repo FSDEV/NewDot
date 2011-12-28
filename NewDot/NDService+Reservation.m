@@ -9,7 +9,7 @@
 #import "NDService+Reservation.h"
 #import "NDService+Implementation.h"
 
-#import "NDHTTPURLOperation.h"
+#import "FSURLOperation.h"
 
 #import "NSURL+QueryStringConstructor.h"
 
@@ -46,14 +46,14 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     return req;
 }
 
-- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
-                                              withTargetThread:(NSThread*)thread
+- (FSURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
+                                          withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self reservationRequestProperties];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -70,8 +70,8 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     return oper;
 }
 
-- (NDHTTPURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success
-                                                     onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)reservationOperationPropertiesOnSuccess:(NDSuccessBlock)success
+                                                 onFailure:(NDFailureBlock)failure
 {
     return [self reservationOperationPropertiesOnSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -94,15 +94,15 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     return req;
 }
 
-- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId
-                                                        onSuccess:(NDSuccessBlock)success
-                                                        onFailure:(NDFailureBlock)failure
-                                                 withTargetThread:(NSThread*)thread
+- (FSURLOperation*)reservationOperationReservationListForUser:(NSString*)userId
+                                                    onSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
+                                             withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self reservationRequestReservationListForUser:userId];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -127,9 +127,9 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     return oper;
 }
 
-- (NDHTTPURLOperation*)reservationOperationReservationListForUser:(NSString*)userId
-                                                        onSuccess:(NDSuccessBlock)success
-                                                        onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)reservationOperationReservationListForUser:(NSString*)userId
+                                                    onSuccess:(NDSuccessBlock)success
+                                                    onFailure:(NDFailureBlock)failure
 {
     return [self reservationOperationReservationListForUser:userId onSuccess:success onFailure:failure withTargetThread:nil];
 }
@@ -154,15 +154,15 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     return req;
 }
 
-- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people
-                                             onSuccess:(NDSuccessBlock)success
-                                             onFailure:(NDFailureBlock)failure
-                                      withTargetThread:(NSThread*)thread
+- (FSURLOperation*)reservationOperationReadPersons:(NSArray*)people
+                                         onSuccess:(NDSuccessBlock)success
+                                         onFailure:(NDFailureBlock)failure
+                                  withTargetThread:(NSThread*)thread
 {
     NSURLRequest* req = [self reservationRequestReadPersons:people];
     
-    NDHTTPURLOperation* oper =
-    [NDHTTPURLOperation HTTPURLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
         if (asplosion||[resp statusCode]!=200) {
             if (failure) failure(resp, payload, asplosion);
         } else if (success) {
@@ -176,9 +176,9 @@ const struct NDOrdinanceStatus NDOrdinanceStatus = {
     return oper;
 }
 
-- (NDHTTPURLOperation*)reservationOperationReadPersons:(NSArray*)people
-                                             onSuccess:(NDSuccessBlock)success
-                                             onFailure:(NDFailureBlock)failure
+- (FSURLOperation*)reservationOperationReadPersons:(NSArray*)people
+                                         onSuccess:(NDSuccessBlock)success
+                                         onFailure:(NDFailureBlock)failure
 {
     return [self reservationOperationReadPersons:people onSuccess:success onFailure:failure withTargetThread:nil];
 }

@@ -8,7 +8,7 @@
 
 #import "NDService.h"
 
-@class NDHTTPURLOperation;
+@class FSURLOperation;
 
 /**
  * Set of values to help you construct parameter dictionaries.
@@ -53,16 +53,16 @@ extern const struct NDFamilyTreeReadPersonsRequestValues {
  * Some relevant properties related to working with the FamilyTree module of FamilySearch.
  */
 - (NSURLRequest*)familyTreeRequestProperties;
-- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationPropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreePropertiesOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Read the user profile of the currently logged-in user; for instance, this data includes the record ID of this user.
  */
 - (NSURLRequest*)familyTreeRequestProfile;
-- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreeUserProfileOnSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
@@ -72,13 +72,13 @@ extern const struct NDFamilyTreeReadPersonsRequestValues {
  * @param parameters See `NDFamilyTreeReadPersonsRequestParameters` and `NDFamilyTreeReadPersonsRequestValues`; may be nil.
  */
 - (NSURLRequest*)familyTreeRequestPersons:(NSArray*)people withParameters:(NSDictionary*)parameters;
-- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreeReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 - (NSURLRequest*)familyTreeRequestDiscussionsForPerson:(NSString*)personId;
-- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (NDHTTPURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
