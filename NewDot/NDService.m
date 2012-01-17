@@ -22,6 +22,11 @@
     self = [self init];
     if (self) {
         serverUrl = newServerUrl;
+        
+        if ([newServerUrl class] != [NSURL class]) {
+            NSLog(@"[NewDot] WARNING! Your Base URL is NOT of class NSURL! This can cause some annoying bugs!");
+        }
+        
         self.userAgent = newUserAgent;
     }
     
