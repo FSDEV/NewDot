@@ -46,6 +46,17 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
     .disputing      = @"disputing"
 };
 
+const struct NDFamilyTreeReadType NDFamilyTreeReadType = {
+    .person = @"person",
+    .persona = @"persona"
+};
+
+const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
+    .parent = @"parent",
+    .spouse = @"spouse",
+    .child = @"child"
+};
+
 @interface NDService (FamilyTree_private)
 
 - (NSDictionary*)readPersonsValidKeys;
@@ -268,6 +279,83 @@ const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequest
                                                                           onSuccess:success
                                                                           onFailure:failure
                                                                    withTargetThread:nil]];
+}
+
+#pragma mark Relationship Read
+
+- (NSURLRequest*)familyTreeRequestRelationshipOfReadType:(NSString*)readType
+                                               forPerson:(NSString*)personId
+                                        relationshipType:(NSString*)relationshipType
+                                               toPersons:(NSArray*)personIds
+                                          withParameters:(NSDictionary*)parameters
+{
+    NSAssert([readType isEqualToString:NDFamilyTreeReadType.person]||[readType isEqualToString:NDFamilyTreeReadType.persona] , @"Invalid read type!");
+    NSAssert(personId!=nil, @"Person[a] ID is nil!");
+    NSAssert([relationshipType isEqualToString:NDFamilyTreeRelationshipType.parent]||[relationshipType isEqualToString:NDFamilyTreeRelationshipType.spouse]||[relationshipType isEqualToString:NDFamilyTreeRelationshipType.child], @"Invalid relationship type!");
+    
+    NSArray* _personIds = personIds?:[NSArray array];
+    
+    NSMutableDictionary* queryParams = [self copyOfDefaultURLParametersWithSessionId];
+    [queryParams addEntriesFromDictionary:parameters];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/%@/%@/%@/%@", readType, personId, relationshipType, [_personIds componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:queryParams];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
+    
+    return req;
+}
+
+- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType
+                                                   forPerson:(NSString*)personId
+                                            relationshipType:(NSString*)relationshipType
+                                                   toPersons:(NSArray*)personIds
+                                              withParameters:(NSDictionary*)parameters
+                                                   onSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+                                            withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self familyTreeRequestRelationshipOfReadType:readType forPerson:personId relationshipType:relationshipType toPersons:personIds withParameters:parameters];
+    
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
+        if (asplosion||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, asplosion);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
+    } onThread:thread];
+    
+    return oper;
+}
+
+- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType
+                                                   forPerson:(NSString*)personId
+                                            relationshipType:(NSString*)relationshipType
+                                                   toPersons:(NSArray*)personIds
+                                              withParameters:(NSDictionary*)parameters
+                                                   onSuccess:(NDSuccessBlock)success
+                                                   onFailure:(NDFailureBlock)failure
+{
+    return [self familyTreeOperationRelationshipOfReadType:readType forPerson:personId relationshipType:relationshipType toPersons:personIds withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
+}
+
+- (void)familyTreeRelationshipOfReadType:(NSString*)readType
+                               forPerson:(NSString*)personId
+                        relationshipType:(NSString*)relationshipType
+                               toPersons:(NSArray*)personIds
+                          withParameters:(NSDictionary*)parameters
+                               onSuccess:(NDSuccessBlock)success
+                               onFailure:(NDFailureBlock)failure
+{
+    [self.operationQueue addOperation:[self familyTreeOperationRelationshipOfReadType:readType
+                                                                            forPerson:personId
+                                                                     relationshipType:relationshipType
+                                                                            toPersons:personIds
+                                                                       withParameters:parameters
+                                                                            onSuccess:success
+                                                                            onFailure:failure
+                                                                     withTargetThread:nil]];
 }
 
 #pragma mark FamilyTree+Private

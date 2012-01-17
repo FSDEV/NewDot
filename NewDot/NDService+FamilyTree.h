@@ -47,6 +47,17 @@ extern const struct NDFamilyTreeReadPersonsRequestValues {
     __unsafe_unretained NSString* disputing;
 } NDFamilyTreeReadPersonsRequestValues; // NSString literals do not need memory management
 
+extern const struct NDFamilyTreeReadType {
+    __unsafe_unretained NSString* person;
+    __unsafe_unretained NSString* persona;
+} NDFamilyTreeReadType; // NSString literals do not need memory management
+
+extern const struct NDFamilyTreeRelationshipType {
+    __unsafe_unretained NSString* parent;
+    __unsafe_unretained NSString* spouse;
+    __unsafe_unretained NSString* child;
+} NDFamilyTreeRelationshipType; // NSString literals do not need memory management
+
 @interface NDService (FamilyTree)
 
 /**
@@ -80,6 +91,22 @@ extern const struct NDFamilyTreeReadPersonsRequestValues {
 - (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
 - (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+
+/**
+ * Read up to `relationship.max.ids` from the API. Also wins in the competition "longest method signature."
+ *
+ * @param readType The kind of relationship (`person` or `persona`) to read. You can use `NDFamilyTreeReadType` for some good pre-chewed constants for this.
+ * @param forPerson The person to be reading relationships in relation to.
+ * @param relationshipType Kind of relationship. You can use `NDFamilyTreeRelationshipType` for this.
+ * @param personIds All the people to read in relation to. If this is nil or empty, then it becomes the list of everything.
+ * @param parameters Additional parameters as necessary.
+ *
+ * @todo Figure out how to do pagination on this thing!
+ */
+- (NSURLRequest*)familyTreeRequestRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters;
+- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Locales! Note that this may migrate to a less specialized category in the future.
