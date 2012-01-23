@@ -109,6 +109,14 @@ extern const struct NDFamilyTreeRelationshipType {
 - (void)familyTreeRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
+ * Delete a relationship.
+ */
+- (NSURLRequest*)familyTreeRequestRelationshipDeleteFromPerson:(NSString *)fromPersonId relationshipType:(NSString *)relationshipType toPerson:(NSString *)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString *)assertionType assertion:(NSDictionary*)assertion;
+- (FSURLOperation*)familyTreeOperationRelationshipDeleteFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString*)assertionType assertion:(NSDictionary*)assertion onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationRelationshipDeleteFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString *)assertionType assertion:(NSDictionary*)assertion onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeRelationshipDeleteFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString*)assertionType assertion:(NSDictionary*)assertion onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+
+/**
  * Locales! Note that this may migrate to a less specialized category in the future.
  */
 - (NSArray*)familyTreeLocales;
