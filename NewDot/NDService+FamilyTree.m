@@ -35,22 +35,29 @@ const struct NDFamilyTreeReadRequestParameter NDFamilyTreeReadRequestParameter =
     .identifiers        = @"identifiers"    ,
     .dispositions       = @"dispositions"   ,
     .contributors       = @"contributors"   ,
+    .notes              = @"notes"          ,
+    .citations          = @"citations"      ,
     .locale             = @"locale"
 };
 
-NSArray* NDFamilyTreeAllReadRequestParameters()
+NSArray* NDFamilyTreeAllReadRequestParameters(enum NDFamilyTreeReqType type)
 {
-    static NSArray* a;
+    static NSArray* _person,* _relationship;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        a = [[NSArray alloc] initWithObjects:
-             NDFamilyTreeReadRequestParameter.names,        NDFamilyTreeReadRequestParameter.genders,   NDFamilyTreeReadRequestParameter.events,        NDFamilyTreeReadRequestParameter.characteristics,
-             NDFamilyTreeReadRequestParameter.exists,       NDFamilyTreeReadRequestParameter.values,    NDFamilyTreeReadRequestParameter.ordinances,    NDFamilyTreeReadRequestParameter.assertions,
-             NDFamilyTreeReadRequestParameter.families,     NDFamilyTreeReadRequestParameter.children,  NDFamilyTreeReadRequestParameter.parents,       NDFamilyTreeReadRequestParameter.personas,
-             NDFamilyTreeReadRequestParameter.changes,      NDFamilyTreeReadRequestParameter.properties,NDFamilyTreeReadRequestParameter.identifiers,   NDFamilyTreeReadRequestParameter.dispositions,
-             NDFamilyTreeReadRequestParameter.contributors, NDFamilyTreeReadRequestParameter.locale,    nil];
+        _person = [[NSArray alloc] initWithObjects:
+                  NDFamilyTreeReadRequestParameter.names,        NDFamilyTreeReadRequestParameter.genders,   NDFamilyTreeReadRequestParameter.events,        NDFamilyTreeReadRequestParameter.characteristics,
+                  NDFamilyTreeReadRequestParameter.exists,       NDFamilyTreeReadRequestParameter.values,    NDFamilyTreeReadRequestParameter.ordinances,    NDFamilyTreeReadRequestParameter.assertions,
+                  NDFamilyTreeReadRequestParameter.families,     NDFamilyTreeReadRequestParameter.children,  NDFamilyTreeReadRequestParameter.parents,       NDFamilyTreeReadRequestParameter.personas,
+                  NDFamilyTreeReadRequestParameter.changes,      NDFamilyTreeReadRequestParameter.properties,NDFamilyTreeReadRequestParameter.identifiers,   NDFamilyTreeReadRequestParameter.dispositions,
+                  NDFamilyTreeReadRequestParameter.contributors, NDFamilyTreeReadRequestParameter.locale,    nil];
+        _relationship = [_person mutableCopy];
+        [(NSMutableArray*)_relationship addObject:NDFamilyTreeReadRequestParameter.notes];
+        [(NSMutableArray*)_relationship addObject:NDFamilyTreeReadRequestParameter.citations];
+        _relationship = [_relationship copy];
     });
-    return a;
+    if (person == type) return _person;
+    else return _relationship;
 }
 
 const struct NDFamilyTreeReadRequestValue NDFamilyTreeReadRequestValue = {
@@ -73,6 +80,16 @@ const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
     .spouse             = @"spouse"         ,
     .child              = @"child"
 };
+
+NSArray* NDFamilyTreeAllRelationshipTypes()
+{
+    static NSArray* a;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        a = [[NSArray alloc] initWithObjects:NDFamilyTreeRelationshipType.parent, NDFamilyTreeRelationshipType.spouse, NDFamilyTreeRelationshipType.child, nil];
+    });
+    return a;
+}
 
 const struct NDFamilyTreeAssertionType NDFamilyTreeAssertionType = {
     .characteristics    = @"characteristics",
@@ -403,51 +420,79 @@ NSArray* NDFamilyTreeAllAssertionTypes()
 
 - (NSURLRequest*)familytreeRequestRelationshipUpdateFromPerson:(NSString*)fromPersonid
                                               relationshipType:(NSString*)relationshipType
-                                                      toPerson:(NSString*)toPersonId
-                                           relationshipVersion:(NSString*)version
-                                                    assertions:(NSDictionary*)assertions
+                                                     toPersons:(NSArray*)toPersonIds
+                                          relationshipVersions:(NSArray*)versions
+                                                    assertions:(NSArray*)assertions
 {
-    NSAssert(fromPersonid!=nil, @"From Person ID is nil!");
-    NSAssert(toPersonId!=nil, @"To Person ID is nil!");
-    NSArray* relTypes = [NSArray arrayWithObjects:NDFamilyTreeRelationshipType.parent, NDFamilyTreeRelationshipType.child, NDFamilyTreeRelationshipType.spouse, nil];
-    NSAssert([relTypes containsObject:relationshipType], @"Invalid relationship type!");
-    NSAssert(version!=nil, @"Version is nil!");
-    for (id key in [assertions allKeys])
-        NSAssert([NDFamilyTreeAllAssertionTypes() containsObject:key], @"Invalid assertion type!");
+    NSAssert(fromPersonid!=nil, @"From person ID is nil!");
+    NSAssert([toPersonIds count]>0, @"To few persons to update relationships to!");
+    NSAssert([toPersonIds count]==[versions count], @"Incorrect number of versions; does not match number of toPersonIds");
+    NSAssert([toPersonIds count]==[assertions count], @"Incorrect number of assertion collections; does not match number of toPersonIds");
+    NSAssert([NDFamilyTreeAllRelationshipTypes() containsObject:relationshipType], @"Incorrect relationship type!");
+    for (NSDictionary* assertionCollection in assertions) for (id key in [assertionCollection allKeys]) NSAssert([NDFamilyTreeAllAssertionTypes() containsObject:key], @"Invalid assertion type %@ in assertion collection for %@", key, [toPersonIds objectAtIndex:[assertions indexOfObject:assertionCollection]]);
     
-    NSMutableDictionary* queryParams = [self copyOfDefaultURLParametersWithSessionId];
-    
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/%@/%@", fromPersonid, relationshipType, toPersonId] relativeToURL:self.serverUrl queryParameters:queryParams];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/%@/%@", fromPersonid, relationshipType, [toPersonIds componentsJoinedByString:@","]]
+                        relativeToURL:self.serverUrl
+                      queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"POST"];
     [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     
     // body crap
-    
     NSMutableDictionary* body = [NSMutableDictionary dictionaryWithCapacity:1]; {
         NSMutableArray* persons = [NSMutableArray arrayWithCapacity:1]; {
             NSMutableDictionary* person = [NSMutableDictionary dictionaryWithCapacity:2]; {
                 [person setObject:fromPersonid forKey:@"id"];
                 NSMutableDictionary* relationships = [NSMutableDictionary dictionaryWithCapacity:1]; {
-                    NSMutableArray* relationshipsContainer = [NSMutableArray arrayWithCapacity:1]; {
-                        NSMutableDictionary* relationship = [NSMutableDictionary dictionaryWithCapacity:3]; {
-                            [relationship setObject:toPersonId forKey:@"id"];
-                            [relationship setObject:version forKey:@"version"];
-                            [relationship setObject:assertions forKey:@"assertions"];
+                    NSMutableArray* relationshipsContainer = [NSMutableArray arrayWithCapacity:[toPersonIds count]]; {
+                        for (NSUInteger i=0;
+                             i < [toPersonIds count];
+                             ++i) {
+                            NSMutableDictionary* relationship = [NSMutableDictionary dictionaryWithCapacity:3]; {
+                                [relationship setObject:[toPersonIds objectAtIndex:i] forKey:@"id"];
+                                [relationship setObject:[versions objectAtIndex:i] forKey:@"version"];
+                                [relationship setObject:[assertions objectAtIndex:i] forKey:@"assertions"];
+                            } [relationshipsContainer addObject:relationship];
                         }
-                        [relationshipsContainer addObject:relationship];
-                    }
-                    [relationships setObject:relationshipsContainer forKey:relationshipType];
-                }
-                [person setObject:relationships forKey:@"relationships"];
-            }
-        }
-        [body setObject:persons forKey:@"persons"];
+                    } [relationships setObject:relationshipsContainer forKey:relationshipType];
+                } [person setObject:relationships forKey:@"relationships"];
+            } [persons addObject:person];
+        } [body setObject:persons forKey:@"persons"];
     }
     
     NSError* jsonWriteError=nil;
     [req setHTTPBody:[NSJSONSerialization dataWithJSONObject:body options:[self jsonWritingOptions] error:&jsonWriteError]];
     
     return req;
+}
+
+- (FSURLOperation*)familyTreeOperationRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread
+{
+    NSURLRequest* req = [self familytreeRequestRelationshipUpdateFromPerson:fromPersonId relationshipType:relationshipType toPersons:toPersonIds relationshipVersions:versions assertions:assertions];
+    
+    
+    FSURLOperation* oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse *resp, NSData *payload, NSError *error) {
+        if (error||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, error);
+        } else if (success) {
+            NSError* err=nil;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
+    } onThread:thread];
+    
+    return oper;
+}
+
+- (FSURLOperation*)familyTreeOperationRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure
+{
+    return [self familyTreeOperationRelationshipUpdateFromPerson:fromPersonId relationshipType:relationshipType toPersons:toPersonIds relationshipVersions:versions assertions:assertions onSuccess:success onFailure:failure withTargetThread:nil];
+}
+
+- (void)familyTreeRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure
+{
+    [self.operationQueue addOperation:[self familyTreeOperationRelationshipUpdateFromPerson:fromPersonId relationshipType:relationshipType toPersons:toPersonIds relationshipVersions:versions assertions:assertions onSuccess:success onFailure:failure withTargetThread:nil]];
 }
 
 #pragma mark Relationship Delete
@@ -611,6 +656,8 @@ NSArray* NDFamilyTreeAllAssertionTypes()
                      [self ft_noneAll], NDFamilyTreeReadRequestParameter.identifiers,
                      [NSArray arrayWithObjects:NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestValue.affirming, NDFamilyTreeReadRequestValue.disputing, nil], NDFamilyTreeReadRequestParameter.dispositions,
                      [self ft_noneAll], NDFamilyTreeReadRequestParameter.contributors,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.notes,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.citations,
                      [self familyTreeLocales], NDFamilyTreeReadRequestParameter.locale,
                      nil];
     });

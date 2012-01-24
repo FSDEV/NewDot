@@ -33,10 +33,17 @@ extern const struct NDFamilyTreeReadRequestParameter {
     usfurt NSString* identifiers;         // [*none, all]
     usfurt NSString* dispositions;        // [all, *affirming, disputing]
     usfurt NSString* contributors;        // [all, *none]
+    usfurt NSString* notes;               // [all, *none] relationships only
+    usfurt NSString* citations;           // [all, *none] relationships only
     usfurt NSString* locale;              // see familyTreeLocales
 } NDFamilyTreeReadRequestParameter; // NSString literals do not need memory management
 
-NSArray* NDFamilyTreeAllReadRequestParameters(void);
+enum NDFamilyTreeReqType {
+    person,
+    relationship
+};
+
+NSArray* NDFamilyTreeAllReadRequestParameters(enum NDFamilyTreeReqType);
 
 /**
  * A set of keys to help you construct parameter dictionaries.
@@ -61,6 +68,8 @@ extern const struct NDFamilyTreeRelationshipType {
     usfurt NSString* spouse;
     usfurt NSString* child;
 } NDFamilyTreeRelationshipType; // NSString literals do not need memory management
+
+NSArray* NDFamilyTreeAllRelationshipTypes(void);
 
 extern const struct NDFamilyTreeAssertionType {
     usfurt NSString* characteristics;   // Contains all of a person’s characteristics. (In version 1 of the family tree data model, “characteristics” were called “facts.”
@@ -130,13 +139,16 @@ NSArray* NDFamilyTreeAllAssertionTypes(void);
 /**
  * Update a relationship (or even delete).
  *
- * @param fromPersonId
- * @param relationshipType
- * @param toPersonId
- * @param version
- * @param assertions
+ * @param fromPersonId Self explanatory.
+ * @param relationshipType Only one type, please. See NDFamilyTreeRelationshipType.
+ * @param toPersonIds You can update as many relationships as you want.
+ * @param versions The relationship versions.
+ * @param assertions An array of dictionaries of assertion types (see NDFamilyTreeAssertionType) which are arrays. (So a dictionary where key is a string from NDFamilyTreeAssertionType and value is an array of dictionaries representing assertions).
  */
-- (NSURLRequest*)familytreeRequestRelationshipUpdateFromPerson:(NSString*)fromPersonid relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertions:(NSDictionary*)assertions;
+- (NSURLRequest*)familytreeRequestRelationshipUpdateFromPerson:(NSString*)fromPersonid relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions;
+- (FSURLOperation*)familyTreeOperationRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Delete a relationship.
