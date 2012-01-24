@@ -25,4 +25,13 @@
     return req;
 }
 
+- (NSJSONWritingOptions)jsonWritingOptions
+{
+#ifdef DEBUG
+    return NSJSONWritingPrettyPrinted;
+#else
+    return 0;
+#endif
+}
+
 @end

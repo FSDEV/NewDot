@@ -17,47 +17,86 @@
 
 #import "NSData+StringValue.h"
 
-const struct NDFamilyTreeReadPersonsRequestParameters NDFamilyTreeReadPersonsRequestParameters = {
-    .names              = @"names",
-    .genders            = @"genders",
-    .events             = @"events",
+const struct NDFamilyTreeReadRequestParameter NDFamilyTreeReadRequestParameter = {
+    .names              = @"names"          ,
+    .genders            = @"genders"        ,
+    .events             = @"events"         ,
     .characteristics    = @"characteristics",
-    .exists             = @"exists",
-    .values             = @"values",
-    .ordinances         = @"ordinances",
-    .assertions         = @"assertions",
-    .families           = @"families",
-    .children           = @"children",
-    .parents            = @"parents",
-    .personas           = @"personas",
-    .changes            = @"changes",
-    .properties         = @"properties",
-    .identifiers        = @"identifiers",
-    .dispositions       = @"dispositions",
-    .contributors       = @"contributors",
+    .exists             = @"exists"         ,
+    .values             = @"values"         ,
+    .ordinances         = @"ordinances"     ,
+    .assertions         = @"assertions"     ,
+    .families           = @"families"       ,
+    .children           = @"children"       ,
+    .parents            = @"parents"        ,
+    .personas           = @"personas"       ,
+    .changes            = @"changes"        ,
+    .properties         = @"properties"     ,
+    .identifiers        = @"identifiers"    ,
+    .dispositions       = @"dispositions"   ,
+    .contributors       = @"contributors"   ,
     .locale             = @"locale"
 };
 
-const struct NDFamilyTreeReadPersonsRequestValues NDFamilyTreeReadPersonsRequestValues = {
-    .none           = @"none",
-    .summary        = @"summary",
-    .all            = @"all",
-    .standard       = @"standard",
-    .mine           = @"mine",
-    .affirming      = @"affirming",
-    .disputing      = @"disputing"
+NSArray* NDFamilyTreeAllReadRequestParameters()
+{
+    static NSArray* a;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        a = [[NSArray alloc] initWithObjects:
+             NDFamilyTreeReadRequestParameter.names,        NDFamilyTreeReadRequestParameter.genders,   NDFamilyTreeReadRequestParameter.events,        NDFamilyTreeReadRequestParameter.characteristics,
+             NDFamilyTreeReadRequestParameter.exists,       NDFamilyTreeReadRequestParameter.values,    NDFamilyTreeReadRequestParameter.ordinances,    NDFamilyTreeReadRequestParameter.assertions,
+             NDFamilyTreeReadRequestParameter.families,     NDFamilyTreeReadRequestParameter.children,  NDFamilyTreeReadRequestParameter.parents,       NDFamilyTreeReadRequestParameter.personas,
+             NDFamilyTreeReadRequestParameter.changes,      NDFamilyTreeReadRequestParameter.properties,NDFamilyTreeReadRequestParameter.identifiers,   NDFamilyTreeReadRequestParameter.dispositions,
+             NDFamilyTreeReadRequestParameter.contributors, NDFamilyTreeReadRequestParameter.locale,    nil];
+    });
+    return a;
+}
+
+const struct NDFamilyTreeReadRequestValue NDFamilyTreeReadRequestValue = {
+    .none               = @"none"           ,
+    .summary            = @"summary"        ,
+    .all                = @"all"            ,
+    .standard           = @"standard"       ,
+    .mine               = @"mine"           ,
+    .affirming          = @"affirming"      ,
+    .disputing          = @"disputing"
 };
 
 const struct NDFamilyTreeReadType NDFamilyTreeReadType = {
-    .person = @"person",
-    .persona = @"persona"
+    .person             = @"person"         ,
+    .persona            = @"persona"
 };
 
 const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
-    .parent = @"parent",
-    .spouse = @"spouse",
-    .child = @"child"
+    .parent             = @"parent"         ,
+    .spouse             = @"spouse"         ,
+    .child              = @"child"
 };
+
+const struct NDFamilyTreeAssertionType NDFamilyTreeAssertionType = {
+    .characteristics    = @"characteristics",
+    .citations          = @"citations"      ,
+    .events             = @"events"         ,
+    .exists             = @"exists"         ,
+    .genders            = @"genders"        ,
+    .names              = @"names"          ,
+    .ordinances         = @"ordinances"     ,
+    .notes              = @"notes"
+};
+
+NSArray* NDFamilyTreeAllAssertionTypes()
+{
+    static NSArray* a;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        a = [[NSArray alloc] initWithObjects:
+             NDFamilyTreeAssertionType.characteristics,     NDFamilyTreeAssertionType.citations,    NDFamilyTreeAssertionType.events,
+             NDFamilyTreeAssertionType.exists,              NDFamilyTreeAssertionType.genders,      NDFamilyTreeAssertionType.names,
+             NDFamilyTreeAssertionType.ordinances,          NDFamilyTreeAssertionType.notes,        nil];
+    });
+    return a;
+}
 
 @interface NDService (FamilyTree_private)
 
@@ -360,6 +399,57 @@ const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
                                                                      withTargetThread:nil]];
 }
 
+#pragma mark Relationship Update (Also does delete)
+
+- (NSURLRequest*)familytreeRequestRelationshipUpdateFromPerson:(NSString*)fromPersonid
+                                              relationshipType:(NSString*)relationshipType
+                                                      toPerson:(NSString*)toPersonId
+                                           relationshipVersion:(NSString*)version
+                                                    assertions:(NSDictionary*)assertions
+{
+    NSAssert(fromPersonid!=nil, @"From Person ID is nil!");
+    NSAssert(toPersonId!=nil, @"To Person ID is nil!");
+    NSArray* relTypes = [NSArray arrayWithObjects:NDFamilyTreeRelationshipType.parent, NDFamilyTreeRelationshipType.child, NDFamilyTreeRelationshipType.spouse, nil];
+    NSAssert([relTypes containsObject:relationshipType], @"Invalid relationship type!");
+    NSAssert(version!=nil, @"Version is nil!");
+    for (id key in [assertions allKeys])
+        NSAssert([NDFamilyTreeAllAssertionTypes() containsObject:key], @"Invalid assertion type!");
+    
+    NSMutableDictionary* queryParams = [self copyOfDefaultURLParametersWithSessionId];
+    
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/%@/%@", fromPersonid, relationshipType, toPersonId] relativeToURL:self.serverUrl queryParameters:queryParams];
+    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"POST"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    // body crap
+    
+    NSMutableDictionary* body = [NSMutableDictionary dictionaryWithCapacity:1]; {
+        NSMutableArray* persons = [NSMutableArray arrayWithCapacity:1]; {
+            NSMutableDictionary* person = [NSMutableDictionary dictionaryWithCapacity:2]; {
+                [person setObject:fromPersonid forKey:@"id"];
+                NSMutableDictionary* relationships = [NSMutableDictionary dictionaryWithCapacity:1]; {
+                    NSMutableArray* relationshipsContainer = [NSMutableArray arrayWithCapacity:1]; {
+                        NSMutableDictionary* relationship = [NSMutableDictionary dictionaryWithCapacity:3]; {
+                            [relationship setObject:toPersonId forKey:@"id"];
+                            [relationship setObject:version forKey:@"version"];
+                            [relationship setObject:assertions forKey:@"assertions"];
+                        }
+                        [relationshipsContainer addObject:relationship];
+                    }
+                    [relationships setObject:relationshipsContainer forKey:relationshipType];
+                }
+                [person setObject:relationships forKey:@"relationships"];
+            }
+        }
+        [body setObject:persons forKey:@"persons"];
+    }
+    
+    NSError* jsonWriteError=nil;
+    [req setHTTPBody:[NSJSONSerialization dataWithJSONObject:body options:[self jsonWritingOptions] error:&jsonWriteError]];
+    
+    return req;
+}
+
 #pragma mark Relationship Delete
 
 - (NSURLRequest*)familyTreeRequestRelationshipDeleteFromPerson:(NSString *)fromPersonId relationshipType:(NSString *)relationshipType toPerson:(NSString *)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString *)assertionType assertion:(NSDictionary*)assertion
@@ -410,7 +500,9 @@ const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
     /////////
     
     NSError* jsonWriteError=nil;
-    [req setHTTPBody:[NSJSONSerialization dataWithJSONObject:body options:NSJSONWritingPrettyPrinted error:&jsonWriteError]];
+    [req setHTTPBody:[NSJSONSerialization dataWithJSONObject:body
+                                                     options:[self jsonWritingOptions]
+                                                       error:&jsonWriteError]];
     
     return req;
 }
@@ -481,7 +573,7 @@ const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
     static NSArray* noneSummaryAllKeys;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        noneSummaryAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.summary, NDFamilyTreeReadPersonsRequestValues.all, nil];
+        noneSummaryAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadRequestValue.none, NDFamilyTreeReadRequestValue.summary, NDFamilyTreeReadRequestValue.all, nil];
     });
     return noneSummaryAllKeys;
 }
@@ -491,7 +583,7 @@ const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
     static NSArray* noneAllKeys;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        noneAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.all, nil];
+        noneAllKeys = [[NSArray alloc] initWithObjects:NDFamilyTreeReadRequestValue.none, NDFamilyTreeReadRequestValue.all, nil];
     });
     return noneAllKeys;
 }
@@ -502,24 +594,24 @@ const struct NDFamilyTreeRelationshipType NDFamilyTreeRelationshipType = {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         validKeys = [[NSDictionary alloc] initWithObjectsAndKeys:
-                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.names,
-                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.genders,
-                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.summary, NDFamilyTreeReadPersonsRequestValues.standard, NDFamilyTreeReadPersonsRequestValues.all, nil], NDFamilyTreeReadPersonsRequestParameters.events,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.characteristics,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.exists,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.values,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.ordinances,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.assertions,
-                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.families,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.children,
-                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.parents,
-                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestValues.none, NDFamilyTreeReadPersonsRequestValues.all, NDFamilyTreeReadPersonsRequestValues.mine, nil], NDFamilyTreeReadPersonsRequestParameters.personas,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.changes,
-                     [self ft_noneSummaryAll], NDFamilyTreeReadPersonsRequestParameters.properties,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.identifiers,
-                     [NSArray arrayWithObjects:NDFamilyTreeReadPersonsRequestValues.all, NDFamilyTreeReadPersonsRequestValues.affirming, NDFamilyTreeReadPersonsRequestValues.disputing, nil], NDFamilyTreeReadPersonsRequestParameters.dispositions,
-                     [self ft_noneAll], NDFamilyTreeReadPersonsRequestParameters.contributors,
-                     [self familyTreeLocales], NDFamilyTreeReadPersonsRequestParameters.locale,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadRequestParameter.names,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadRequestParameter.genders,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadRequestValue.none, NDFamilyTreeReadRequestValue.summary, NDFamilyTreeReadRequestValue.standard, NDFamilyTreeReadRequestValue.all, nil], NDFamilyTreeReadRequestParameter.events,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.characteristics,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.exists,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.values,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.ordinances,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.assertions,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadRequestParameter.families,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.children,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadRequestParameter.parents,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadRequestValue.none, NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestValue.mine, nil], NDFamilyTreeReadRequestParameter.personas,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.changes,
+                     [self ft_noneSummaryAll], NDFamilyTreeReadRequestParameter.properties,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.identifiers,
+                     [NSArray arrayWithObjects:NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestValue.affirming, NDFamilyTreeReadRequestValue.disputing, nil], NDFamilyTreeReadRequestParameter.dispositions,
+                     [self ft_noneAll], NDFamilyTreeReadRequestParameter.contributors,
+                     [self familyTreeLocales], NDFamilyTreeReadRequestParameter.locale,
                      nil];
     });
     return validKeys;
