@@ -115,6 +115,32 @@ NSArray* NDFamilyTreeAllAssertionTypes()
     return a;
 }
 
+NSDictionary* NDFamilyTreeAllPersonReadValues()
+{
+    static NSDictionary* d;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        d=[NSDictionary dictionaryWithObjectsAndKeys:
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.names,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.genders,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.events,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.characteristics,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.exists,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.values,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.ordinances,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.assertions,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.families,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.children,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.parents,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.personas,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.properties,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.identifiers,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.dispositions,
+           NDFamilyTreeReadRequestValue.all, NDFamilyTreeReadRequestParameter.contributors, nil];
+    });
+    return d;
+}
+
 NSDictionary* NDFamilyTreeAllRelationshipReadValues()
 {
     static NSDictionary* d;

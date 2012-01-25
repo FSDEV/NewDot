@@ -86,6 +86,8 @@ NSArray* NDFamilyTreeAllAssertionTypes(void);
 
 #undef usfurt
 
+// both of these are convenience for those angry moments when you yell "F IT NFS I WANT ALL THE INFORMATION NOW!"
+NSDictionary* NDFamilyTreeAllPersonReadValues(void);
 NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
 
 @interface NDService (FamilyTree)
