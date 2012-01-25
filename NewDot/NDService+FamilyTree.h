@@ -86,6 +86,8 @@ NSArray* NDFamilyTreeAllAssertionTypes(void);
 
 #undef usfurt
 
+NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
+
 @interface NDService (FamilyTree)
 
 /**

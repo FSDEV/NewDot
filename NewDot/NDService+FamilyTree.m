@@ -115,6 +115,27 @@ NSArray* NDFamilyTreeAllAssertionTypes()
     return a;
 }
 
+NSDictionary* NDFamilyTreeAllRelationshipReadValues()
+{
+    static NSDictionary* d;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        d=[NSDictionary dictionaryWithObjectsAndKeys:
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.events,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.characteristics,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.exists,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.values,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.ordinances,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.assertions,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.dispositions,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.contributors,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.personas,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.notes,
+           NDFamilyTreeReadRequestValue.all,  NDFamilyTreeReadRequestParameter.citations, nil];
+    });
+    return d;
+}
+
 @interface NDService (FamilyTree_private)
 
 - (NSDictionary*)readPersonsValidKeys;
