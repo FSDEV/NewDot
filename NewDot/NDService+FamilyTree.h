@@ -124,6 +124,10 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
 - (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreeDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
+
+
+- (NSURLRequest *)familyTreeRequestPersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions;
+
 /**
  * Read up to `relationship.max.ids` from the API. Also wins in the competition "longest method signature."
  *
@@ -153,14 +157,6 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
 - (FSURLOperation*)familyTreeOperationRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
 - (FSURLOperation*)familyTreeOperationRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 - (void)familyTreeRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
-
-/**
- * Delete a relationship.
- */
-- (NSURLRequest*)familyTreeRequestRelationshipDeleteFromPerson:(NSString *)fromPersonId relationshipType:(NSString *)relationshipType toPerson:(NSString *)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString *)assertionType assertion:(NSDictionary*)assertion;
-- (FSURLOperation*)familyTreeOperationRelationshipDeleteFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString*)assertionType assertion:(NSDictionary*)assertion onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (FSURLOperation*)familyTreeOperationRelationshipDeleteFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString *)assertionType assertion:(NSDictionary*)assertion onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
-- (void)familyTreeRelationshipDeleteFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPerson:(NSString*)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString*)assertionType assertion:(NSDictionary*)assertion onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Locales! Note that this may migrate to a less specialized category in the future.

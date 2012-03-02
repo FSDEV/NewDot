@@ -337,6 +337,31 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
                                                           withTargetThread:nil]];
 }
 
+#pragma mark Update Person (Also does delete)
+
+- (NSURLRequest *)familyTreeRequestPersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions
+{
+    NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person%@",
+                                                    personId==nil?@"":[NSString stringWithFormat:@"/%@",personId]]
+                         relativeToURL:self.serverUrl queryParameters:[self copyOfDefaultURLParametersWithSessionId]];
+    NSMutableURLRequest * req = [self standardRequestForURL:url HTTPMethod:@"POST"];
+    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    NSMutableDictionary * body = [[NSMutableDictionary alloc] init];
+    NSMutableArray * persons = [[NSMutableArray alloc] init];
+    NSMutableDictionary * person = [[NSMutableDictionary alloc] init];
+    [person setObject:assertions forKey:@"assertions"];
+    [persons addObject:person];
+    [body setObject:persons forKey:@"persons"];
+    
+    NSError * err;
+    NSData * reqBody = [NSJSONSerialization dataWithJSONObject:body options:[self jsonWritingOptions] error:&err];
+    
+    [req setHTTPBody:reqBody];
+    
+    return req;
+}
+
 #pragma mark Discussions For Person
 
 - (NSURLRequest*)familyTreeRequestDiscussionsForPerson:(NSString*)personId
@@ -540,122 +565,6 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
 - (void)familyTreeRelationshipUpdateFromPerson:(NSString*)fromPersonId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)toPersonIds relationshipVersions:(NSArray*)versions assertions:(NSArray*)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure
 {
     [self.operationQueue addOperation:[self familyTreeOperationRelationshipUpdateFromPerson:fromPersonId relationshipType:relationshipType toPersons:toPersonIds relationshipVersions:versions assertions:assertions onSuccess:success onFailure:failure withTargetThread:nil]];
-}
-
-#pragma mark Relationship Delete
-
-- (NSURLRequest*)familyTreeRequestRelationshipDeleteFromPerson:(NSString *)fromPersonId relationshipType:(NSString *)relationshipType toPerson:(NSString *)toPersonId relationshipVersion:(NSString*)version assertionType:(NSString *)assertionType assertion:(NSDictionary*)assertion
-{
-    NSAssert(fromPersonId!=nil, @"Person ID is nil!");
-    NSAssert(toPersonId!=nil, @"Person ID is nil!");
-    NSArray* relTypes = [NSArray arrayWithObjects:NDFamilyTreeRelationshipType.parent, NDFamilyTreeRelationshipType.child, NDFamilyTreeRelationshipType.spouse, nil];
-    NSAssert([relTypes containsObject:relationshipType], @"Invalid relationship type!");
-    NSAssert(assertionType!=nil, @"Assertion type is nil!");
-    NSAssert(assertion!=nil, @"Assertion is nil!");
-    
-    NSMutableDictionary* queryParams = [self copyOfDefaultURLParametersWithSessionId];
-    
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/person/%@/%@/%@", fromPersonId, relationshipType, toPersonId] relativeToURL:self.serverUrl queryParameters:queryParams];
-    NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"POST"];
-    [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-    ///////// body crap
-    
-    NSMutableDictionary* body = [NSMutableDictionary dictionaryWithCapacity:1];
-    NSMutableArray* persons = [NSMutableArray arrayWithCapacity:1];
-    NSMutableDictionary* person = [NSMutableDictionary dictionaryWithCapacity:2];
-    [person setObject:fromPersonId forKey:@"id"];            
-    NSMutableDictionary* relationships = [NSMutableDictionary dictionaryWithCapacity:1];
-    NSMutableArray* relationshipContainer = [NSMutableArray arrayWithCapacity:1];
-    NSMutableDictionary* relationship = [NSMutableDictionary dictionaryWithCapacity:3];
-    [relationship setObject:toPersonId forKey:@"id"];
-    [relationship setObject:version forKey:@"version"];
-    NSMutableDictionary* assertions = [NSMutableDictionary dictionaryWithCapacity:1];
-    NSMutableArray* assertionsContainer = [NSMutableArray arrayWithCapacity:1];
-    NSMutableDictionary* _assertion = [assertion mutableCopy];
-    [_assertion setObject:@"Delete" forKey:@"action"];
-    [assertionsContainer addObject:_assertion];
-    
-//    NSMutableDictionary* value = [NSMutableDictionary dictionaryWithCapacity:2];
-//    [value setObject:[assertion valueForKeyPath:@"value.type"] forKey:@"type"];
-//    [value setObject:[assertion valueForKeyPath:@"value.id"] forKey:@"id"];
-//    [_assertion setObject:value forKey:@"value"];
-//    [assertionsContainer addObject:_assertion];
-    [assertions setObject:assertionsContainer forKey:assertionType];
-    [relationship setObject:assertions forKey:@"assertions"];
-    [relationshipContainer addObject:relationship];
-    [relationships setObject:relationshipContainer forKey:relationshipType];
-    [person setObject:relationships forKey:@"relationships"];
-    [persons addObject:person];
-    [body setObject:persons forKey:@"persons"];
-    
-    /////////
-    
-    NSError* jsonWriteError=nil;
-    [req setHTTPBody:[NSJSONSerialization dataWithJSONObject:body
-                                                     options:[self jsonWritingOptions]
-                                                       error:&jsonWriteError]];
-    
-    return req;
-}
-
-- (FSURLOperation*)familyTreeOperationRelationshipDeleteFromPerson:(NSString*)fromPersonId
-                                                  relationshipType:(NSString*)relationshipType
-                                                          toPerson:(NSString*)toPersonId
-                                               relationshipVersion:(NSString*)version
-                                                     assertionType:(NSString*)assertionType
-                                                         assertion:(NSDictionary*)assertion
-                                                         onSuccess:(NDSuccessBlock)success
-                                                         onFailure:(NDFailureBlock)failure
-                                                  withTargetThread:(NSThread*)thread
-{
-    NSURLRequest* req = [self familyTreeRequestRelationshipDeleteFromPerson:fromPersonId relationshipType:relationshipType toPerson:toPersonId relationshipVersion:version assertionType:assertionType assertion:assertion];
-    
-    FSURLOperation* oper =
-    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse *resp, NSData *payload, NSError *error) {
-        if (error||[resp statusCode]!=200) {
-            if (failure) failure(resp, payload, error);
-        } else if (success) {
-            NSError* err=nil;
-            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
-            if (!err) success(resp, _payload, payload);
-            else if (failure) failure(resp, payload, err);
-        }
-    } onThread:thread];
-    
-    return oper;
-}
-
-- (FSURLOperation*)familyTreeOperationRelationshipDeleteFromPerson:(NSString*)fromPersonId
-                                                  relationshipType:(NSString*)relationshipType
-                                                          toPerson:(NSString*)toPersonId
-                                               relationshipVersion:(NSString*)version
-                                                     assertionType:(NSString *)assertionType
-                                                         assertion:(NSDictionary*)assertion
-                                                         onSuccess:(NDSuccessBlock)success
-                                                         onFailure:(NDFailureBlock)failure
-{
-    return [self familyTreeOperationRelationshipDeleteFromPerson:fromPersonId relationshipType:relationshipType toPerson:toPersonId relationshipVersion:version assertionType:assertionType assertion:assertion onSuccess:success onFailure:failure withTargetThread:nil];
-}
-
-- (void)familyTreeRelationshipDeleteFromPerson:(NSString*)fromPersonId
-                              relationshipType:(NSString*)relationshipType
-                                      toPerson:(NSString*)toPersonId
-                           relationshipVersion:(NSString*)version
-                                 assertionType:(NSString*)assertionType
-                                     assertion:(NSDictionary*)assertion
-                                     onSuccess:(NDSuccessBlock)success
-                                     onFailure:(NDFailureBlock)failure
-{
-    [self.operationQueue addOperation:[self familyTreeOperationRelationshipDeleteFromPerson:fromPersonId
-                                                                           relationshipType:relationshipType
-                                                                                   toPerson:toPersonId
-                                                                        relationshipVersion:version
-                                                                              assertionType:assertionType
-                                                                                  assertion:assertion
-                                                                                  onSuccess:success
-                                                                                  onFailure:failure
-                                                                           withTargetThread:nil]];
 }
 
 #pragma mark FamilyTree+Private
