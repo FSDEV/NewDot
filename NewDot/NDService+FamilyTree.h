@@ -127,6 +127,8 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
 
 
 - (NSURLRequest *)familyTreeRequestPersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions;
+- (FSURLOperation *)familytreeOperationPersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread *)thread;
+- (void)familyTreePersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Read up to `relationship.max.ids` from the API. Also wins in the competition "longest method signature."

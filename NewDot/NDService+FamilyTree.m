@@ -362,6 +362,30 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
     return req;
 }
 
+- (FSURLOperation *)familytreeOperationPersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread *)thread
+{
+    NSURLRequest * req = [self familyTreeRequestPersonUpdate:personId assertions:assertions];
+    
+    FSURLOperation * oper =
+    [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse *resp, NSData *payload, NSError *error) {
+        if (error||[resp statusCode]!=200) {
+            if (failure) failure(resp, payload, error);
+        } else if (success) {
+            NSError * err;
+            id _payload = [NSJSONSerialization JSONObjectWithData:payload options:kNilOptions error:&err];
+            if (!err) success(resp, _payload, payload);
+            else if (failure) failure(resp, payload, err);
+        }
+    } onThread:thread];
+    
+    return oper;
+}
+
+- (void)familyTreePersonUpdate:(NSString *)personId assertions:(NSDictionary *)assertions onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure
+{
+    [self.operationQueue addOperation:[self familytreeOperationPersonUpdate:personId assertions:assertions onSuccess:success onFailure:failure withTargetThread:nil]];
+}
+
 #pragma mark Discussions For Person
 
 - (NSURLRequest*)familyTreeRequestDiscussionsForPerson:(NSString*)personId
