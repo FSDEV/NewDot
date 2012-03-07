@@ -438,35 +438,34 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
 #pragma mark Relationship Read
 
 - (NSURLRequest*)familyTreeRequestRelationshipOfReadType:(NSString*)readType
-                                               forPerson:(NSString*)personId
+                                               forPerson:(NSString *)_forPersonId
                                         relationshipType:(NSString*)relationshipType
-                                               toPersons:(NSArray*)personIds
+                                               toPersons:(id)_toPersonIds
                                           withParameters:(NSDictionary*)parameters
 {
     NSAssert([readType isEqualToString:NDFamilyTreeReadType.person]||[readType isEqualToString:NDFamilyTreeReadType.persona] , @"Invalid read type!");
-    NSAssert(personId!=nil, @"Person[a] ID is nil!");
+    NSArray * toPersonIds = NDCoalesceUnknownToArray(_toPersonIds);
     NSAssert([relationshipType isEqualToString:NDFamilyTreeRelationshipType.parent]||[relationshipType isEqualToString:NDFamilyTreeRelationshipType.spouse]||[relationshipType isEqualToString:NDFamilyTreeRelationshipType.child], @"Invalid relationship type!");
-    
-    NSArray* _personIds = personIds?:[NSArray array];
     
     NSMutableDictionary* queryParams = [self copyOfDefaultURLParametersWithSessionId];
     [queryParams addEntriesFromDictionary:parameters];
-    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/%@/%@/%@/%@", readType, personId, relationshipType, [_personIds componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:queryParams];
+    NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/%@/%@/%@%@%@", readType, _forPersonId, relationshipType, [toPersonIds count]==0?@"":@"/", [toPersonIds componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:queryParams];
+    NSLog(@"%@", url);
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     return req;
 }
 
 - (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType
-                                                   forPerson:(NSString*)personId
+                                                   forPerson:(NSString *)forPersonId
                                             relationshipType:(NSString*)relationshipType
-                                                   toPersons:(NSArray*)personIds
+                                                   toPersons:(id)toPersonIds
                                               withParameters:(NSDictionary*)parameters
                                                    onSuccess:(NDSuccessBlock)success
                                                    onFailure:(NDFailureBlock)failure
                                             withTargetThread:(NSThread*)thread
 {
-    NSURLRequest* req = [self familyTreeRequestRelationshipOfReadType:readType forPerson:personId relationshipType:relationshipType toPersons:personIds withParameters:parameters];
+    NSURLRequest* req = [self familyTreeRequestRelationshipOfReadType:readType forPerson:forPersonId relationshipType:relationshipType toPersons:toPersonIds withParameters:parameters];
     
     FSURLOperation* oper =
     [FSURLOperation URLOperationWithRequest:req completionBlock:^(NSHTTPURLResponse* resp, NSData* payload, NSError* asplosion) {
@@ -484,28 +483,28 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
 }
 
 - (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType
-                                                   forPerson:(NSString*)personId
+                                                   forPerson:(NSString *)forPersonId
                                             relationshipType:(NSString*)relationshipType
-                                                   toPersons:(NSArray*)personIds
+                                                   toPersons:(id)toPersonIds
                                               withParameters:(NSDictionary*)parameters
                                                    onSuccess:(NDSuccessBlock)success
                                                    onFailure:(NDFailureBlock)failure
 {
-    return [self familyTreeOperationRelationshipOfReadType:readType forPerson:personId relationshipType:relationshipType toPersons:personIds withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
+    return [self familyTreeOperationRelationshipOfReadType:readType forPerson:forPersonId relationshipType:relationshipType toPersons:toPersonIds withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
 - (void)familyTreeRelationshipOfReadType:(NSString*)readType
-                               forPerson:(NSString*)personId
+                               forPerson:(NSString *)forPersonId
                         relationshipType:(NSString*)relationshipType
-                               toPersons:(NSArray*)personIds
+                               toPersons:(id)toPersonIds
                           withParameters:(NSDictionary*)parameters
                                onSuccess:(NDSuccessBlock)success
                                onFailure:(NDFailureBlock)failure
 {
     [self.operationQueue addOperation:[self familyTreeOperationRelationshipOfReadType:readType
-                                                                            forPerson:personId
+                                                                            forPerson:forPersonId
                                                                      relationshipType:relationshipType
-                                                                            toPersons:personIds
+                                                                            toPersons:toPersonIds
                                                                        withParameters:parameters
                                                                             onSuccess:success
                                                                             onFailure:failure

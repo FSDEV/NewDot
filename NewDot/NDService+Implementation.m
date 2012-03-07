@@ -35,3 +35,10 @@
 }
 
 @end
+
+NSArray * NDCoalesceUnknownToArray(id unknown) {
+    if (unknown==nil) return [NSArray array];
+    else if ([unknown isKindOfClass:[NSArray class]]) return unknown;
+    else if ([unknown isKindOfClass:[NSSet class]]||[unknown isKindOfClass:[NSOrderedSet class]]) return [unknown allObjects];
+    else return [NSArray arrayWithObject:unknown];
+}

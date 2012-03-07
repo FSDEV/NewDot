@@ -15,3 +15,5 @@
 - (NSJSONWritingOptions)jsonWritingOptions;
 
 @end
+
+NSArray * NDCoalesceUnknownToArray(id);

@@ -141,10 +141,10 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
  *
  * @todo Figure out how to do pagination on this thing!
  */
-- (NSURLRequest*)familyTreeRequestRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters;
-- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
-- (void)familyTreeRelationshipOfReadType:(NSString*)readType forPerson:(NSString*)personId relationshipType:(NSString*)relationshipType toPersons:(NSArray*)personIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)familyTreeRequestRelationshipOfReadType:(NSString*)readType forPerson:(NSString *)forPersonId relationshipType:(NSString*)relationshipType toPersons:(id)toPersonIds withParameters:(NSDictionary*)parameters;
+- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType forPerson:(NSString *)forPersonId relationshipType:(NSString*)relationshipType toPersons:(id)toPersonIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationRelationshipOfReadType:(NSString*)readType forPerson:(NSString *)forPersonId relationshipType:(NSString*)relationshipType toPersons:(id)toPersonIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeRelationshipOfReadType:(NSString*)readType forPerson:(NSString *)forPersonId relationshipType:(NSString*)relationshipType toPersons:(id)toPersonIds withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
 
 /**
  * Update a relationship (or even delete).
