@@ -450,7 +450,6 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
     NSMutableDictionary* queryParams = [self copyOfDefaultURLParametersWithSessionId];
     [queryParams addEntriesFromDictionary:parameters];
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"/familytree/v2/%@/%@/%@%@%@", readType, _forPersonId, relationshipType, [toPersonIds count]==0?@"":@"/", [toPersonIds componentsJoinedByString:@","]] relativeToURL:self.serverUrl queryParameters:queryParams];
-    NSLog(@"%@", url);
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     return req;
