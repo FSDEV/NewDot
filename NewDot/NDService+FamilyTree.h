@@ -114,10 +114,11 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues(void);
  * @param people If `nil`, then it returns the current user's person record.
  * @param parameters See `NDFamilyTreeReadPersonsRequestParameter` and `NDFamilyTreeReadRequestParameter`; may be nil.
  */
-- (NSURLRequest*)familyTreeRequestPersons:(NSArray*)people withParameters:(NSDictionary*)parameters;
-- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
-- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
-- (void)familyTreeReadPersons:(NSArray*)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (NSURLRequest*)familyTreeRequestPersons:(id)people withParameters:(NSDictionary*)parameters;
+- (FSURLOperation*)familyTreeOperationReadPersons:(id)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;
+- (FSURLOperation*)familyTreeOperationReadPersons:(id)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeReadPersons:(id)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure;
+- (void)familyTreeReadPersons:(id)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure waitUntilDone:(BOOL)wait;
 
 - (NSURLRequest*)familyTreeRequestDiscussionsForPerson:(NSString*)personId;
 - (FSURLOperation*)familyTreeOperationDiscussionsForPerson:(NSString*)personId onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure withTargetThread:(NSThread*)thread;

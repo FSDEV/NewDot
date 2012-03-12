@@ -277,7 +277,7 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
 
 #pragma mark Read Persons
 
-- (NSURLRequest*)familyTreeRequestPersons:(NSArray*)people
+- (NSURLRequest*)familyTreeRequestPersons:(id)_people
                            withParameters:(NSDictionary*)parameters
 {
     NSDictionary* validKeys = [self readPersonsValidKeys];
@@ -288,13 +288,16 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
         else if (![[validKeys objectForKey:key] containsObject:obj])
             [NSException raise:NSInternalInconsistencyException format:@"Value %@ is not valid for parameter %@", obj, key];
     }];
+    NSArray * people = NDCoalesceUnknownToArray(_people);
+    NSAssert(people!=nil, @"I don't understand your argument. Try something that's either NSString, NSSet, NSArray, or NSOrderedSet");
+    if ([people count]==0) people = nil;
     NSURL* url = [NSURL URLWithString:(people)?[NSString stringWithFormat:@"/familytree/v2/person/%@", [people componentsJoinedByString:@","]]:@"/familytree/v2/person" relativeToURL:self.serverUrl queryParameters:[[self copyOfDefaultURLParametersWithSessionId] dictionaryByMergingDictionary:(parameters)?:[NSDictionary dictionary]]];
     NSMutableURLRequest* req = [self standardRequestForURL:url HTTPMethod:@"GET"];
     
     return req;
 }
 
-- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+- (FSURLOperation*)familyTreeOperationReadPersons:(id)people
                                    withParameters:(NSDictionary*)parameters
                                         onSuccess:(NDSuccessBlock)success
                                         onFailure:(NDFailureBlock)failure
@@ -317,7 +320,7 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
     return oper;
 }
 
-- (FSURLOperation*)familyTreeOperationReadPersons:(NSArray*)people
+- (FSURLOperation*)familyTreeOperationReadPersons:(id)people
                                    withParameters:(NSDictionary*)parameters
                                         onSuccess:(NDSuccessBlock)success
                                         onFailure:(NDFailureBlock)failure
@@ -325,7 +328,7 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
     return [self familyTreeOperationReadPersons:people withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
 }
 
-- (void)familyTreeReadPersons:(NSArray*)people
+- (void)familyTreeReadPersons:(id)people
                withParameters:(NSDictionary*)parameters
                     onSuccess:(NDSuccessBlock)success
                     onFailure:(NDFailureBlock)failure
@@ -335,6 +338,13 @@ NSDictionary* NDFamilyTreeAllRelationshipReadValues()
                                                                  onSuccess:success
                                                                  onFailure:failure
                                                           withTargetThread:nil]];
+}
+
+- (void)familyTreeReadPersons:(id)people withParameters:(NSDictionary*)parameters onSuccess:(NDSuccessBlock)success onFailure:(NDFailureBlock)failure waitUntilDone:(BOOL)wait
+{
+    FSURLOperation * oper = [self familyTreeOperationReadPersons:people withParameters:parameters onSuccess:success onFailure:failure withTargetThread:nil];
+    [self.operationQueue addOperation:oper];
+    if (wait) [oper waitUntilFinished];
 }
 
 #pragma mark Update Person (Also does delete)
